@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+import { frameUrls } from '../lib/frameUrls';
 
 const NUM_FRAMES = 192;
 
 function getFramePath(index: number) {
-  const paddedIndex = index.toString().padStart(3, '0');
-  return `/foto/frame_${paddedIndex}_delay-0.041s.jpg`;
+  return frameUrls[index] || `/foto/frame_${index.toString().padStart(3, '0')}_delay-0.041s.jpg`;
 }
 
 export default function HopStormHero() {
