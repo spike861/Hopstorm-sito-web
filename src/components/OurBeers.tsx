@@ -122,7 +122,7 @@ export default function OurBeers() {
           title="Fresh Wave"
           subtitle="Helles Lager"
           type="Birra chiara artigianale ad alta fermentazione"
-          imageSrc="/foto/freshwave_mare_cel.png"
+          imageSrc="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/foto/freshwave_mare_cel_mjglil.jpg"
           color="#D4A24E"
           description={
             <>
@@ -151,7 +151,7 @@ export default function OurBeers() {
           title="Red Moon"
           subtitle="Rossa Artigianale"
           type="Birra rossa ad alta fermentazione"
-          imageSrc="/foto/redmoon_pub_cel.png"
+          imageSrc="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/foto/redmoon_pub_cel_l7iv47.jpg"
           color="#C0392B"
           reverse={true}
           description={

@@ -33,7 +33,7 @@ export default function Events() {
             className="relative rounded-3xl overflow-hidden aspect-[3/4]"
           >
             <img 
-              src="/foto/HOP_STORM_sagra%20carciofo.png" 
+              src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/foto/HOP_STORM_sagra_carciofo_jyrnla.jpg" 
               alt="Stand Hop Storm" 
               className="absolute inset-0 w-full h-full object-cover"
             />

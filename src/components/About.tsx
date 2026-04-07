@@ -20,7 +20,7 @@ export default function About() {
         <div className="sticky top-0 h-screen w-full overflow-hidden">
           {/* Background Image */}
           <img 
-            src="/foto/luppoleto.png" 
+            src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/foto/luppoleto_mbz6xy.jpg" 
             alt="Luppoleto Hop Storm" 
             className="absolute inset-0 w-full h-full object-cover"
           />

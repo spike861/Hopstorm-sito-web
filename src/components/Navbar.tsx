@@ -17,7 +17,7 @@ export default function Navbar() {
       <nav className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-black/40 backdrop-blur-sm py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <a href="#" className="flex items-center">
-            <img src="/foto/hopstorm_logo_bianco_trasparente.png" alt="Hop Storm" className="h-16 md:h-20 w-auto" />
+            <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-16 md:h-20 w-auto" />
           </a>
           
           {/* Desktop */}
@@ -47,7 +47,7 @@ export default function Navbar() {
             className="fixed inset-0 bg-black z-50 flex flex-col p-6"
           >
             <div className="flex justify-between items-center mb-12">
-              <img src="/foto/hopstorm_logo_bianco_trasparente.png" alt="Hop Storm" className="h-12 w-auto" />
+              <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-12 w-auto" />
               <button className="text-white" onClick={() => setIsOpen(false)}>
                 <X size={24} />
               </button>

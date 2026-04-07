@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         {/* Brand */}
         <div className="flex flex-col items-start">
-          <img src="/foto/hopstorm_logo_bianco_trasparente.png" alt="Hop Storm" className="h-16 md:h-20 w-auto mb-6" />
+          <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-16 md:h-20 w-auto mb-6" />
           <p className="text-white/40">
             Birra artigianale. Tempesta di sapore.
           </p>
