@@ -97,7 +97,7 @@ export default function ForPrivate() {
           viewport={{ once: true }}
           className="flex flex-col sm:flex-row gap-6 justify-center"
         >
-          <a href="#" className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
+          <a href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20ordinare%20delle%20birre." target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
             Ordina Online <ArrowRight size={20} />
           </a>
           <a href="#dove-trovarci" className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">

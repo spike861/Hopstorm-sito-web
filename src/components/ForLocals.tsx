@@ -127,10 +127,10 @@ export default function ForLocals() {
             Contattaci per ricevere il listino dedicato ai locali e per fissare un assaggio gratuito delle nostre birre direttamente nel tuo locale. Nessun impegno, nessun minimo d'ordine per iniziare.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <a href="#" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
+            <a href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20richiedere%20il%20listino%20per%20il%20mio%20locale." target="_blank" rel="noopener noreferrer" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
               Richiedi il Listino <ArrowRight size={20} />
             </a>
-            <a href="#" className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center">
+            <a href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20prenotare%20un%20assaggio%20per%20il%20mio%20locale." target="_blank" rel="noopener noreferrer" className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center">
               Prenota un Assaggio
             </a>
           </div>
