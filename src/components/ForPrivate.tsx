@@ -97,7 +97,7 @@ export default function ForPrivate() {
           viewport={{ once: true }}
           className="flex flex-col sm:flex-row gap-6 justify-center"
         >
-          <a href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20ordinare%20delle%20birre." target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
+          <a href="https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F" target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
             Ordina Online <ArrowRight size={20} />
           </a>
           <a href="#dove-trovarci" className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">

@@ -1,183 +1,146 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
+import { ShoppingBag, Store, Droplets, Flame } from 'lucide-react';
 
-function BeerSection({ 
-  title, 
-  subtitle, 
-  type, 
-  imageSrc, 
-  description, 
-  pairing, 
-  specs,
-  reverse = false,
-  color = "#D4A24E"
-}: any) {
-  const [activeTab, setActiveTab] = useState('descrizione');
-
-  return (
-    <div className={`flex flex-col ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 lg:gap-24 items-start mb-32`}>
-      <div className="w-full lg:w-1/2 flex justify-center">
-        <img src={imageSrc} alt={title} className="w-full max-h-[800px] object-contain rounded-2xl" />
-      </div>
-      <div className="w-full lg:w-1/2 text-white/80">
-        <h3 className="text-5xl md:text-7xl font-bold text-white mb-2">{title}</h3>
-        <p style={{ color }} className="text-2xl font-medium mb-6">{subtitle}</p>
-        <p className="text-sm tracking-widest uppercase mb-12 text-white/50">{type}</p>
-        
-        {/* Tabs */}
-        <div className="flex gap-4 md:gap-8 border-b border-white/10 mb-8 overflow-x-auto scrollbar-hide">
-          {['descrizione', 'abbinamenti', 'scheda tecnica'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-4 text-xs md:text-sm font-bold tracking-widest uppercase transition-colors relative whitespace-nowrap flex-shrink-0 ${
-                activeTab === tab ? 'text-white' : 'text-white/40 hover:text-white/70'
-              }`}
-            >
-              {tab}
-              {activeTab === tab && (
-                <motion.div 
-                  layoutId={`indicator-${title}`}
-                  className="absolute bottom-0 left-0 right-0 h-0.5"
-                  style={{ backgroundColor: color }}
-                />
-              )}
-            </button>
-          ))}
-        </div>
-
-        {/* Tab Content */}
-        <div className="min-h-[300px]">
-          <AnimatePresence mode="wait">
-            {activeTab === 'descrizione' && (
-              <motion.div 
-                key="descrizione"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="space-y-6 text-lg leading-relaxed"
-              >
-                {description}
-              </motion.div>
-            )}
-            {activeTab === 'abbinamenti' && (
-              <motion.div 
-                key="abbinamenti"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="text-lg leading-relaxed"
-              >
-                {pairing}
-              </motion.div>
-            )}
-            {activeTab === 'scheda tecnica' && (
-              <motion.div 
-                key="scheda tecnica"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-              >
-                <ul className="space-y-4 text-white/70 text-lg">
-                  {specs.map((spec: any, i: number) => (
-                    <li key={i}>
-                      <strong className="text-white/90">{spec.label}:</strong> {spec.value}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
-  );
-}
+const beers = [
+  {
+    id: "fresh-wave",
+    name: "Fresh Wave",
+    style: "Helles Lager",
+    abv: "4,5% VOL",
+    color: "#D4A24E",
+    image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/foto/freshwave_mare_cel_mjglil.jpg",
+    description: "Chiara, fresca e dissetante. Un equilibrio perfetto tra malto e luppolo per una bevuta pulita che non stanca mai.",
+    icon: Droplets,
+    specs: [
+      { label: "Profilo Aromatico", value: "Agrumato, cedro, finale secco" },
+      { label: "Corpo", value: "Snello, scorrevole e beverino" },
+      { label: "Abbinamenti Ideali", value: "Pizza, pesce, carni bianche" }
+    ],
+    whatsappPrivate: "https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F",
+    whatsappBusiness: "https://wa.me/393491973069?text=Ciao%2C%20gestisco%20un%20locale%20e%20vorrei%20ricevere%20il%20vostro%20listino%20Horeca%20per%20fusti%20e%20bottiglie."
+  },
+  {
+    id: "red-moon",
+    name: "Red Moon",
+    style: "Rossa Artigianale",
+    abv: "5,8% VOL",
+    color: "#C0392B",
+    image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/foto/redmoon_pub_cel_l7iv47.jpg",
+    description: "Dal carattere deciso e dalla struttura avvolgente. Una birra complessa, maltata, perfetta per accompagnare sapori intensi.",
+    icon: Flame,
+    specs: [
+      { label: "Profilo Aromatico", value: "Caramello, nocciola, malto tostato" },
+      { label: "Corpo", value: "Rotondo, pieno e strutturato" },
+      { label: "Abbinamenti Ideali", value: "Carni rosse, formaggi stagionati, dolci" }
+    ],
+    whatsappPrivate: "https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F",
+    whatsappBusiness: "https://wa.me/393491973069?text=Ciao%2C%20gestisco%20un%20locale%20e%20vorrei%20ricevere%20il%20vostro%20listino%20Horeca%20per%20fusti%20e%20bottiglie."
+  }
+];
 
 export default function OurBeers() {
   return (
-    <section id="le-nostre-birre" className="bg-black py-32 px-6 relative z-10">
+    <section id="le-nostre-birre" className="bg-[#050505] py-32 px-6 relative z-10 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-24">
+        <div className="text-center mb-20">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-7xl tracking-tighter text-white/90 font-bold mb-6 uppercase"
+            className="text-5xl md:text-7xl tracking-tighter text-white font-bold mb-6 uppercase"
           >
-            Due birre. Zero compromessi.
+            Scegli il tuo <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4A24E] to-[#C0392B]">Carattere</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-white/60 max-w-xl mx-auto text-xl"
+            className="text-white/60 max-w-2xl mx-auto text-xl font-light"
           >
-            Fresh Wave per la sete. Red Moon per il carattere.
+            Due visioni opposte della birra artigianale. Stessa cura maniacale per i dettagli. Confronta e scegli la tua prossima bevuta.
           </motion.p>
         </div>
 
-        <BeerSection 
-          title="Fresh Wave"
-          subtitle="Helles Lager"
-          type="Birra chiara artigianale ad alta fermentazione"
-          imageSrc="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/foto/freshwave_mare_cel_mjglil.jpg"
-          color="#D4A24E"
-          description={
-            <>
-              <p>Fresh Wave nasce dall'idea di creare una birra chiara che fosse dissetante senza essere anonima. Un equilibrio perfetto tra malto e luppolo, prodotta artigianalmente da Hop Storm, birrificio indipendente con radici a Roma e nel Lazio.</p>
-              <p>Dal colore dorato luminoso e dalla schiuma bianca compatta e persistente, Fresh Wave conquista già al primo sguardo. Al naso si apre con un profumo agrumato fresco e invitante — note di cedro, pompelmo e un accenno floreale di luppolo — che anticipa un sorso pulito, leggero e immediatamente dissetante. Il corpo è snello ma mai banale: il malto dona una base morbida con sfumature di cereale e crosta di pane, mentre il finale secco e agrumato chiude con una pulizia che invita naturalmente al sorso successivo. Una chiama l'altra.</p>
-              <p>Con una gradazione alcolica di 4,5% vol., Fresh Wave è pensata per le giornate calde, gli aperitivi all'aperto e le lunghe serate estive. Leggera abbastanza da accompagnare un intero pasto, strutturata abbastanza da farsi ricordare.</p>
-            </>
-          }
-          pairing={
-            <p>Fresh Wave è estremamente versatile a tavola. Pizza, focaccia, pollo e salsicce alla brace, pesce alla griglia o al forno, formaggi freschi e a media stagionatura: la sua freschezza agrumata taglia la sapidità dei piatti più saporiti ed esalta la delicatezza del pesce. Va servita fredda, tra i 6 e gli 8 °C, per apprezzarne al meglio il profilo aromatico.</p>
-          }
-          specs={[
-            { label: "Stile", value: "Helles Lager — birra chiara ad alta fermentazione" },
-            { label: "Gradazione alcolica", value: "4,5% vol." },
-            { label: "Colore", value: "dorato luminoso" },
-            { label: "Schiuma", value: "bianca, compatta, persistente" },
-            { label: "Profumo", value: "agrumato, fresco, note di cedro e pompelmo" },
-            { label: "Gusto", value: "malto delicato, cereale, finale secco e dissetante" },
-            { label: "Temperatura di servizio", value: "6–8 °C" },
-            { label: "Formato", value: "bottiglia 33 cl | fusto 20 lt" },
-            { label: "Prodotta da", value: "Hop Storm — birrificio artigianale, Roma (Lazio)." }
-          ]}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {beers.map((beer, index) => (
+            <motion.div 
+              key={beer.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.2 }}
+              className="group relative flex flex-col bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500"
+            >
+              {/* Image Header */}
+              <div className="relative h-[450px] lg:h-[550px] bg-[#0a0a0a] flex items-center justify-center p-8">
+                <img 
+                  src={beer.image} 
+                  alt={beer.name} 
+                  className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent pointer-events-none" />
+                
+                {/* Top Badges */}
+                <div className="absolute top-6 left-6 right-6 flex justify-between items-start">
+                  <div 
+                    className="w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md bg-black/40 border border-white/10"
+                    style={{ color: beer.color }}
+                  >
+                    <beer.icon size={24} />
+                  </div>
+                  <div className="bg-black/80 backdrop-blur-md border border-white/10 text-white px-4 py-2 rounded-full font-mono text-sm font-bold tracking-wider">
+                    {beer.abv}
+                  </div>
+                </div>
+              </div>
 
-        <BeerSection 
-          title="Red Moon"
-          subtitle="Rossa Artigianale"
-          type="Birra rossa ad alta fermentazione"
-          imageSrc="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/foto/redmoon_pub_cel_l7iv47.jpg"
-          color="#C0392B"
-          reverse={true}
-          description={
-            <>
-              <p>Red Moon è una birra rossa artigianale dal carattere deciso, pensata per chi non si accontenta del solito sorso. Prodotta da Hop Storm, birrificio artigianale indipendente con radici a Roma e nel Lazio, è una birra che chiede attenzione e la ripaga con profondità.</p>
-              <p>Dal colore ambrato intenso, quasi ramato, con riflessi rossi che si accendono alla luce, Red Moon si presenta con una schiuma bianca fine e persistente che anticipa un profilo aromatico ricco e stratificato. Al naso emergono note calde di caramello, frutta secca e biscotto — un bouquet avvolgente che ricorda il malto appena tostato e invita al primo sorso.</p>
-              <p>In bocca mantiene ogni promessa. La base maltata è piena e rotonda, con il caramello che si intreccia a sfumature di crosta di pane e nocciola, mentre un amaro morbido e mai invadente bilancia il tutto e porta verso un finale lungo e pulito. Non è una birra che si beve distrattamente: ogni sorso rivela qualcosa di nuovo, uno strato diverso. È la birra da scegliere quando la serata chiede qualcosa in più.</p>
-              <p>Con una gradazione alcolica di 5,8% vol., Red Moon ha il corpo e la struttura per reggere piatti importanti senza mai risultare pesante.</p>
-            </>
-          }
-          pairing={
-            <p>Red Moon dà il meglio di sé accanto a sapori intensi e decisi. Secondi di carne — arrosti, brasati, grigliate — trovano in questa rossa artigianale una compagna ideale, capace di sostenerne la struttura senza sovrastarli. Ottima anche con pizze dai condimenti ricchi e saporiti. Ma la vera sorpresa è a fine pasto: Red Moon si abbina in modo straordinario con dolci a base di frutta secca, cioccolato fondente o caffè, dove le sue note di caramello e biscotto creano un gioco di specchi con il dessert. Va servita tra i 6 e i 10 °C: più fredda per esaltare la pulizia, più verso i 10 °C per liberare tutta la complessità aromatica.</p>
-          }
-          specs={[
-            { label: "Stile", value: "Rossa artigianale — birra ad alta fermentazione" },
-            { label: "Gradazione alcolica", value: "5,8% vol." },
-            { label: "Colore", value: "ambrato intenso con riflessi rossi" },
-            { label: "Schiuma", value: "bianca, fine, persistente" },
-            { label: "Profumo", value: "caramello, frutta secca, biscotto, malto tostato" },
-            { label: "Gusto", value: "maltato, rotondo, caramello e nocciola, amaro morbido, finale lungo" },
-            { label: "Temperatura di servizio", value: "6–10 °C" },
-            { label: "Formato", value: "bottiglia 33 cl | fusto 20 lt" },
-            { label: "Prodotta da", value: "Hop Storm — birrificio artigianale, Roma (Lazio)." }
-          ]}
-        />
+              {/* Content */}
+              <div className="flex flex-col flex-grow p-8 lg:p-10 relative z-10 -mt-20">
+                <div className="mb-8">
+                  <h3 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">{beer.name}</h3>
+                  <p style={{ color: beer.color }} className="text-lg font-bold uppercase tracking-widest">
+                    {beer.style}
+                  </p>
+                </div>
 
+                <p className="text-white/70 text-lg leading-relaxed font-light mb-10 flex-grow">
+                  {beer.description}
+                </p>
+
+                {/* Specs Grid */}
+                <div className="grid grid-cols-1 gap-6 mb-12">
+                  {beer.specs.map((spec, i) => (
+                    <div key={i} className="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                      <span className="block text-xs uppercase tracking-widest text-white/40 mb-1">{spec.label}</span>
+                      <span className="block text-white/90 font-medium">{spec.value}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-col sm:flex-row gap-4 mt-auto">
+                  <a 
+                    href={beer.whatsappPrivate}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-white text-black hover:bg-gray-200 transition-colors px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+                  >
+                    <ShoppingBag size={18} /> Ordina
+                  </a>
+                  <a 
+                    href={beer.whatsappBusiness}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-transparent border border-white/20 text-white hover:bg-white/10 transition-colors px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+                  >
+                    <Store size={18} /> Per Locali
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

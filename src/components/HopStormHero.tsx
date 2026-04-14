@@ -195,13 +195,25 @@ export default function HopStormHero() {
           <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-center px-4">
             
             {/* Main Text */}
-            <motion.div style={{ opacity: opacityA, y: yA }} className="absolute inset-0 flex flex-col items-center justify-center">
-              <h1 className="text-7xl md:text-9xl tracking-tighter font-bold text-white/90 mb-6">
+            <motion.div style={{ opacity: opacityA, y: yA }} className="absolute inset-0 flex flex-col items-center justify-center mt-16">
+              <h1 className="text-7xl md:text-9xl tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl">
                 NON È PER TUTTI.
               </h1>
-              <p className="text-lg md:text-xl text-white/60 max-w-2xl">
-                Artigianale. Autentica. Per chi sa cosa beve.
+              <p className="text-lg md:text-2xl text-white/80 max-w-4xl mb-10 drop-shadow-lg leading-relaxed font-light">
+                Hop Storm è un birrificio artigianale indipendente a Roma: produciamo <strong className="font-medium text-white">Fresh Wave</strong> e <strong className="font-medium text-white">Red Moon</strong>, birre di carattere servite senza compromessi a privati e locali.
               </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pointer-events-auto">
+                <a href="#per-i-privati" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg">
+                  Ordina Online
+                </a>
+                <a href="#per-i-locali" className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md">
+                  Diventa Partner
+                </a>
+                <a href="#dove-trovarci" className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md">
+                  Dove Trovarci
+                </a>
+              </div>
             </motion.div>
 
           </div>

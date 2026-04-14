@@ -3,18 +3,17 @@ import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
   
-  const { scrollYProgress: textScroll } = useScroll({
-    target: textRef,
-    offset: ["start bottom", "start 80%"]
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
   });
 
-  // Background darkens quickly as the text enters the screen
-  const bgOpacity = useTransform(textScroll, [0, 1], [0, 0.85]);
+  // Background darkens quickly as the user scrolls down into the section
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.85, 0.85, 0.85]);
 
   return (
-    <section id="chi-siamo" ref={containerRef} className="relative bg-black">
+    <section id="chi-siamo" ref={containerRef} className="relative bg-black min-h-[200vh]">
       {/* Sticky Background Container */}
       <div className="absolute inset-0 h-full w-full">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -34,8 +33,8 @@ export default function About() {
       </div>
 
       {/* Text Content - Scrolls normally */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 pt-[150vh] pb-[20vh]">
-        <div ref={textRef} className="text-center mb-16">
+      <div className="relative z-10 max-w-4xl mx-auto px-6 pt-[100vh] pb-[20vh]">
+        <div className="text-center mb-16">
           <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-6 drop-shadow-2xl">
             Chi Siamo
           </h2>
