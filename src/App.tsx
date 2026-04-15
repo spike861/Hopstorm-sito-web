@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import JsonLd from './components/JsonLd';
 import AgeGate from './components/AgeGate';
 import LegalPages from './components/LegalPages';
+import CookieBanner from './components/CookieBanner';
 
 export default function App() {
   const [currentHash, setCurrentHash] = useState(window.location.hash);
@@ -27,6 +28,7 @@ export default function App() {
     <div className="bg-black min-h-screen text-white font-sans selection:bg-[#D4A24E] selection:text-black">
       <JsonLd />
       <AgeGate />
+      <CookieBanner />
       <Navbar />
       <main>
         {isLegalPage ? (

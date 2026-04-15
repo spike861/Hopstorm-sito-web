@@ -78,7 +78,6 @@ export default function HopStormHero() {
 
   // Draw canvas
   useEffect(() => {
-    if (!isLoaded) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -166,22 +165,6 @@ export default function HopStormHero() {
 
   return (
     <>
-      {/* Preloader */}
-      {!isLoaded && (
-        <div className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center">
-          <div className="w-16 h-16 border-4 border-white/10 border-t-[#D4A24E] rounded-full animate-spin mb-8"></div>
-          <div className="w-64 h-1 bg-white/10 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-[#D4A24E] transition-all duration-300"
-              style={{ width: `${(loadedCount / NUM_FRAMES) * 100}%` }}
-            ></div>
-          </div>
-          <div className="mt-4 text-[#D4A24E] font-mono text-sm">
-            {Math.round((loadedCount / NUM_FRAMES) * 100)}%
-          </div>
-        </div>
-      )}
-
       {/* Wrapper 400vh */}
       <section ref={containerRef} className="relative h-[400vh] bg-black">
         {/* Sticky Canvas Container */}

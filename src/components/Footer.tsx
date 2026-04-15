@@ -37,18 +37,30 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto text-center border-t border-white/5 pt-8 flex flex-col gap-4">
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-white/40 mb-2">
+      <div className="max-w-7xl mx-auto text-center border-t border-white/10 pt-10 flex flex-col gap-6">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-sm text-white/50 font-medium tracking-wide">
           <a href="#/privacy" className="hover:text-[#D4A24E] transition-colors">Privacy Policy</a>
           <a href="#/cookie" className="hover:text-[#D4A24E] transition-colors">Cookie Policy</a>
           <a href="#/termini" className="hover:text-[#D4A24E] transition-colors">Termini e Condizioni</a>
+          <button 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              window.dispatchEvent(new Event('openCookieBanner')); 
+            }} 
+            className="hover:text-[#D4A24E] transition-colors"
+          >
+            Gestisci preferenze cookie
+          </button>
         </div>
-        <p className="text-white/40 text-sm">
-          © 2026 HOPSTORM S.R.L. Tutti i diritti riservati. Bevi responsabilmente.
-        </p>
-        <p className="text-white/40 text-sm">
-          Sito pensato e realizzato da <a href="https://www.instagram.com/gadamo_official/" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors">Graziano Adamo</a>
-        </p>
+        
+        <div className="flex flex-col gap-2 text-white/40 text-xs md:text-sm">
+          <p>
+            © {new Date().getFullYear()} HOPSTORM S.R.L. Tutti i diritti riservati. • Birra artigianale, spirito indipendente. Bevi responsabilmente.
+          </p>
+          <p>
+            Sito pensato e realizzato da <a href="https://www.instagram.com/gadamo_official/" target="_blank" rel="noreferrer" className="text-white/60 hover:text-[#D4A24E] transition-colors">Graziano Adamo</a>
+          </p>
+        </div>
       </div>
     </footer>
   );
