@@ -38,6 +38,11 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto text-center border-t border-white/5 pt-8 flex flex-col gap-4">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-white/40 mb-2">
+          <a href="#/privacy" className="hover:text-[#D4A24E] transition-colors">Privacy Policy</a>
+          <a href="#/cookie" className="hover:text-[#D4A24E] transition-colors">Cookie Policy</a>
+          <a href="#/termini" className="hover:text-[#D4A24E] transition-colors">Termini e Condizioni</a>
+        </div>
         <p className="text-white/40 text-sm">
           © 2026 HOPSTORM S.R.L. Tutti i diritti riservati. Bevi responsabilmente.
         </p>
