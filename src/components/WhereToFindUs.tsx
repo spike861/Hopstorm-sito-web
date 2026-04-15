@@ -30,11 +30,11 @@ export default function WhereToFindUs() {
   ];
 
   return (
-    <section id="dove-trovarci" className="bg-[#050505] py-32 px-6 border-t border-white/5 relative overflow-hidden">
+    <section id="dove-trovarci" className="bg-[#050505] py-24 md:py-32 px-6 flex flex-col overflow-hidden border-t border-white/5 relative">
       {/* Subtle grid background for a technical/premium feel */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '64px 64px' }}></div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto w-full relative z-10">
         <header className="text-center mb-20">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}

@@ -1,10 +1,10 @@
 import { motion } from 'motion/react';
-import { CheckCircle2, Users, Beer, MapPin, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function ForLocals() {
   return (
-    <section id="per-i-locali" className="bg-black py-32 px-6 border-t border-white/5">
-      <div className="max-w-7xl mx-auto">
+    <section id="per-i-locali" className="bg-black pt-24 md:pt-32 pb-16 md:pb-20 px-6 flex flex-col overflow-hidden border-t border-white/5">
+      <div className="max-w-7xl mx-auto w-full">
         <div className="max-w-3xl mb-24">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -43,25 +43,25 @@ export default function ForLocals() {
           Cosa offriamo ai nostri partner
         </motion.h3>
         
-        <div className="grid md:grid-cols-2 gap-6 mb-24">
+        <div className="grid md:grid-cols-2 gap-8 mb-24">
           {[
             {
-              icon: <CheckCircle2 size={24} />,
+              num: "01",
               title: "Fornitura diretta e continuativa",
               desc: "Consegne puntuali, stock sempre disponibile e un referente dedicato con cui parlare quando serve. Birra fresca, sempre."
             },
             {
-              icon: <Users size={24} />,
+              num: "02",
               title: "Formazione per il tuo staff",
               desc: "Perché il tuo personale sappia raccontare ogni birra Hop Storm ai clienti: profilo aromatico, abbinamenti, temperatura di servizio. Una birra spiegata bene si vende il doppio."
             },
             {
-              icon: <Beer size={24} />,
+              num: "03",
               title: "Supporto per eventi",
               desc: "Supporto per eventi e degustazioni direttamente nel tuo locale per coinvolgere i clienti."
             },
             {
-              icon: <MapPin size={24} />,
+              num: "04",
               title: "Visibilità reciproca",
               desc: "Ogni locale partner viene inserito nella nostra mappa \"Dove Trovarci\" sul sito e promosso sui nostri canali social. I nostri clienti diventano i tuoi clienti."
             }
@@ -72,15 +72,24 @@ export default function ForLocals() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-[#0A0A0A] border border-white/5 rounded-2xl p-8"
+              className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-10 relative overflow-hidden group hover:border-white/10 transition-all duration-500"
             >
-              <div className="text-[#D4A24E] mb-6">
-                {feature.icon}
+              {/* Big background number */}
+              <div className="absolute -right-4 -top-8 text-[120px] font-bold text-white/[0.03] group-hover:text-[#C9922A]/10 transition-colors duration-500 pointer-events-none select-none">
+                {feature.num}
               </div>
-              <h4 className="text-xl font-bold text-white mb-4">{feature.title}</h4>
-              <p className="text-white/60 leading-relaxed">
-                {feature.desc}
-              </p>
+              
+              {/* Content */}
+              <div className="relative z-10">
+                <div className="text-[#C9922A] font-mono text-sm tracking-[0.2em] mb-8 flex items-center gap-4">
+                  <span>{feature.num}</span>
+                  <span className="w-12 h-px bg-[#C9922A]/50"></span>
+                </div>
+                <h4 className="text-2xl font-bold text-white mb-4 tracking-tight">{feature.title}</h4>
+                <p className="text-white/70 leading-relaxed font-light text-lg">
+                  {feature.desc}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>

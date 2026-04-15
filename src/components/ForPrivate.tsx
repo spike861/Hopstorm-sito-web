@@ -3,8 +3,8 @@ import { ShoppingBag, Package, ArrowRight, MapPin } from 'lucide-react';
 
 export default function ForPrivate() {
   return (
-    <section id="per-i-privati" className="bg-black py-32 px-6 border-t border-white/5">
-      <div className="max-w-7xl mx-auto">
+    <section id="per-i-privati" className="bg-black pt-16 md:pt-20 pb-24 md:pb-32 px-6 flex flex-col overflow-hidden border-t border-white/5">
+      <div className="max-w-7xl mx-auto w-full">
         <div className="max-w-3xl mb-24">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
