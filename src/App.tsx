@@ -7,10 +7,12 @@ import ForPrivate from './components/ForPrivate';
 import WhereToFindUs from './components/WhereToFindUs';
 import Events from './components/Events';
 import Footer from './components/Footer';
+import JsonLd from './components/JsonLd';
 
 export default function App() {
   return (
     <div className="bg-black min-h-screen text-white font-sans selection:bg-[#D4A24E] selection:text-black">
+      <JsonLd />
       <Navbar />
       <main>
         <HopStormHero />
