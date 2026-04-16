@@ -19,7 +19,7 @@ export default function JsonLd() {
           "addressCountry": "IT"
         },
         "sameAs": [
-          "https://instagram.com/hopstorm"
+          "https://instagram.com/hopstorm.brewery"
         ]
       },
       {

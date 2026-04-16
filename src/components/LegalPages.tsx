@@ -64,7 +64,7 @@ function PrivacyPolicy() {
           <li>Sede legale: Via Chiana 38, Roma (RM)</li>
           <li>C.F. / P.IVA: 18407651001</li>
           <li>PEC: Hopstormsrl@legalmail.it</li>
-          <li>Email: <a href="mailto:info@hopstorm.it" className="text-[#D4A24E]">info@hopstorm.it</a></li>
+          <li>Email: <a href="mailto:hopstorm.brewery@yahoo.com" className="text-[#D4A24E]">hopstorm.brewery@yahoo.com</a></li>
         </ul>
       </section>
 
@@ -156,7 +156,7 @@ function PrivacyPolicy() {
         <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">13. Contatti Privacy</h2>
         <p className="text-white/80">Per l'esercizio dei propri diritti o per qualsiasi domanda relativa alla presente Privacy Policy, l'interessato può contattare il Titolare scrivendo a:</p>
         <ul className="list-disc pl-6 mt-2 text-white/80">
-          <li>Email: <a href="mailto:info@hopstorm.it" className="text-[#D4A24E]">info@hopstorm.it</a></li>
+          <li>Email: <a href="mailto:hopstorm.brewery@yahoo.com" className="text-[#D4A24E]">hopstorm.brewery@yahoo.com</a></li>
           <li>PEC: Hopstormsrl@legalmail.it</li>
         </ul>
       </section>

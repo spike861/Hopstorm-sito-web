@@ -7,6 +7,7 @@ import ForLocals from './components/ForLocals';
 import ForPrivate from './components/ForPrivate';
 import WhereToFindUs from './components/WhereToFindUs';
 import Events from './components/Events';
+import Contact from './components/Contact';
 import Footer from './components/Footer';
 import JsonLd from './components/JsonLd';
 import AgeGate from './components/AgeGate';
@@ -42,6 +43,7 @@ export default function App() {
             <ForPrivate />
             <WhereToFindUs />
             <Events />
+            <Contact />
           </>
         )}
       </main>

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer id="contatti" className="bg-black border-t border-white/5 py-16 px-6">
+    <footer className="bg-black border-t border-white/5 py-16 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         {/* Brand */}
         <div className="flex flex-col items-start">
@@ -24,8 +24,8 @@ export default function Footer() {
         {/* Contacts */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold mb-2">Contatti & Sede</h4>
-          <a href="mailto:info@hopstorm.it" className="text-white/60 hover:text-white transition-colors w-fit">info@hopstorm.it</a>
-          <a href="https://instagram.com/hopstorm" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors w-fit">Instagram: @hopstorm</a>
+          <a href="#contatti" className="text-white/60 hover:text-white transition-colors w-fit">Scrivici un messaggio</a>
+          <a href="https://instagram.com/hopstorm.brewery" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors w-fit">Instagram: @hopstorm.brewery</a>
           
           <div className="text-white/60 mt-2 space-y-1">
             <p className="font-bold">HOPSTORM S.R.L.</p>
