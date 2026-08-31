@@ -324,7 +324,7 @@ export default function OurBeers() {
 
     .beer-scene {
       --p-entry: clamp(0, var(--p) / 0.38, 1);
-      --p-entry-eased: pow(var(--p-entry), 0.4);
+      --p-entry-eased: calc(var(--p-entry) * (2 - var(--p-entry)));
       
       --p-settled: clamp(0, (var(--p) - 0.38) / 0.34, 1);
       --p-exit: clamp(0, (var(--p) - 0.72) / 0.28, 1);
@@ -406,7 +406,25 @@ export default function OurBeers() {
         display: none !important;
       }
       .s-center-col .s-single-glow {
-        display: none !important;
+        display: block !important;
+        opacity: 0.45 !important;
+        filter: blur(60px) !important;
+      }
+      .s-single-bottle {
+        filter: none !important;
+        transform-style: flat !important;
+        will-change: auto !important;
+        opacity: 1 !important;
+      }
+      .s-bottle-outer,
+      .s-bottle-inner {
+        transform-style: flat !important;
+      }
+      .s-bottle-outer {
+        opacity: var(--b-opacity);
+      }
+      .s-center-col {
+        perspective: none !important;
       }
       
       /* Card backgrounds on mobile */
@@ -650,7 +668,7 @@ export default function OurBeers() {
               <div key={b.name} className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end" style={{ background: 'none' }}>
                 <div className="relative flex-1 flex items-end justify-center mb-2 md:mb-3 w-full min-h-0" style={{ background: 'none' }}>
                   <div className={`absolute inset-0 rounded-full is-anim s1-glow delay-${i}`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', opacity: 0.35 }} />
-                  <img src={b.img} alt={b.name} crossOrigin="anonymous" decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
+                  <img src={b.img} alt={b.name} decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
                 </div>
                 <div className={`text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] font-semibold text-center shrink-0`} style={{ color: b.color }}>{b.style}</div>
               </div>
@@ -721,7 +739,7 @@ export default function OurBeers() {
                     
                     {/* INNER keyframe wrapper */}
                     <div className="s-bottle-inner flex justify-center items-center relative w-full h-full" style={{ background: 'none' }}>
-                      <img src={b.img} alt={b.name} crossOrigin="anonymous" decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
+                      <img src={b.img} alt={b.name} decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
                     </div>
 
                   </div>
@@ -810,7 +828,7 @@ export default function OurBeers() {
                 
                 <div className="relative flex-1 flex items-end justify-center mb-4 md:mb-6 w-full min-h-0 transition-transform md:group-hover:-translate-y-2" style={{ transitionDuration: 'calc(300ms * var(--anim-speed))', background: 'none' }}>
                   <div className={`absolute inset-0 rounded-full transition-all is-anim s5-glow s5-bottle`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, transitionDuration: 'calc(300ms * var(--anim-speed))' }} />
-                  <img src={b.img} alt={b.name} crossOrigin="anonymous" decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
+                  <img src={b.img} alt={b.name} decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
                 </div>
                 
                 <div className={`text-center is-anim s5-headline`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }}>
