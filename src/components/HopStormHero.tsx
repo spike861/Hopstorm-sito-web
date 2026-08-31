@@ -113,7 +113,7 @@ export default function HopStormHero() {
     canvas.style.cssText =
       "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block;";
     hero.prepend(canvas);
-    const ctx = canvas.getContext("2d", { alpha: false });
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     ctx.imageSmoothingEnabled = true;
@@ -247,8 +247,7 @@ export default function HopStormHero() {
       scale = Math.min(scale, CONFIG.maxUpscale);
       const dw = img.naturalWidth * scale;
       const dh = img.naturalHeight * scale;
-      ctx!.fillStyle = "#000";
-      ctx!.fillRect(0, 0, cw, ch);
+      ctx!.clearRect(0, 0, cw, ch);
       ctx!.drawImage(img, (cw - dw) * CONFIG.focal.x, (ch - dh) * CONFIG.focal.y, dw, dh);
     }
 

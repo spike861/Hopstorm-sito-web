@@ -111,6 +111,14 @@ const MicroLabels = ({ counter, color = "currentColor", invert = false, isScene1
 export default function OurBeers() {
   const containerRef = useRef<HTMLElement>(null);
   const [activeScene, setActiveScene] = useState(0);
+  const [canRenderSheen, setCanRenderSheen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.CSS) {
+      const ok = CSS.supports("mix-blend-mode", "overlay") && window.innerWidth > 768;
+      setCanRenderSheen(ok);
+    }
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -455,21 +463,19 @@ export default function OurBeers() {
       pointer-events: none;
       background: linear-gradient(105deg,
         transparent 38%,
-        rgba(255,255,255,.75) 48%,
-        rgba(255,255,255,.95) 50%,
-        rgba(255,255,255,.75) 52%,
+        rgba(255,255,255,.12) 48%,
+        rgba(255,255,255,.22) 50%,
+        rgba(255,255,255,.12) 52%,
         transparent 62%);
-      mix-blend-mode: screen;
-      -webkit-mask-image: var(--bottle-img);
-      mask-image: var(--bottle-img);
-      -webkit-mask-size: contain; 
-      mask-size: contain;
-      -webkit-mask-repeat: no-repeat; 
-      mask-repeat: no-repeat;
-      -webkit-mask-position: center; 
-      mask-position: center;
+      mix-blend-mode: overlay;
+      opacity: 0.2;
       background-size: 260% 100%;
       background-position: calc((var(--p) - 0.1) * 420%) 0;
+      z-index: 15;
+    }
+
+    @media (max-width: 768px) {
+      .bottle-sheen { display: none !important; }
     }
 
     .s-contact-shadow {
@@ -674,7 +680,7 @@ export default function OurBeers() {
               <div key={b.name} className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end">
                 <div className="relative flex-1 flex items-end justify-center mb-2 md:mb-3 w-full min-h-0">
                   <div className={`absolute inset-0 rounded-full is-anim s1-glow delay-${i}`} style={{ backgroundColor: b.color, filter: 'blur(35px)' }} />
-                  <img src={b.img} alt={b.name} className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} />
+                  <img src={b.img} alt={b.name} crossOrigin="anonymous" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} />
                 </div>
                 <div className={`text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] font-semibold text-center shrink-0`} style={{ color: b.color }}>{b.style}</div>
               </div>
@@ -745,8 +751,8 @@ export default function OurBeers() {
                     
                     {/* INNER keyframe wrapper */}
                     <div className="s-bottle-inner flex justify-center items-center relative w-full h-full">
-                      <img src={b.img} alt={b.name} className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto' }} />
-                      <div className="bottle-sheen" />
+                      <img src={b.img} alt={b.name} crossOrigin="anonymous" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto' }} />
+                      {canRenderSheen && <div className="bottle-sheen" />}
                     </div>
 
                   </div>
@@ -835,7 +841,7 @@ export default function OurBeers() {
                 
                 <div className="relative flex-1 flex items-end justify-center mb-4 md:mb-6 w-full min-h-0 transition-transform md:group-hover:-translate-y-2" style={{ transitionDuration: 'calc(300ms * var(--anim-speed))' }}>
                   <div className={`absolute inset-0 rounded-full transition-all is-anim s5-glow s5-bottle`} style={{ backgroundColor: b.color, filter: 'blur(35px)', transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, transitionDuration: 'calc(300ms * var(--anim-speed))' }} />
-                  <img src={b.img} alt={b.name} className={`relative h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }} />
+                  <img src={b.img} alt={b.name} crossOrigin="anonymous" className={`relative h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }} />
                 </div>
                 
                 <div className={`text-center is-anim s5-headline`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }}>
