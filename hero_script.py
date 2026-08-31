@@ -1,36 +1,27 @@
-import React, { useEffect, useRef } from 'react';
-import { useIntro } from '../introContext';
-import { introStyle } from '../introStyle';
+import re
 
-export default function HopStormHero() {
-  const containerRef = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = React.useState<boolean>(() => { if (typeof window === 'undefined') return false; const isIOS = /iP(hone|ad|od)/.test(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document); return window.matchMedia('(max-width: 768px)').matches || isIOS; });
-  
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mql = window.matchMedia('(max-width: 768px)');
-    const handler = () => { const isIOS = /iP(hone|ad|od)/.test(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document); setIsMobile(mql.matches || isIOS); };
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
-  const { step, reduced } = useIntro();
+with open('src/components/HopStormHero.tsx', 'r') as f:
+    content = f.read()
 
-  useEffect(() => {
-    const hero = containerRef.current;
-    if (!hero) return;
-    const canvas = hero.querySelector('canvas');
+# We need to replace the large useEffect that handles canvas.
+# It starts around: useEffect(() => { /* ============================ CONFIG ============================ */
+# and ends right before return ( <section
+
+def replace_hero_effect():
+    start_marker = "    /* ============================ CONFIG ============================ */"
+    end_marker = "  return (\n    <section"
     
-    if (step < 3) {
-      hero.style.touchAction = "none";
-    } else {
-      const timer = setTimeout(() => {
-        hero.style.touchAction = "auto";
-      }, 900);
-      return () => clearTimeout(timer);
-    }
-  }, [step]);
+    start_idx = content.find(start_marker)
+    end_idx = content.find(end_marker)
+    
+    if start_idx == -1 or end_idx == -1:
+        print("Markers not found!")
+        return
 
-  useEffect(() => {
+    # find the enclosing useEffect
+    search_start = content.rfind("useEffect(() => {", 0, start_idx)
+    
+    new_effect = """useEffect(() => {
     /* ============================ CONFIG ============================ */
     const CONFIG = {
       cloudBase: "https://res.cloudinary.com/dcbomk6i8/image/upload",
@@ -63,29 +54,7 @@ export default function HopStormHero() {
       "t1qv4z"
     ];
 
-    const FRAME_IDS_MOBILE = [
-      "ryu8ra","f4x9c8","rd71cf","ghg6y9","zlx2td","wavlcl","aiyfgg","br7vgb",
-      "nh8vqb","p5lbuc","garf8r","qzjgbn","d2ymcm","ljs0kj","cnhnnf","mn6z5y",
-      "bqfluh","t58cbf","uoleb1","rq2e2a","rbvtn3","bctwmp","skuakp","srneyy",
-      "ya9ipn","jauvfl","jmrcj9","b0q7mg","oryb8c","sghxqj","oehimx","rtbm41",
-      "j6xyxn","f0icwe","v1ewxz","fajtrr","o51k8l","kqpkhu","wdnteg","aihmre",
-      "t3ix5m","jhkpsv","gkrtyr","h7vphn","oryy45","rmtwlz","olxhpv","axpsfx",
-      "r6ffsq","tjlxg9","petotu","terzka","rupxmn","uto5jn","nedpqr","rdm0i1",
-      "nb4kdq","g1od4h","uflpl7","dv0yf3","sjlmpy","ipcvos","x2c0mn","buafgu",
-      "cxykz5","mxczpi","up3aly","kklpx8","nri19g","plcagt","k8zt6b","wfxzib",
-      "abvcim","wv89gb","rkpx8r","fukocb","kz5ujf","rxdc6y","yqcpju","jjawnr",
-      "blokmg","cl3xrs","topdtl","owxenj","xfpxcq","madqxa","e4rim6","rbeujg",
-      "ej7tph","nmc8l6","qzhhyj","qacqhw","thuunm","m4dkmg","a1bxwx","togx7n",
-      "ivipdf","z0zr28","xqiwp0","aqhuht","h7u8u7","eab4xu","nshp5c","asqhuz",
-      "awju5a","sqa8cf","wk0qd5","kgj02y","v9ub69","rotja2","mtxyut","gyftll",
-      "imdabc","lyacou","bghcjj","w1dyy7","wlbgrs","ralayb","nckgkp","e3hq1z",
-      "wh7rub","fuq3q0","e6rrmm","ssianz","zbxacb","h8vmop","iy691f","zulfec",
-      "cvccve","yid2re","wloqn0","gm0lnp","yhw3yk","wzetpw","aptc30","bphowz",
-      "uyolzx","nmxev6","r1vgjm","am9gny","ioyqc3","lteeur","q3otrz","x1bduk",
-      "nfuj5j"
-    ];
-
-    const IDS = isMobile ? FRAME_IDS_MOBILE.filter((_, i) => i % 6 === 0) : FRAME_IDS_DESKTOP;
+    const IDS = isMobile ? FRAME_IDS_DESKTOP.filter((_, i) => i % 6 === 0) : FRAME_IDS_DESKTOP;
     const N = IDS.length;
     // Remap anchors for mobile (length is ~25 instead of 145)
     if (isMobile) {
@@ -368,89 +337,10 @@ export default function HopStormHero() {
       if (io) io.disconnect();
       destroyCanvas();
     };
-  }, [isMobile]);
-  return (
-    <section 
-      ref={containerRef} 
-      id="hero-root"
-      className={`relative w-full bg-black overflow-hidden mx-auto ${isMobile ? 'h-[100dvh]' : 'max-h-[100vh] aspect-[16/9]'}`}
-    >
-      <style>{`
-        @keyframes float-scroll {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(8px); }
-        }
-      `}</style>
+  }, [isMobile]);"""
 
+    new_content = content[:search_start] + new_effect + "\n" + content[end_idx:]
+    with open('src/components/HopStormHero.tsx', 'w') as f:
+        f.write(new_content)
 
-      {/* Radial Vignette */}
-      <div 
-        className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.5)_100%)] z-10 pointer-events-none"
-        style={{ opacity: step < 3 ? 0 : 1, transition: "opacity 900ms cubic-bezier(.22,1,.36,1)" }}
-      ></div>
-      
-      {/* Bottom Gradient for contrast */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"
-        style={{ opacity: step < 3 ? 0 : 1, transition: "opacity 900ms cubic-bezier(.22,1,.36,1)" }}
-      ></div>
-
-      {/* Scroll affordance */}
-      <div 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
-        style={{ opacity: step < 3 ? 0.5 : 0, transition: "opacity 300ms" }}
-      >
-        <span className="text-white/50 text-[11px] tracking-[0.3em] font-medium uppercase">SCORRI</span>
-        <div className="w-[1px] h-[40px] bg-white/50" style={{ animation: "float-scroll 2s infinite ease-in-out" }}></div>
-      </div>
-
-      {/* Content Overlays */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-center px-4 z-20">
-        <div className="flex flex-col items-center justify-center mt-16">
-          <h1 
-            className="absolute top-[14%] left-0 right-0 px-6 flex flex-col items-center text-center md:static md:px-0 md:block text-[clamp(2rem,11vw,3.25rem)] md:text-9xl leading-[0.95] md:leading-[1] tracking-[-0.02em] md:tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl"
-            style={{
-              ...introStyle(step < 1, 28, 0, 8, reduced),
-              WebkitMaskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
-              maskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
-              textShadow: isMobile ? "0 2px 18px rgba(0,0,0,0.55)" : undefined,
-            }}
-          >
-            <span className="block md:inline">NON È PER</span>{" "}
-            <span className="block md:inline">TUTTI.</span>
-          </h1>
-          <p 
-            className="text-base md:text-xl lg:text-2xl text-white/95 max-w-3xl mb-8 md:mb-10 leading-relaxed font-normal bg-black/50 backdrop-blur-md border border-white/15 rounded-2xl px-6 py-4 md:px-8 md:py-5 shadow-2xl mx-auto"
-            style={introStyle(step < 2, 20, 0, 0, reduced)}
-          >
-            Hop Storm è un birrificio artigianale indipendente a Roma: produciamo <strong className="font-semibold text-[#FFC857]">Fresh Wave</strong>, <strong className="font-semibold text-[#FF5252]">Red Moon</strong> e <strong className="font-semibold text-[#FFA726]">Enjoy</strong>, birre di carattere servite senza compromessi a privati e locali.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pointer-events-auto">
-            <a 
-              href="#per-i-privati" 
-              className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
-              style={introStyle(step < 3, 16, 0, 0, reduced)}
-            >
-              Ordina Online
-            </a>
-            <a 
-              href="#per-i-locali" 
-              className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md"
-              style={introStyle(step < 3, 16, 80, 0, reduced)}
-            >
-              Diventa Partner
-            </a>
-            <a 
-              href="#dove-trovarci" 
-              className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md"
-              style={introStyle(step < 3, 16, 160, 0, reduced)}
-            >
-              Dove Trovarci
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+replace_hero_effect()

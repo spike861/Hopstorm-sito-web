@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import re
+
+content = """import React, { useEffect, useRef, useState } from 'react';
 
 const ROT_BASE = "https://res.cloudinary.com/dcbomk6i8/image/upload";
 const ROT_IDS = [
@@ -255,3 +257,7 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
 
   return <canvas ref={canvasRef} className={className} style={{ ...style, background: 'none' }} />;
 }
+"""
+
+with open('src/components/EnjoyRotator.tsx', 'w') as f:
+    f.write(content)
