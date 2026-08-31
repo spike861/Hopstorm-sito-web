@@ -668,7 +668,7 @@ export default function OurBeers() {
               <div key={b.name} className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end" style={{ background: 'none' }}>
                 <div className="relative flex-1 flex items-end justify-center mb-2 md:mb-3 w-full min-h-0" style={{ background: 'none' }}>
                   <div className={`absolute inset-0 rounded-full is-anim s1-glow delay-${i}`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', opacity: 0.35 }} />
-                  <img src={b.img} alt={b.name} decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
+                  <img src={b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
                 </div>
                 <div className={`text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] font-semibold text-center shrink-0`} style={{ color: b.color }}>{b.style}</div>
               </div>
@@ -697,9 +697,9 @@ export default function OurBeers() {
                 {/* Left Column */}
                 <div className="contents lg:flex lg:flex-col lg:justify-center s-card-gap z-10 min-h-0 w-full lg:w-auto">
                   <div className="s-single-name shrink-0 order-1 lg:order-none relative z-20">
-                                        <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tighter leading-[0.9] mb-1 lg:mb-2">
+                                        <h3 className="text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tighter leading-[0.9] mb-1 lg:mb-2">
                       {b.name}
-                    </h2>
+                    </h3>
                     <div className="text-lg lg:text-xl xl:text-3xl font-bold tracking-widest uppercase mb-2 lg:mb-4 s-single-style-enter" style={{ color: b.color }}>{b.style}</div>
                   </div>
                   
@@ -739,7 +739,7 @@ export default function OurBeers() {
                     
                     {/* INNER keyframe wrapper */}
                     <div className="s-bottle-inner flex justify-center items-center relative w-full h-full" style={{ background: 'none' }}>
-                      <img src={b.img} alt={b.name} decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
+                      <img src={b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
                     </div>
 
                   </div>
@@ -828,7 +828,7 @@ export default function OurBeers() {
                 
                 <div className="relative flex-1 flex items-end justify-center mb-4 md:mb-6 w-full min-h-0 transition-transform md:group-hover:-translate-y-2" style={{ transitionDuration: 'calc(300ms * var(--anim-speed))', background: 'none' }}>
                   <div className={`absolute inset-0 rounded-full transition-all is-anim s5-glow s5-bottle`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, transitionDuration: 'calc(300ms * var(--anim-speed))' }} />
-                  <img src={b.img} alt={b.name} decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
+                  <img src={b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
                 </div>
                 
                 <div className={`text-center is-anim s5-headline`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }}>

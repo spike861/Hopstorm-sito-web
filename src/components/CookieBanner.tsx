@@ -7,32 +7,66 @@ export default function CookieBanner() {
   const [prefs, setPrefs] = useState({ analytics: false, marketing: false });
   const [hasExistingConsent, setHasExistingConsent] = useState(false);
 
+  const BANNER_VERSION = "v1.1";
+
+  const getCookieConsent = () => {
+    const match = document.cookie.match(new RegExp('(^| )hopstorm_consent=([^;]+)'));
+    if (match) {
+      try {
+        return JSON.parse(decodeURIComponent(match[2]));
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const setCookieConsent = (analytics: boolean, marketing: boolean) => {
+    const consentData = {
+      analytics,
+      marketing,
+      timestamp: new Date().toISOString(),
+      version: BANNER_VERSION
+    };
+    // 12 months expiry
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 1);
+    document.cookie = `hopstorm_consent=${encodeURIComponent(JSON.stringify(consentData))}; expires=${d.toUTCString()}; path=/; SameSite=Lax`;
+    
+    // Inject scripts dynamically based on consent here
+    if (analytics) {
+      // e.g., injectAnalyticsScript();
+    }
+    if (marketing) {
+      // e.g., injectMarketingScript();
+    }
+  };
+
   useEffect(() => {
-    const consent = localStorage.getItem('hopstorm_cookie_consent');
-    if (!consent) {
-      // Piccolo ritardo per non sovrapporsi troppo bruscamente all'Age Gate
+    const consent = getCookieConsent();
+    if (!consent || consent.version !== BANNER_VERSION) {
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     } else {
       setHasExistingConsent(true);
+      // Re-inject scripts on load if previously consented
+      if (consent.analytics) {
+         // injectAnalyticsScript();
+      }
+      if (consent.marketing) {
+         // injectMarketingScript();
+      }
     }
 
     const handleOpenBanner = () => {
-      const currentConsent = localStorage.getItem('hopstorm_cookie_consent');
-      if (currentConsent === 'all') {
-        setPrefs({ analytics: true, marketing: true });
-      } else if (currentConsent === 'technical') {
+      const currentConsent = getCookieConsent();
+      if (currentConsent) {
+        setPrefs({
+          analytics: !!currentConsent.analytics,
+          marketing: !!currentConsent.marketing
+        });
+      } else {
         setPrefs({ analytics: false, marketing: false });
-      } else if (currentConsent) {
-        try {
-          const parsed = JSON.parse(currentConsent);
-          setPrefs({
-            analytics: !!parsed.analytics,
-            marketing: !!parsed.marketing
-          });
-        } catch (e) {
-          setPrefs({ analytics: false, marketing: false });
-        }
       }
       setHasExistingConsent(true);
       setIsVisible(true);
@@ -44,32 +78,29 @@ export default function CookieBanner() {
   }, []);
 
   const acceptAll = () => {
-    localStorage.setItem('hopstorm_cookie_consent', 'all');
-    setHasExistingConsent(true);
+    setCookieConsent(true, true);
     setIsVisible(false);
-    // Qui andrebbe inserita la logica per attivare gli script (es. gtag, fbq)
+    setHasExistingConsent(true);
   };
 
   const rejectAll = () => {
-    localStorage.setItem('hopstorm_cookie_consent', 'technical');
-    setHasExistingConsent(true);
+    setCookieConsent(false, false);
     setIsVisible(false);
-    // Gli script rimangono bloccati
+    setHasExistingConsent(true);
   };
 
   const savePrefs = () => {
-    localStorage.setItem('hopstorm_cookie_consent', JSON.stringify(prefs));
-    setHasExistingConsent(true);
+    setCookieConsent(prefs.analytics, prefs.marketing);
     setIsVisible(false);
-    // Qui andrebbe inserita la logica per attivare solo gli script selezionati
+    setHasExistingConsent(true);
   };
 
   const handleClose = () => {
     if (hasExistingConsent) {
-      // Se l'utente sta solo rivedendo le preferenze, la X chiude senza sovrascrivere
+      // Only viewing preferences, close without overwriting
       setIsVisible(false);
     } else {
-      // Al primo accesso, la X equivale a rifiutare
+      // First visit, closing via X means rejecting all
       rejectAll();
     }
   };
@@ -82,8 +113,8 @@ export default function CookieBanner() {
         {!showPreferences ? (
           <div className="p-6 md:p-8 relative">
             <button 
-              onClick={handleClose} 
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors" 
+              onClick={handleClose}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
               aria-label="Chiudi"
             >
               <X size={24} />
@@ -99,22 +130,21 @@ export default function CookieBanner() {
             
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <button 
-                onClick={() => setShowPreferences(true)} 
+                onClick={() => setShowPreferences(true)}
                 className="text-white/60 hover:text-white text-sm font-medium underline underline-offset-4 transition-colors order-3 sm:order-1"
               >
                 Personalizza
               </button>
               
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto order-1 sm:order-2">
-                {/* Uguale evidenza visiva per Rifiuta e Accetta (stessa dimensione, stile a bottone pieno) */}
                 <button 
-                  onClick={rejectAll} 
-                  className="px-6 py-3 rounded-full border border-white/20 bg-white/5 text-white font-bold text-sm hover:bg-white/10 transition-colors w-full sm:w-auto text-center"
+                  onClick={rejectAll}
+                  className="px-6 py-3 rounded-full border border-white bg-white text-black font-bold text-sm hover:bg-gray-200 transition-colors w-full sm:w-auto text-center"
                 >
                   Rifiuta tutti
                 </button>
                 <button 
-                  onClick={acceptAll} 
+                  onClick={acceptAll}
                   className="px-6 py-3 rounded-full border border-[#D4A24E] bg-[#D4A24E] text-black font-bold text-sm hover:bg-white hover:border-white transition-colors w-full sm:w-auto text-center"
                 >
                   Accetta tutti
@@ -125,13 +155,12 @@ export default function CookieBanner() {
         ) : (
           <div className="p-6 md:p-8 relative">
             <button 
-              onClick={handleClose} 
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors" 
+              onClick={handleClose}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
               aria-label="Chiudi"
             >
               <X size={24} />
             </button>
-
             <h2 className="text-xl font-bold text-white mb-2">Personalizza le tue preferenze</h2>
             <p className="text-white/60 text-sm mb-6">
               Scegli quali categorie di cookie autorizzare. I cookie tecnici non possono essere disabilitati in quanto necessari al funzionamento del sito.
@@ -156,9 +185,9 @@ export default function CookieBanner() {
                 <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
                   <input 
                     type="checkbox" 
-                    className="sr-only peer" 
-                    checked={prefs.analytics} 
-                    onChange={(e) => setPrefs({...prefs, analytics: e.target.checked})} 
+                    className="sr-only peer"
+                    checked={prefs.analytics}
+                    onChange={(e) => setPrefs({...prefs, analytics: e.target.checked})}
                   />
                   <div className="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#D4A24E]"></div>
                 </label>
@@ -173,9 +202,9 @@ export default function CookieBanner() {
                 <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
                   <input 
                     type="checkbox" 
-                    className="sr-only peer" 
-                    checked={prefs.marketing} 
-                    onChange={(e) => setPrefs({...prefs, marketing: e.target.checked})} 
+                    className="sr-only peer"
+                    checked={prefs.marketing}
+                    onChange={(e) => setPrefs({...prefs, marketing: e.target.checked})}
                   />
                   <div className="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#D4A24E]"></div>
                 </label>
@@ -184,20 +213,21 @@ export default function CookieBanner() {
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <button 
-                onClick={() => setShowPreferences(false)} 
+                onClick={() => setShowPreferences(false)}
                 className="text-white/60 hover:text-white text-sm font-medium transition-colors order-3 sm:order-1"
               >
                 Indietro
               </button>
+              
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto order-1 sm:order-2">
                 <button 
-                  onClick={savePrefs} 
-                  className="px-6 py-3 rounded-full border border-white/20 bg-white/5 text-white font-bold text-sm hover:bg-white/10 transition-colors w-full sm:w-auto text-center"
+                  onClick={savePrefs}
+                  className="px-6 py-3 rounded-full border border-white bg-white text-black font-bold text-sm hover:bg-gray-200 transition-colors w-full sm:w-auto text-center"
                 >
                   Salva preferenze
                 </button>
                 <button 
-                  onClick={acceptAll} 
+                  onClick={acceptAll}
                   className="px-6 py-3 rounded-full border border-[#D4A24E] bg-[#D4A24E] text-black font-bold text-sm hover:bg-white hover:border-white transition-colors w-full sm:w-auto text-center"
                 >
                   Accetta tutti

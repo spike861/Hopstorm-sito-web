@@ -1,0 +1,22 @@
+const FRAME_IDS_DESKTOP = [
+      "vwo695","bjgoht","tioru0","t87brs","kafm2d","shdyql","ivecs6","fgy7sb",
+      "krouiq","odzlxv","korz1d","esgidb","vekphl","g7pvgo","qdxjiv","ljsh3q",
+      "mdbgji","oxyphu","npskvt","l6smc9","jsghn9","qokrip","z2ukzf","m14snw",
+      "y6bifz","w0939a","hdkr0n","nmtgla","vn4dk7","yrvibw","wtmbcc","c7o6q7",
+      "upleba","lj1wmb","brjt6u","zvvboi","txb7ft","tlodla","s0vsca","dohzwj",
+      "mtfvih","jvobjp","rmpxju","yjcrl6","l5r3p6","slamwe","nugx6a","aongcy",
+      "p9zi1o","uiyalr","x30o6t","vqncnk","fbbe0n","pw4lpw","dbwwyx","r9zcgq",
+      "bqwucw","psqool","genljt","q9dq0e","vvjfjt","k5fyyn","fwbbp5","rm3vrl",
+      "jkpqv8","nngybo","x8bqq3","akt2nh","s4qm1i","aelmbq","qmcnhc","cu3dzw",
+      "sxijow","clj7xy","gbvaoc","rt5wrb","wdicpv","kuky3w","di1sa2","wtzoif",
+      "i5y26i","isazpi","qalj5p","fh5iuz","tybllj","gjrd5f","jyo3uy","gfg2di",
+      "ssvx2t","cwe6v1","xlnnvj","tjpnuw","yufbvx","iaoyo7","riijsl","mobvl0",
+      "tz7uen","l5txdk","wlvjsn","riv2cy","shvmnz","cqp4nq","qf1tni","ozhjxr",
+      "gdbzmf","hkebvy","ue8zyf","zxdgao","di4fgx","c6zpvu","wannrf","ak9b7h",
+      "xqdszv","aauvjb","aomib9","ve6sq5","cns7lk","yi8sr0","h8jmjs","b5i1q2",
+      "rvvgnz","pfqou8","dugkkj","lmxqdi","curolz","memqtp","cxardh","vcg3kq",
+      "en9wzh","fldcwp","dpe38e","w7qhpz","vwg5uy","wqzh42","k6nwca","lbsze5",
+      "xvuq7y","b38gpt","zhliky","ly1zpw","ojhe9t","d9wzeb","eb6rby","eogrkl",
+      "t1qv4z"
+    ];
+console.log(FRAME_IDS_DESKTOP[72]);

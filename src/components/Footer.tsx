@@ -4,9 +4,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         {/* Brand */}
         <div className="flex flex-col items-start">
-          <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-16 md:h-20 w-auto mb-6" />
-          <p className="text-white/40">
-            Birra artigianale. Tempesta di sapore.
+          <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 md:h-20 w-auto mb-6" />
+          <p className="text-white/40 text-sm leading-relaxed max-w-sm">
+            Hop Storm è un birrificio artigianale indipendente a Roma. Produciamo Fresh Wave (Helles), Red Moon (Red Ale) ed Enjoy (IPA) in bottiglia da 330 ml, per privati e per locali.
           </p>
         </div>
 
@@ -30,6 +30,8 @@ export default function Footer() {
             <p className="font-bold">HOPSTORM S.R.L.</p>
             <p>Via Chiana 38</p>
             <p>Roma (RM)</p>
+            <p>Telefono: +393491973069</p>
+            <p>Email: hopstorm.brewery@yahoo.com</p>
             <p>C.F. / P.IVA: 18407651001</p>
             <p>PEC: Hopstormsrl@legalmail.it</p>
           </div>

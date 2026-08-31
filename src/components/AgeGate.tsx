@@ -47,7 +47,7 @@ export default function AgeGate() {
             {!accessDenied ? (
               <>
                 <div className="flex items-center justify-center mx-auto mb-8">
-                  <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm Logo" className="h-16 w-auto opacity-90" />
+                  <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 w-auto opacity-90" />
                 </div>
                 <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Sei maggiorenne?</h2>
                 <p className="text-white/60 mb-10 leading-relaxed font-light">
@@ -71,7 +71,7 @@ export default function AgeGate() {
             ) : (
               <>
                 <div className="flex items-center justify-center mx-auto mb-8 grayscale opacity-50">
-                  <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm Logo" className="h-16 w-auto" />
+                  <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 w-auto" />
                 </div>
                 <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Accesso Negato</h2>
                 <p className="text-white/60 leading-relaxed font-light">

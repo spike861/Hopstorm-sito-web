@@ -7,6 +7,7 @@ import ForLocals from './components/ForLocals';
 import ForPrivate from './components/ForPrivate';
 import WhereToFindUs from './components/WhereToFindUs';
 import Contact from './components/Contact';
+import Faq from './components/Faq';
 import Footer from './components/Footer';
 import JsonLd from './components/JsonLd';
 import AgeGate from './components/AgeGate';
@@ -169,6 +170,7 @@ export default function App() {
               <ForPrivate />
               <WhereToFindUs />
               <Contact />
+              <Faq />
             </>
           )}
         </main>

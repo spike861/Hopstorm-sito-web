@@ -3,18 +3,38 @@ import re
 with open('src/components/HopStormHero.tsx', 'r') as f:
     content = f.read()
 
-# 1. Update isMobile logic
-content = re.sub(
-    r"const \[isMobile, setIsMobile\] = React\.useState<boolean>\(\(\) => typeof window !== 'undefined' \? window\.matchMedia\(\"\(max-aspect-ratio: 1/1\)\"\)\.matches \|\| window\.matchMedia\(\"\(hover: none\) and \(pointer: coarse\)\"\)\.matches : false\);",
-    r"const [isMobile, setIsMobile] = React.useState<boolean>(() => { if (typeof window === 'undefined') return false; const isIOS = /iP(hone|ad|od)/.test(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document); return window.matchMedia('(max-width: 768px)').matches || isIOS; });",
-    content
-)
+old_h1 = """          <h1 
+            className="absolute top-[14%] left-0 right-0 px-6 flex flex-col items-center text-center md:static md:px-0 md:block text-[clamp(2rem,11vw,3.25rem)] md:text-9xl leading-[0.95] md:leading-[1] tracking-[-0.02em] md:tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl"
+            style={{
+              ...introStyle(step < 1, 28, 0, 8, reduced),
+              WebkitMaskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
+              maskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
+              textShadow: isMobile ? "0 2px 18px rgba(0,0,0,0.55)" : undefined,
+            }}
+          >
+            <span className="block md:inline">NON È PER</span>{" "}
+            <span className="block md:inline">TUTTI.</span>
+          </h1>"""
 
-content = re.sub(
-    r"const mql = window\.matchMedia\(\"\(max-aspect-ratio: 1/1\)\"\);\s*const pointerMql = window\.matchMedia\(\"\(hover: none\) and \(pointer: coarse\)\"\);\s*const handler = \(\) => \{\s*setIsMobile\(mql\.matches \|\| pointerMql\.matches\);\s*\};\s*mql\.addEventListener\(\"change\", handler\);\s*pointerMql\.addEventListener\(\"change\", handler\);\s*return \(\) => \{\s*mql\.removeEventListener\(\"change\", handler\);\s*pointerMql\.removeEventListener\(\"change\", handler\);\s*\};",
-    r"const mql = window.matchMedia('(max-width: 768px)');\n    const handler = () => { const isIOS = /iP(hone|ad|od)/.test(navigator.platform) || (navigator.userAgent.includes('Mac') && 'ontouchend' in document); setIsMobile(mql.matches || isIOS); };\n    mql.addEventListener('change', handler);\n    return () => mql.removeEventListener('change', handler);",
-    content
-)
+new_h1 = """          <h1 
+            className="absolute top-[14%] left-0 right-0 px-6 flex flex-col items-center text-center md:static md:px-0 md:block text-[clamp(2rem,11vw,3.25rem)] md:text-9xl leading-[0.95] md:leading-[1] tracking-[-0.02em] md:tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl"
+            style={{
+              ...introStyle(step < 1, 28, 0, 8, reduced),
+              WebkitMaskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
+              maskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
+              textShadow: isMobile ? "0 2px 18px rgba(0,0,0,0.55)" : undefined,
+            }}
+          >
+            <span className="sr-only">Hop Storm — Birrificio Artigianale a Roma. </span>
+            <span className="block md:inline" aria-hidden="true">NON È PER</span>{" "}
+            <span className="block md:inline" aria-hidden="true">TUTTI.</span>
+          </h1>"""
 
-with open('src/components/HopStormHero.tsx', 'w') as f:
-    f.write(content)
+if old_h1 in content:
+    content = content.replace(old_h1, new_h1)
+    with open('src/components/HopStormHero.tsx', 'w') as f:
+        f.write(content)
+        print("Patched!")
+else:
+    print("Could not find old_h1")
+

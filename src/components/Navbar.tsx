@@ -22,7 +22,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <a href="#" className="flex items-center">
-            <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-16 md:h-20 w-auto" />
+            <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 md:h-20 w-auto" />
           </a>
           
           {/* Desktop */}
@@ -52,7 +52,7 @@ export default function Navbar() {
             className="fixed inset-0 bg-black z-50 flex flex-col p-6"
           >
             <div className="flex justify-between items-center mb-12">
-              <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-12 w-auto" />
+              <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-12 w-auto" />
               <button className="text-white" onClick={() => setIsOpen(false)}>
                 <X size={24} />
               </button>

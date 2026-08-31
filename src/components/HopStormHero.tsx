@@ -416,8 +416,9 @@ export default function HopStormHero() {
               textShadow: isMobile ? "0 2px 18px rgba(0,0,0,0.55)" : undefined,
             }}
           >
-            <span className="block md:inline">NON È PER</span>{" "}
-            <span className="block md:inline">TUTTI.</span>
+            <span className="sr-only">Hop Storm — Birrificio Artigianale a Roma. </span>
+            <span className="block md:inline" aria-hidden="true">NON È PER</span>{" "}
+            <span className="block md:inline" aria-hidden="true">TUTTI.</span>
           </h1>
           <p 
             className="text-base md:text-xl lg:text-2xl text-white/95 max-w-3xl mb-8 md:mb-10 leading-relaxed font-normal bg-black/50 backdrop-blur-md border border-white/15 rounded-2xl px-6 py-4 md:px-8 md:py-5 shadow-2xl mx-auto"
