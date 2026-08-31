@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
+import { useIntro } from '../introContext';
+import { introStyle } from '../introStyle';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { step, reduced } = useIntro();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -14,15 +17,17 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-black/40 backdrop-blur-sm py-6'}`}>
+      <header 
+        className={`fixed top-0 z-40 w-full transition-all duration-300 ${step < 3 ? 'bg-transparent py-6' : (scrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-black/40 backdrop-blur-sm py-6')}`}
+      >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <a href="#" className="flex items-center">
             <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-16 md:h-20 w-auto" />
           </a>
           
           {/* Desktop */}
-          <div className="hidden md:flex gap-8">
-            {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'DOVE TROVARCI', 'EVENTI'].map((item) => (
+          <div className="hidden md:flex gap-8" style={introStyle(step < 3, -16, 0, 0, reduced)}>
+            {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'DOVE TROVARCI'].map((item) => (
               <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`} className="text-white/60 hover:text-white transition-colors text-sm uppercase tracking-wider font-medium">
                 {item}
               </a>
@@ -30,11 +35,11 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Toggle */}
-          <button className="md:hidden text-white" onClick={() => setIsOpen(true)}>
+          <button className="md:hidden text-white" onClick={() => setIsOpen(true)} style={introStyle(step < 3, -16, 0, 0, reduced)}>
             <Menu size={24} />
           </button>
         </div>
-      </nav>
+      </header>
 
       {/* Mobile Drawer */}
       <AnimatePresence>
@@ -52,8 +57,9 @@ export default function Navbar() {
                 <X size={24} />
               </button>
             </div>
+            
             <div className="flex flex-col gap-8 text-2xl">
-              {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'DOVE TROVARCI', 'EVENTI'].map((item) => (
+              {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'DOVE TROVARCI'].map((item) => (
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase().replace(/ /g, '-')}`} 

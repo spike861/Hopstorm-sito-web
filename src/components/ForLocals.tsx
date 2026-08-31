@@ -102,10 +102,10 @@ export default function ForLocals() {
           >
             <h3 className="text-3xl font-bold text-white mb-6">Formati disponibili</h3>
             <p className="text-white/70 mb-6 leading-relaxed">
-              <strong className="text-white">Fresh Wave</strong> (Helles Lager, 4,5%) e <strong className="text-white">Red Moon</strong> (Rossa, 5,8%) sono disponibili sia in fusti da 20 litri per la spillatura sia in bottiglie da 33 cl.
+              <strong className="text-white">Fresh Wave</strong> (Helles Lager, 4,5%), <strong className="text-white">Red Moon</strong> (Rossa, 5,8%) e <strong className="text-white">Enjoy</strong> (IPA) sono disponibili per tutte in fusti da 20 litri, fusti da 24 litri e bottiglie da 33 cl.
             </p>
             <p className="text-white/70 leading-relaxed">
-              Puoi scegliere un formato o entrambi, a seconda del tipo di locale, dello spazio disponibile e del volume che gestisci. Possiamo studiare insieme la combinazione più adatta a te.
+              Puoi scegliere i formati più adatti alle tue esigenze, a seconda del tipo di locale, dello spazio disponibile e del volume che gestisci. Possiamo studiare insieme la combinazione più adatta a te.
             </p>
           </motion.div>
           

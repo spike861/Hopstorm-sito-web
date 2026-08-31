@@ -30,7 +30,7 @@ export default function ForPrivate() {
             transition={{ delay: 0.2 }}
             className="text-white/70 text-xl leading-relaxed"
           >
-            Non serve andare al pub per bere una birra artigianale come si deve. Fresh Wave e Red Moon le puoi avere nel tuo frigo, pronte per una serata con gli amici, una grigliata nel weekend o semplicemente per quel momento a fine giornata in cui ti meriti qualcosa di buono.
+            Non serve andare al pub per bere una birra artigianale come si deve. Fresh Wave, Red Moon e Enjoy le puoi avere nel tuo frigo, pronte per una serata con gli amici, una grigliata nel weekend o semplicemente per quel momento a fine giornata in cui ti meriti qualcosa di buono.
           </motion.p>
         </div>
 
@@ -58,7 +58,7 @@ export default function ForPrivate() {
                 <h4 className="text-xl font-bold text-white">Formati</h4>
               </div>
               <p className="text-white/60 leading-relaxed">
-                Bottiglie da 33 cl, singole o in confezioni da 6 e 12. Puoi prendere solo Fresh Wave, solo Red Moon, oppure mescolare le due e scoprire quale preferisci.
+                Bottiglie da 33 cl, singole o in confezioni da 6 e 12. Puoi prendere solo Fresh Wave, solo Red Moon, solo Enjoy, oppure mescolare le tre e scoprire la tua preferita.
               </p>
             </div>
           </motion.div>
@@ -85,8 +85,15 @@ export default function ForPrivate() {
               </p>
             </div>
 
+            <div className="mb-8">
+              <h4 className="text-xl font-bold text-[#F08A24] mb-3">Enjoy</h4>
+              <p className="text-white/70 leading-relaxed">
+                È per chi ama i luppoli e le emozioni forti: aromi esplosivi di agrumi e frutta tropicale con un finale amaro pulito e deciso. Perfetta con hamburger, carne alla griglia e cibi saporiti o speziati.
+              </p>
+            </div>
+
             <p className="text-white/90 italic font-medium">
-              Il nostro consiglio? Prova entrambe. La maggior parte dei nostri clienti finisce per tenerle tutte e due in frigo.
+              Il nostro consiglio? Prova tutte e tre. La maggior parte dei nostri clienti finisce per tenerle tutte in frigo.
             </p>
           </motion.div>
         </div>

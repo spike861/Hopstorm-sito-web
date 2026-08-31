@@ -1,220 +1,402 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'motion/react';
-import { frameUrls } from '../lib/frameUrls';
-
-const NUM_FRAMES = 192;
-
-function getFramePath(index: number) {
-  return frameUrls[index] || `/foto/frame_${index.toString().padStart(3, '0')}_delay-0.041s.jpg`;
-}
+import React, { useEffect, useRef } from 'react';
+import { useIntro } from '../introContext';
+import { introStyle } from '../introStyle';
 
 export default function HopStormHero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [loadedCount, setLoadedCount] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasErrors, setHasErrors] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  // Preload images
+  const containerRef = useRef<HTMLElement>(null);
+  const [isMobile, setIsMobile] = React.useState<boolean>(() => typeof window !== 'undefined' ? window.matchMedia("(max-aspect-ratio: 1/1)").matches || window.matchMedia("(hover: none) and (pointer: coarse)").matches : false);
+  
   useEffect(() => {
-    let loaded = 0;
-    let errors = 0;
-    let aborted = false;
-    const imgArray: HTMLImageElement[] = [];
-
-    const checkFirstImage = new Image();
-    checkFirstImage.src = getFramePath(0);
-    
-    checkFirstImage.onload = () => {
-      // First image exists, proceed with loading the rest
-      imgArray.push(checkFirstImage);
-      loaded++;
-      setLoadedCount(loaded + errors);
-      
-      for (let i = 1; i < NUM_FRAMES; i++) {
-        if (aborted) break;
-        const img = new Image();
-        img.src = getFramePath(i);
-        img.onload = () => {
-          loaded++;
-          setLoadedCount(loaded + errors);
-          if (loaded + errors === NUM_FRAMES) setIsLoaded(true);
-        };
-        img.onerror = () => {
-          errors++;
-          setHasErrors(true);
-          setLoadedCount(loaded + errors);
-          if (loaded + errors === NUM_FRAMES) setIsLoaded(true);
-        };
-        imgArray.push(img);
-      }
-      setImages(imgArray);
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia("(max-aspect-ratio: 1/1)");
+    const pointerMql = window.matchMedia("(hover: none) and (pointer: coarse)");
+    const handler = () => {
+      setIsMobile(mql.matches || pointerMql.matches);
     };
-
-    checkFirstImage.onerror = () => {
-      // First image failed, assume all are missing to avoid 192 network requests
-      aborted = true;
-      setHasErrors(true);
-      setIsLoaded(true);
-      setImages([]);
-    };
-
+    mql.addEventListener("change", handler);
+    pointerMql.addEventListener("change", handler);
     return () => {
-      aborted = true;
+      mql.removeEventListener("change", handler);
+      pointerMql.removeEventListener("change", handler);
     };
   }, []);
+  const { step, reduced } = useIntro();
 
-  // Draw canvas
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const hero = containerRef.current;
+    if (!hero) return;
+    const canvas = hero.querySelector('canvas');
+    
+    if (step < 3) {
+      hero.style.touchAction = "none";
+    } else {
+      const timer = setTimeout(() => {
+        hero.style.touchAction = "auto";
+      }, 900);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    /* ============================ CONFIG ============================ */
+    const CONFIG = {
+      cloudBase: "https://res.cloudinary.com/dcbomk6i8/image/upload",
+      anchors: { left: 144, center: 72, right: 0 },
+      smoothing: 0.14,
+      easing: 0.85,
+      fit: isMobile ? 0.35 : 0.15,
+      focal: isMobile ? { x: 0.5, y: 0.40 } : { x: 0.5, y: 0.45 },
+      maxUpscale: 1.0
+    };
+
+    const FRAME_IDS_DESKTOP = [
+      "vwo695","bjgoht","tioru0","t87brs","kafm2d","shdyql","ivecs6","fgy7sb",
+      "krouiq","odzlxv","korz1d","esgidb","vekphl","g7pvgo","qdxjiv","ljsh3q",
+      "mdbgji","oxyphu","npskvt","l6smc9","jsghn9","qokrip","z2ukzf","m14snw",
+      "y6bifz","w0939a","hdkr0n","nmtgla","vn4dk7","yrvibw","wtmbcc","c7o6q7",
+      "upleba","lj1wmb","brjt6u","zvvboi","txb7ft","tlodla","s0vsca","dohzwj",
+      "mtfvih","jvobjp","rmpxju","yjcrl6","l5r3p6","slamwe","nugx6a","aongcy",
+      "p9zi1o","uiyalr","x30o6t","vqncnk","fbbe0n","pw4lpw","dbwwyx","r9zcgq",
+      "bqwucw","psqool","genljt","q9dq0e","vvjfjt","k5fyyn","fwbbp5","rm3vrl",
+      "jkpqv8","nngybo","x8bqq3","akt2nh","s4qm1i","aelmbq","qmcnhc","cu3dzw",
+      "sxijow","clj7xy","gbvaoc","rt5wrb","wdicpv","kuky3w","di1sa2","wtzoif",
+      "i5y26i","isazpi","qalj5p","fh5iuz","tybllj","gjrd5f","jyo3uy","gfg2di",
+      "ssvx2t","cwe6v1","xlnnvj","tjpnuw","yufbvx","iaoyo7","riijsl","mobvl0",
+      "tz7uen","l5txdk","wlvjsn","riv2cy","shvmnz","cqp4nq","qf1tni","ozhjxr",
+      "gdbzmf","hkebvy","ue8zyf","zxdgao","di4fgx","c6zpvu","wannrf","ak9b7h",
+      "xqdszv","aauvjb","aomib9","ve6sq5","cns7lk","yi8sr0","h8jmjs","b5i1q2",
+      "rvvgnz","pfqou8","dugkkj","lmxqdi","curolz","memqtp","cxardh","vcg3kq",
+      "en9wzh","fldcwp","dpe38e","w7qhpz","vwg5uy","wqzh42","k6nwca","lbsze5",
+      "xvuq7y","b38gpt","zhliky","ly1zpw","ojhe9t","d9wzeb","eb6rby","eogrkl",
+      "t1qv4z"
+    ];
+    const FRAME_IDS_MOBILE = [
+      "ryu8ra","f4x9c8","rd71cf","ghg6y9","zlx2td","wavlcl","aiyfgg","br7vgb",
+      "nh8vqb","p5lbuc","garf8r","qzjgbn","d2ymcm","ljs0kj","cnhnnf","mn6z5y",
+      "bqfluh","t58cbf","uoleb1","rq2e2a","rbvtn3","bctwmp","skuakp","srneyy",
+      "ya9ipn","jauvfl","jmrcj9","b0q7mg","oryb8c","sghxqj","oehimx","rtbm41",
+      "j6xyxn","f0icwe","v1ewxz","fajtrr","o51k8l","kqpkhu","wdnteg","aihmre",
+      "t3ix5m","jhkpsv","gkrtyr","h7vphn","oryy45","rmtwlz","olxhpv","axpsfx",
+      "r6ffsq","tjlxg9","petotu","terzka","rupxmn","uto5jn","nedpqr","rdm0i1",
+      "nb4kdq","g1od4h","uflpl7","dv0yf3","sjlmpy","ipcvos","x2c0mn","buafgu",
+      "cxykz5","mxczpi","up3aly","kklpx8","nri19g","plcagt","k8zt6b","wfxzib",
+      "abvcim","wv89gb","rkpx8r","fukocb","kz5ujf","rxdc6y","yqcpju","jjawnr",
+      "blokmg","cl3xrs","topdtl","owxenj","xfpxcq","madqxa","e4rim6","rbeujg",
+      "ej7tph","nmc8l6","qzhhyj","qacqhw","thuunm","m4dkmg","a1bxwx","togx7n",
+      "ivipdf","z0zr28","xqiwp0","aqhuht","h7u8u7","eab4xu","nshp5c","asqhuz",
+      "awju5a","sqa8cf","wk0qd5","kgj02y","v9ub69","rotja2","mtxyut","gyftll",
+      "imdabc","lyacou","bghcjj","w1dyy7","wlbgrs","ralayb","nckgkp","e3hq1z",
+      "wh7rub","fuq3q0","e6rrmm","ssianz","zbxacb","h8vmop","iy691f","zulfec",
+      "cvccve","yid2re","wloqn0","gm0lnp","yhw3yk","wzetpw","aptc30","bphowz",
+      "uyolzx","nmxev6","r1vgjm","am9gny","ioyqc3","lteeur","q3otrz","x1bduk",
+      "nfuj5j"
+    ];
+    const IDS = isMobile ? FRAME_IDS_MOBILE : FRAME_IDS_DESKTOP;
+    const N = IDS.length;
+
+    const frameUrl = (i: number, w: number) => {
+      const transform = isMobile ? "f_auto,q_auto:good,e_sharpen:40" : "f_auto,q_100,e_sharpen:60";
+      return `${CONFIG.cloudBase}/${transform},c_scale,w_${w}/hf_${String(i + 1).padStart(4, "0")}_${IDS[i]}.jpg`;
+    };
+
+    /* ============================ SETUP ============================ */
+    const hero = containerRef.current;
+    if (!hero) return;
+    if (getComputedStyle(hero).position === "static") hero.style.position = "relative";
+
+    const existingCanvas = hero.querySelector('canvas');
+    if (existingCanvas) existingCanvas.remove();
+
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.className = "hero-canvas";
+    canvas.style.cssText =
+      "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block;";
+    hero.prepend(canvas);
+    const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
-    const render = (progress: number) => {
-      const frameIndex = Math.min(
-        NUM_FRAMES - 1,
-        Math.max(0, Math.floor(progress * (NUM_FRAMES - 1)))
-      );
-      
-      const img = images[frameIndex];
-      
-      // Resize canvas to match window
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
 
-      if (img && img.complete && img.naturalWidth > 0) {
-        // Calculate ratio based on available height below navbar
-        const isMobile = window.innerWidth < 768;
-        const topOffset = isMobile ? 90 : 120; // Space for navbar
-        const availableHeight = canvas.height - topOffset;
-        
-        const hRatio = canvas.width / img.width;
-        const vRatio = availableHeight / img.height;
-        
-        // On mobile, use max to completely cover the available area and avoid seeing the image edges.
-        const ratio = isMobile ? Math.max(hRatio, vRatio) : Math.min(hRatio, vRatio);
-        
-        const drawWidth = img.width * ratio;
-        const drawHeight = img.height * ratio;
-        
-        const centerShift_x = (canvas.width - drawWidth) / 2;
-        // On mobile, align to topOffset to start right under the menu if it's taller
-        const centerShift_y = isMobile && drawHeight > availableHeight 
-          ? topOffset 
-          : topOffset + (availableHeight - drawHeight) / 2;
-        
-        ctx.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, drawWidth, drawHeight);
+    const dpr = window.devicePixelRatio || 1;
+    const initialCw = Math.round(hero.clientWidth * dpr);
+    const LADDER = isMobile ? [540, 720, 900, 1080] : [960, 1280, 1600, 1920];
+    const needed = Math.ceil(initialCw);
+    const maxNative = isMobile ? 1080 : 1920;
+    const loadWidth = Math.min(maxNative, LADDER.find(w => w >= needed) ?? maxNative);
 
-        // Hide Veo watermark (bottom right corner of the drawn image)
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(centerShift_x + drawWidth - 160 * ratio, centerShift_y + drawHeight - 60 * ratio, 160 * ratio, 60 * ratio);
-      } else if (hasErrors) {
-        // Fallback drawing if images are missing
-        ctx.fillStyle = '#050505';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw a generic bottle shape as placeholder
-        ctx.strokeStyle = 'rgba(212, 162, 78, 0.2)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.roundRect(canvas.width/2 - 40, canvas.height/2 - 150, 80, 300, 10);
-        ctx.stroke();
-        
-        ctx.fillStyle = 'rgba(212, 162, 78, 0.5)';
-        ctx.font = '14px Inter';
-        ctx.textAlign = 'center';
-        ctx.fillText(`Frame ${frameIndex}`, canvas.width / 2, canvas.height / 2);
-      }
-    };
+    const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
 
-    const unsubscribe = smoothProgress.on("change", render);
+    /* ======================= POINTER (window!) ====================== */
+    let targetX = 0.5;
+    let moved = false;
+
+    function onMove(e: PointerEvent | MouseEvent) {
+      targetX = Math.min(1, Math.max(0, e.clientX / innerWidth));
+      moved = true;
+    }
     
-    // Initial render
-    render(smoothProgress.get());
+    let startX = 0;
+    let startXValue = 0;
+    let axis: "x" | "y" | null = null;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
 
-    const handleResize = () => render(smoothProgress.get());
-    window.addEventListener('resize', handleResize);
+    function onTouchStart(e: TouchEvent) {
+      if (!isMobile) return;
+      moved = true;
+      startX = e.touches[0].clientX;
+      lastTouchX = e.touches[0].clientX;
+      lastTouchY = e.touches[0].clientY;
+      startXValue = targetX;
+      axis = null;
+    }
+
+    function onTouchMove(e: TouchEvent) {
+      if (!isMobile) return;
+      const touch = e.touches[0];
+      const dx = touch.clientX - lastTouchX;
+      const dy = touch.clientY - lastTouchY;
+      
+      if (!axis) {
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+          axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+        }
+      }
+      
+      if (axis === "x") {
+        if (hero) hero.style.touchAction = "pan-y";
+        const newTarget = startXValue + ((touch.clientX - startX) / innerWidth) * 1.6;
+        targetX = Math.min(1, Math.max(0, newTarget));
+      } else if (axis === "y") {
+        // ignore for scrubbing
+      }
+    }
+
+    function onTouchEnd() {
+      if (!isMobile) return;
+      axis = null;
+    }
+    
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+
+
+    /* ============================ LOOP ============================= */
+    let currentFrame = CONFIG.anchors.center;
+    let lastDrawn = -1;
+    let lastTime = performance.now();
+    let rAF: number;
+
+    const isTouchOnly = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+    function targetFrame() {
+      if (isTouchOnly && !moved) {
+        const now = performance.now();
+        targetX = 0.5 + 0.32 * Math.sin(now / 4200 * Math.PI * 2);
+      }
+
+      const s = (targetX - 0.5) * 2;
+      const e = Math.sign(s) * Math.pow(Math.abs(s), CONFIG.easing);
+      const a = CONFIG.anchors;
+      return e < 0
+        ? a.center + (a.left - a.center) * -e
+        : a.center + (a.right - a.center) * e;
+    }
+
+    function tick(now: number) {
+      const dt = Math.min(64, now - lastTime);
+      lastTime = now;
+      const k = 1 - Math.pow(1 - CONFIG.smoothing, (dt * 60) / 1000);
+      currentFrame += (targetFrame() - currentFrame) * k;
+      
+      const idx = Math.max(0, Math.min(N - 1, Math.round(currentFrame)));
+      if (idx !== lastDrawn) { draw(idx); lastDrawn = idx; }
+      rAF = requestAnimationFrame(tick);
+    }
+    rAF = requestAnimationFrame(tick);
+
+    /* ============================ DRAW ============================= */
+    function nearestLoaded(i: number) {
+      if (frames[i]) return frames[i];
+      for (let d = 1; d < N; d++) {
+        if (i - d >= 0 && frames[i - d]) return frames[i - d];
+        if (i + d < N && frames[i + d]) return frames[i + d];
+      }
+      return null;
+    }
+
+    let logged = false;
+    function draw(i: number) {
+      const img = nearestLoaded(i);
+      if (!img) return;
+      
+      if (!logged) {
+        console.log("[hero] url", img.currentSrc || img.src, "| native", img.naturalWidth, "x", img.naturalHeight, "| canvas", canvas.width, "x", canvas.height, "| dpr", window.devicePixelRatio || 1);
+        logged = true;
+      }
+      
+      const cw = canvas.width, ch = canvas.height;
+      const coverScale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const containScale = Math.min(cw / img.naturalWidth, ch / img.naturalHeight);
+      let scale = containScale + (coverScale - containScale) * CONFIG.fit;
+      scale = Math.min(scale, CONFIG.maxUpscale);
+      const dw = img.naturalWidth * scale;
+      const dh = img.naturalHeight * scale;
+      ctx!.fillStyle = "#000";
+      ctx!.fillRect(0, 0, cw, ch);
+      ctx!.drawImage(img, (cw - dw) * CONFIG.focal.x, (ch - dh) * CONFIG.focal.y, dw, dh);
+    }
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(hero!.clientWidth * dpr);
+      canvas.height = Math.round(hero!.clientHeight * dpr);
+      ctx!.imageSmoothingEnabled = true;
+      ctx!.imageSmoothingQuality = "high";
+      lastDrawn = -1;
+      draw(Math.round(currentFrame));
+    }
+    const ro = new ResizeObserver(resize);
+    ro.observe(hero);
+    resize();
+
+    /* =========================== LOADING =========================== */
+    async function loadFrame(i: number) {
+      return new Promise<void>((res) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.crossOrigin = "anonymous";
+        img.onload = () => { frames[i] = img; lastDrawn = -1; res(); };
+        img.onerror = () => res();
+        img.src = frameUrl(i, loadWidth);
+      });
+    }
+
+    (async () => {
+      await loadFrame(CONFIG.anchors.center);
+      
+      const order: number[] = [];
+      const connection = (navigator as any).connection;
+      const saveData = connection?.saveData || connection?.effectiveType === "2g" || connection?.effectiveType === "3g";
+      
+      if (isMobile) {
+        if (saveData) {
+          for (let i = 0; i < N; i += 2) order.push(i);
+        } else {
+          for (let i = 0; i < N; i += 4) order.push(i);
+          for (let i = 0; i < N; i++) if (i % 4) order.push(i);
+        }
+      } else {
+        for (let i = 0; i < N; i += 8) order.push(i);
+        for (let i = 0; i < N; i++) if (i % 8) order.push(i);
+      }
+      
+      const queue = order.slice();
+      const concurrency = isMobile ? 4 : 6;
+      const workers = Array.from({ length: concurrency }, async () => {
+        while (queue.length) await loadFrame(queue.shift()!);
+      });
+      await Promise.all(workers);
+    })();
 
     return () => {
-      unsubscribe();
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+      ro.disconnect();
+      cancelAnimationFrame(rAF);
     };
-  }, [isLoaded, images, smoothProgress, hasErrors]);
-
-  // Opacity and Y transforms for the only text
-  const opacityA = useTransform(smoothProgress, [0, 0.05, 0.25, 0.35], [0, 1, 1, 0]);
-  const yA = useTransform(smoothProgress, [0, 0.05, 0.25, 0.35], [20, 0, 0, -20]);
-
-  const scrollIndicatorOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
+  }, [isMobile]);
 
   return (
-    <>
-      {/* Wrapper 400vh */}
-      <section ref={containerRef} className="relative h-[400vh] bg-black">
-        {/* Sticky Canvas Container */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <canvas ref={canvasRef} className="w-full h-full object-cover" />
-          
-          {/* Bottom Gradient to hide watermark and blend */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
+    <section 
+      ref={containerRef} 
+      id="hero-root"
+      className={`relative w-full bg-black overflow-hidden mx-auto ${isMobile ? 'h-[100dvh]' : 'max-h-[100vh] aspect-[16/9]'}`}
+    >
+      <style>{`
+        @keyframes float-scroll {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(8px); }
+        }
+      `}</style>
 
-          {/* Overlays */}
-          <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-center px-4">
-            
-            {/* Main Text */}
-            <motion.div style={{ opacity: opacityA, y: yA }} className="absolute inset-0 flex flex-col items-center justify-center mt-16">
-              <h1 className="text-7xl md:text-9xl tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl">
-                NON È PER TUTTI.
-              </h1>
-              <p className="text-lg md:text-2xl text-white/80 max-w-4xl mb-10 drop-shadow-lg leading-relaxed font-light">
-                Hop Storm è un birrificio artigianale indipendente a Roma: produciamo <strong className="font-medium text-white">Fresh Wave</strong> e <strong className="font-medium text-white">Red Moon</strong>, birre di carattere servite senza compromessi a privati e locali.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pointer-events-auto">
-                <a href="#per-i-privati" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg">
-                  Ordina Online
-                </a>
-                <a href="#per-i-locali" className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md">
-                  Diventa Partner
-                </a>
-                <a href="#dove-trovarci" className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md">
-                  Dove Trovarci
-                </a>
-              </div>
-            </motion.div>
 
-          </div>
+      {/* Radial Vignette */}
+      <div 
+        className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.5)_100%)] z-10 pointer-events-none"
+        style={{ opacity: step < 3 ? 0 : 1, transition: "opacity 900ms cubic-bezier(.22,1,.36,1)" }}
+      ></div>
+      
+      {/* Bottom Gradient for contrast */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"
+        style={{ opacity: step < 3 ? 0 : 1, transition: "opacity 900ms cubic-bezier(.22,1,.36,1)" }}
+      ></div>
 
-          {/* Scroll Indicator */}
-          <motion.div 
-            style={{ opacity: scrollIndicatorOpacity }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/50"
+      {/* Scroll affordance */}
+      <div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
+        style={{ opacity: step < 3 ? 0.5 : 0, transition: "opacity 300ms" }}
+      >
+        <span className="text-white/50 text-[11px] tracking-[0.3em] font-medium uppercase">SCORRI</span>
+        <div className="w-[1px] h-[40px] bg-white/50" style={{ animation: "float-scroll 2s infinite ease-in-out" }}></div>
+      </div>
+
+      {/* Content Overlays */}
+      <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-center px-4 z-20">
+        <div className="flex flex-col items-center justify-center mt-16">
+          <h1 
+            className="absolute top-[14%] left-0 right-0 px-6 flex flex-col items-center text-center md:static md:px-0 md:block text-[clamp(2rem,11vw,3.25rem)] md:text-9xl leading-[0.95] md:leading-[1] tracking-[-0.02em] md:tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl"
+            style={{
+              ...introStyle(step < 1, 28, 0, 8, reduced),
+              WebkitMaskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
+              maskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
+              textShadow: isMobile ? "0 2px 18px rgba(0,0,0,0.55)" : undefined,
+            }}
           >
-            <span className="text-sm tracking-widest uppercase mb-2">Scorri per esplorare</span>
-            <motion.div 
-              animate={{ y: [0, 10, 0] }} 
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-[1px] h-12 bg-gradient-to-b from-white/50 to-transparent"
-            />
-          </motion.div>
+            <span className="block md:inline">NON È PER</span>{" "}
+            <span className="block md:inline">TUTTI.</span>
+          </h1>
+          <p 
+            className="text-base md:text-xl lg:text-2xl text-white/95 max-w-3xl mb-8 md:mb-10 leading-relaxed font-normal bg-black/50 backdrop-blur-md border border-white/15 rounded-2xl px-6 py-4 md:px-8 md:py-5 shadow-2xl mx-auto"
+            style={introStyle(step < 2, 20, 0, 0, reduced)}
+          >
+            Hop Storm è un birrificio artigianale indipendente a Roma: produciamo <strong className="font-semibold text-[#FFC857]">Fresh Wave</strong>, <strong className="font-semibold text-[#FF5252]">Red Moon</strong> e <strong className="font-semibold text-[#FFA726]">Enjoy</strong>, birre di carattere servite senza compromessi a privati e locali.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pointer-events-auto">
+            <a 
+              href="#per-i-privati" 
+              className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
+              style={introStyle(step < 3, 16, 0, 0, reduced)}
+            >
+              Ordina Online
+            </a>
+            <a 
+              href="#per-i-locali" 
+              className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md"
+              style={introStyle(step < 3, 16, 80, 0, reduced)}
+            >
+              Diventa Partner
+            </a>
+            <a 
+              href="#dove-trovarci" 
+              className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md"
+              style={introStyle(step < 3, 16, 160, 0, reduced)}
+            >
+              Dove Trovarci
+            </a>
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

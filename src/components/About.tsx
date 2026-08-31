@@ -7,7 +7,7 @@ export default function About() {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "start top"]
+    offset: ["start center", "start start"]
   });
 
   // Background darkens quickly as the user scrolls down into the section

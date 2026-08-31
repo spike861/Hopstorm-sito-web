@@ -1,42 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import Navbar from './components/Navbar';
-import HopStormHero from './components/HopStormHero';
-import OurBeers from './components/OurBeers';
-import About from './components/About';
-import ForLocals from './components/ForLocals';
-import ForPrivate from './components/ForPrivate';
-import WhereToFindUs from './components/WhereToFindUs';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import JsonLd from './components/JsonLd';
-import AgeGate from './components/AgeGate';
-import LegalPages from './components/LegalPages';
-import CookieBanner from './components/CookieBanner';
-import { IntroContext } from './introContext';
+const fs = require('fs');
+let code = fs.readFileSync('src/App.tsx', 'utf8');
 
-export default function App() {
-  const [currentHash, setCurrentHash] = useState(window.location.hash);
-  const [step, setStep] = useState(0);
-  const stepRef = useRef(0);
-  const lastStepAt = useRef(0);
-  const reduced = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+code = code.replace(/import \{ useState, useEffect \} from 'react';/, "import { useState, useEffect, useRef } from 'react';");
+code = code.replace(/const \[intro, setIntro\] = useState\(true\);/, "const [step, setStep] = useState(0);\n  const stepRef = useRef(0);\n  const lastStepAt = useRef(0);");
 
-  useEffect(() => {
-    const onHashChange = () => setCurrentHash(window.location.hash);
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
+code = code.replace(/value=\{\{ intro, reduced \}\}/, "value={{ step, reduced }}");
 
-  useEffect(() => {
-    if (window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname);
-    }
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = "manual";
-    }
-    window.scrollTo(0, 0);
-
-    const html = document.documentElement;
+const searchEffect = /const html = document\.documentElement;.*?(?=window\.addEventListener\("scroll", monitorRearm, opts\);)/s;
+const newEffect = `const html = document.documentElement;
     const prevHtml = html.style.overflow;
     const prevBody = document.body.style.overflow;
     const prevOverscroll = document.body.style.overscrollBehavior;
@@ -139,41 +110,6 @@ export default function App() {
     };
 
     arm();
-    window.addEventListener("scroll", monitorRearm, opts);
-
-    return () => {
-      if (rearmTimer) clearTimeout(rearmTimer);
-      window.removeEventListener("scroll", monitorRearm);
-      disarm();
-    };
-  }, []);
-
-  const isLegalPage = ['#/privacy', '#/cookie', '#/termini'].includes(currentHash);
-
-  return (
-    <IntroContext.Provider value={{ step, reduced }}>
-      <div className="bg-black min-h-screen text-white font-sans selection:bg-[#D4A24E] selection:text-black">
-        <JsonLd />
-        <AgeGate />
-        <CookieBanner />
-        <Navbar />
-        <main>
-          {isLegalPage ? (
-            <LegalPages currentHash={currentHash} />
-          ) : (
-            <>
-              <HopStormHero />
-              <OurBeers />
-              <About />
-              <ForLocals />
-              <ForPrivate />
-              <WhereToFindUs />
-              <Contact />
-            </>
-          )}
-        </main>
-        <Footer />
-      </div>
-    </IntroContext.Provider>
-  );
-}
+    `;
+code = code.replace(searchEffect, newEffect);
+fs.writeFileSync('src/App.tsx', code);

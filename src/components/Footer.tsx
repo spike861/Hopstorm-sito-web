@@ -18,7 +18,6 @@ export default function Footer() {
           <a href="#per-i-locali" className="text-white/60 hover:text-white transition-colors w-fit">Per i Locali</a>
           <a href="#per-i-privati" className="text-white/60 hover:text-white transition-colors w-fit">Per i Privati</a>
           <a href="#dove-trovarci" className="text-white/60 hover:text-white transition-colors w-fit">Dove Trovarci</a>
-          <a href="#eventi" className="text-white/60 hover:text-white transition-colors w-fit">Eventi</a>
         </div>
 
         {/* Contacts */}
