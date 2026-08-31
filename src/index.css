@@ -58,3 +58,12 @@ body {
 .leaflet-tooltip-right.dark-tooltip::before {
   border-right-color: #1a1a1a !important;
 }
+
+.leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.86) saturate(0.6);
+}
+.leaflet-control-attribution {
+  background: rgba(0,0,0,0.6) !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+.leaflet-control-attribution a { color: #D4A24E !important; }
