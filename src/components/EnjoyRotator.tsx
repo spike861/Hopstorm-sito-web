@@ -36,6 +36,11 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
 
     let canvas: HTMLCanvasElement | null = canvasRef.current;
     if (!canvas) return;
+    canvas.addEventListener("contextlost", (e) => {
+        e.preventDefault();
+        setupFallback();
+    });
+
     
     let ctx: CanvasRenderingContext2D | null = null;
     let frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
@@ -43,6 +48,7 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
     let rAF = 0;
     let io: IntersectionObserver | null = null;
     let ro: ResizeObserver | null = null;
+    let initialized = false;
     
     const w = window.innerWidth;
     const loadWidth = isMobile ? 480 : (w <= 720 ? 720 : w <= 900 ? 900 : 1200);
@@ -57,10 +63,6 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
     function initCanvas() {
         if (!canvasRef.current) return false;
         canvas = canvasRef.current;
-        canvas.addEventListener("contextlost", (e) => {
-            e.preventDefault();
-            setupFallback();
-        });
         try {
             ctx = canvas.getContext('2d');
             if (!ctx) throw new Error("No ctx");
@@ -88,8 +90,7 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
         if (i < 0 || i >= N || frames[i] || isFallback) return;
         const img = new Image();
         img.decoding = "async";
-        img.crossOrigin = "anonymous";
-        img.onload = () => {
+                img.onload = () => {
             if (!isFallback) {
                 frames[i] = img;
                 if (canvas && (!canvas.style.aspectRatio || canvas.width === 0)) resize();
@@ -107,18 +108,23 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
       if (isFallback || !canvas || !ctx) return;
       
       const img = nearestLoaded(Math.round(smooth) % N);
+      let nWidth = 1755;
+      let nHeight = 3120;
       if (img && img.complete && img.naturalWidth > 0) {
-        canvas.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
-        const dpr = isMobile ? 1 : Math.min(2, window.devicePixelRatio || 1);
-        const cw = canvas.clientWidth || (canvas.clientHeight ? canvas.clientHeight * (img.naturalWidth / img.naturalHeight) : 300);
-        const ch = canvas.clientHeight || (cw ? cw * (img.naturalHeight / img.naturalWidth) : 600);
-        
-        if (cw > 0 && ch > 0) {
-          canvas.width = Math.round(cw * dpr);
-          canvas.height = Math.round(ch * dpr);
-          ctx.imageSmoothingQuality = "high";
-          lastDrawn = -1;
-        }
+        nWidth = img.naturalWidth;
+        nHeight = img.naturalHeight;
+      }
+      
+      canvas.style.aspectRatio = `${nWidth} / ${nHeight}`;
+      const dpr = isMobile ? 1 : Math.min(2, window.devicePixelRatio || 1);
+      const cw = canvas.clientWidth || (canvas.clientHeight ? canvas.clientHeight * (nWidth / nHeight) : 300);
+      const ch = canvas.clientHeight || (cw ? cw * (nHeight / nWidth) : 600);
+      
+      if (cw > 0 && ch > 0) {
+        canvas.width = Math.round(cw * dpr);
+        canvas.height = Math.round(ch * dpr);
+        ctx.imageSmoothingQuality = "high";
+        lastDrawn = -1;
       }
     }
 
@@ -209,32 +215,31 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
 
     io = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-            if (canvas && canvas.width === 0 && !isFallback) {
-                if (initCanvas()) {
-                    resize();
-                    lastTime = performance.now();
-                    rAF = requestAnimationFrame(tick);
-                    if (!isMobile) {
-                        for (let i = 0; i < N; i++) loadFrameAsync(i);
-                    } else {
-                        // start with center-ish
-                        loadFrameAsync(0);
+            if (isFallback) return;
+            if (!initialized) {
+                if (!initCanvas()) return;
+                initialized = true;
+                setTimeout(() => {
+                    if (lastDrawn === -1 && initialized) {
+                        setupFallback();
                     }
-                }
-            } else if (!canvas && !isFallback) {
-                if (initCanvas()) {
-                    resize();
-                    lastTime = performance.now();
-                    rAF = requestAnimationFrame(tick);
-                    if (!isMobile) {
-                        for (let i = 0; i < N; i++) loadFrameAsync(i);
-                    } else {
-                        loadFrameAsync(0);
-                    }
-                }
+                }, 2500);
+            }
+            lastDrawn = -1;
+            resize();
+            lastTime = performance.now();
+            cancelAnimationFrame(rAF);
+            rAF = requestAnimationFrame(tick);
+            if (!isMobile) {
+                for (let i = 0; i < N; i++) loadFrameAsync(i);
+            } else {
+                loadFrameAsync(0);
+                loadFrameAsync(1);
+                loadFrameAsync(N - 1);
             }
         } else {
             destroyCanvas();
+            initialized = false;
         }
     }, { rootMargin: "30%" });
 
@@ -250,7 +255,7 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
   }, [useFallback]);
 
   if (useFallback) {
-    return <img src={fallbackSrc} alt={alt} crossOrigin="anonymous" decoding="async" className={className} style={{ ...style, background: 'none' }} />;
+    return <img src={fallbackSrc} alt={alt} decoding="async" className={className} style={{ ...style, background: 'none' }} />;
   }
 
   return <canvas ref={canvasRef} className={className} style={{ ...style, background: 'none' }} />;
