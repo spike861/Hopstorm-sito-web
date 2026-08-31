@@ -27,7 +27,7 @@ const BlurEdgeText = ({ text, color, delayOffset = 0, charDelay = 90, className 
 const BEERS = [
   { name: "Fresh Wave", style: "Helles",  abv: "5.0%", ibu: "18-22",
     ml: "330", tag: "Fresca e pulita", color: "#D4A24E",
-    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_auto,q_auto/v1788025652/Progetto_senza_titolo_157_e0kgio.png",
+    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025652/Progetto_senza_titolo_157_e0kgio.png",
     details: {
       stile: "Helles moderna: lager chiara, dorata e scorrevole. Profilo pulito, equilibrio delicato, grande bevibilità.",
       sensoriale: ["Pane fresco", "Cereale", "Miele leggero", "Erbaceo", "Agrumi", "Amaro gentile"],
@@ -45,7 +45,7 @@ const BEERS = [
   },
   { name: "Red Moon",   style: "Red Ale", abv: "5.6%", ibu: "20-28",
     ml: "330", tag: "Maltata e intensa", color: "#C0392B",
-    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_auto,q_auto/v1788025638/Progetto_senza_titolo_160_o8evpd.png",
+    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025638/Progetto_senza_titolo_160_o8evpd.png",
     details: {
       stile: "Birra rossa ad alta fermentazione, un equilibrio perfetto tra malto e luppolo. Morbida e avvolgente, con un profilo maltato elegante e una chiusura equilibrata.",
       sensoriale: ["Caramello leggero", "Biscotto tostato", "Crosta di pane", "Malto tostato", "Erbaceo delicato", "Amaro equilibrato"],
@@ -63,7 +63,7 @@ const BEERS = [
   },
   { name: "Enjoy",      style: "IPA",     abv: "7.2%", ibu: "45-60",
     ml: "330", tag: "Luppolata e agrumata", color: "#F08A24",
-    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_auto,q_auto/v1788025646/Progetto_senza_titolo_159_phajgt.png",
+    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025646/Progetto_senza_titolo_159_phajgt.png",
     details: {
       stile: "Birra IPA ad alta fermentazione, colore dorato brillante. Un'esplosione di luppoli Citra e Mosaic che si chiude con un amaro pulito e persistente.",
       sensoriale: ["Agrumi (pompelmo, lime)", "Frutta tropicale", "Resinoso leggero", "Erbaceo", "Amaro deciso", "Finale persistente"],
@@ -111,14 +111,6 @@ const MicroLabels = ({ counter, color = "currentColor", invert = false, isScene1
 export default function OurBeers() {
   const containerRef = useRef<HTMLElement>(null);
   const [activeScene, setActiveScene] = useState(0);
-  const [canRenderSheen, setCanRenderSheen] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.CSS) {
-      const ok = CSS.supports("mix-blend-mode", "overlay") && window.innerWidth > 768;
-      setCanRenderSheen(ok);
-    }
-  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -283,7 +275,7 @@ export default function OurBeers() {
     [data-scene="1"] .s1-bottle { opacity: 1; filter: blur(0); transform: scale(1); transition: transform calc(300ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1); }
     [data-scene="1"][data-in="true"] .s1-bottle { opacity: 1; filter: blur(0); transform: scale(1); }
     
-    [data-scene="1"] .s1-glow { mix-blend-mode: screen; opacity: 0; transform: scale(0.6); }
+    [data-scene="1"] .s1-glow { opacity: 0; transform: scale(0.6); }
     @keyframes s1-bloom {
       0% { opacity: 0; transform: scale(0.7); }
       55% { opacity: 0.55; transform: scale(1.1); }
@@ -457,27 +449,6 @@ export default function OurBeers() {
       will-change: filter;
     }
 
-    .bottle-sheen {
-      position: absolute; 
-      inset: 0; 
-      pointer-events: none;
-      background: linear-gradient(105deg,
-        transparent 38%,
-        rgba(255,255,255,.12) 48%,
-        rgba(255,255,255,.22) 50%,
-        rgba(255,255,255,.12) 52%,
-        transparent 62%);
-      mix-blend-mode: overlay;
-      opacity: 0.2;
-      background-size: 260% 100%;
-      background-position: calc((var(--p) - 0.1) * 420%) 0;
-      z-index: 15;
-    }
-
-    @media (max-width: 768px) {
-      .bottle-sheen { display: none !important; }
-    }
-
     .s-contact-shadow {
       position: absolute;
       top: 50%;
@@ -504,9 +475,8 @@ export default function OurBeers() {
     .s-single-hairline-enter { transform: scaleX(var(--p-spec-in)); transform-origin: left; }
 
     .s-single-glow {
-      mix-blend-mode: screen;
       filter: blur(90px);
-      opacity: calc((var(--p-haze) * 0.45 - var(--p-mat) * 0.11) * (1 - var(--p-dis)));
+      opacity: calc((var(--p-haze) * 0.35 - var(--p-mat) * 0.1) * (1 - var(--p-dis)));
     }
     [data-scene][data-in="true"] .s-single-glow {
       animation: breathe-glow 7s ease-in-out infinite alternate;
@@ -529,12 +499,12 @@ export default function OurBeers() {
     [data-scene="5"] .s5-bottle { filter: blur(30px); opacity: 0; transform: scale(1.08); transition: filter calc(300ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1), opacity calc(300ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1), transform calc(300ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1); }
     [data-scene="5"][data-in="true"] .s5-bottle { filter: blur(0); opacity: 1; transform: scale(1); }
     
-    [data-scene="5"] .s5-glow { mix-blend-mode: screen; opacity: 0; transition: opacity calc(600ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1); }
-    [data-scene="5"][data-in="true"] .s5-glow { opacity: 0.4; }
+    [data-scene="5"] .s5-glow { opacity: 0; transition: opacity calc(600ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1); }
+    [data-scene="5"][data-in="true"] .s5-glow { opacity: 0.35; }
 
     @media (hover: hover) {
       [data-scene="5"][data-in="true"] .group:hover .s5-bottle-wrap { transform: translateY(-10px); }
-      [data-scene="5"][data-in="true"] .group:hover .s5-glow { opacity: 0.7 !important; }
+      [data-scene="5"][data-in="true"] .group:hover .s5-glow { opacity: 0.6 !important; }
       [data-scene="5"][data-in="true"] .group:hover .s5-col { filter: brightness(1.5); }
     }
 
@@ -553,7 +523,7 @@ export default function OurBeers() {
     @keyframes bar-appear { to { opacity: 0.5; } }
     @keyframes pulse-bar { 0% { opacity: 0.5; box-shadow: 0 0 10px #D4A24E; } 100% { opacity: 1; box-shadow: 0 0 30px #D4A24E; } }
     
-    .s6-bloom-flash { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); width: 200px; height: 200px; background: #D4A24E; filter: blur(60px); opacity: 0; mix-blend-mode: screen; pointer-events: none; }
+    .s6-bloom-flash { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); width: 200px; height: 200px; background: radial-gradient(circle, #D4A24E 0%, transparent 70%); filter: blur(60px); opacity: 0; pointer-events: none; }
     [data-scene="6"][data-in="true"] .s6-bloom-flash { animation: bloom-flash calc(500ms * var(--anim-speed)) cubic-bezier(.16,1,.3,1) calc(1005ms * var(--anim-speed)) forwards; }
     @keyframes bloom-flash { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); } 20% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.0); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.4); } }
     
@@ -620,7 +590,7 @@ export default function OurBeers() {
             <div className="flex-1 flex justify-center md:justify-end order-1 md:order-1 mb-4 md:mb-0 md:pr-12 lg:pr-20">
               <div className="relative h-[54vh] md:h-[74vh] max-h-[700px]">
                 <div className="absolute inset-0 rounded-full s0-glow opacity-50 scale-100" style={{ backgroundColor: BEERS[2].color, filter: 'blur(40px)' }} />
-                <EnjoyRotator fallbackSrc={BEERS[2].img} alt={BEERS[2].name} className="relative h-full w-auto object-contain drop-shadow-2xl s0-bottle" />
+                <EnjoyRotator fallbackSrc={BEERS[2].img} alt={BEERS[2].name} className="relative h-full w-auto object-contain s0-bottle" />
               </div>
             </div>
 
@@ -677,10 +647,10 @@ export default function OurBeers() {
           {/* BOTTLES LOWERED TO THE BOTTOM LIMIT */}
           <div className="flex flex-row justify-center gap-4 md:gap-14 lg:gap-20 w-full max-w-4xl md:max-w-6xl relative flex-1 min-h-0 items-end pb-2 s1-lineup-row z-10">
             {BEERS.map((b, i) => (
-              <div key={b.name} className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end">
-                <div className="relative flex-1 flex items-end justify-center mb-2 md:mb-3 w-full min-h-0">
-                  <div className={`absolute inset-0 rounded-full is-anim s1-glow delay-${i}`} style={{ backgroundColor: b.color, filter: 'blur(35px)' }} />
-                  <img src={b.img} alt={b.name} crossOrigin="anonymous" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} />
+              <div key={b.name} className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end" style={{ background: 'none' }}>
+                <div className="relative flex-1 flex items-end justify-center mb-2 md:mb-3 w-full min-h-0" style={{ background: 'none' }}>
+                  <div className={`absolute inset-0 rounded-full is-anim s1-glow delay-${i}`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', opacity: 0.35 }} />
+                  <img src={b.img} alt={b.name} crossOrigin="anonymous" decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
                 </div>
                 <div className={`text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] font-semibold text-center shrink-0`} style={{ color: b.color }}>{b.style}</div>
               </div>
@@ -738,26 +708,25 @@ export default function OurBeers() {
                 </div>
 
                 {/* Center Column - Bottle */}
-                <div className="s-center-col order-2 lg:order-none flex flex-1 justify-center relative z-20 w-full min-h-0 h-full items-center overflow-visible" style={{ '--bottle-color': b.color, '--bottle-img': `url(${b.img})` } as any}>
+                <div className="s-center-col order-2 lg:order-none flex flex-1 justify-center relative z-20 w-full min-h-0 h-full items-center overflow-visible" style={{ '--bottle-color': b.color, background: 'none' } as any}>
                   
                   {/* Keep the background haze */}
-                  <div className="s-single-glow absolute inset-0 rounded-full blur-[50px] lg:blur-[80px] w-[60%] left-[20%] top-[20%] aspect-square opacity-30" style={{ backgroundColor: b.color }} />
+                  <div className="s-single-glow absolute inset-0 rounded-full blur-[50px] lg:blur-[80px] w-[60%] left-[20%] top-[20%] aspect-square opacity-30" style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)` }} />
 
                   {/* Contact Shadow */}
                   <div className="s-contact-shadow" />
 
                   {/* OUTER scroll-driven wrapper */}
-                  <div className="s-bottle-outer flex justify-center items-center relative w-full h-full">
+                  <div className="s-bottle-outer flex justify-center items-center relative w-full h-full" style={{ background: 'none' }}>
                     
                     {/* INNER keyframe wrapper */}
-                    <div className="s-bottle-inner flex justify-center items-center relative w-full h-full">
-                      <img src={b.img} alt={b.name} crossOrigin="anonymous" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto' }} />
-                      {canRenderSheen && <div className="bottle-sheen" />}
+                    <div className="s-bottle-inner flex justify-center items-center relative w-full h-full" style={{ background: 'none' }}>
+                      <img src={b.img} alt={b.name} crossOrigin="anonymous" decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
                     </div>
 
                   </div>
                   
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 -rotate-90 origin-center font-black tracking-tighter opacity-20 pointer-events-none mix-blend-overlay hidden lg:block s-vert-style whitespace-nowrap" style={{ color: b.color }}>
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 -rotate-90 origin-center font-black tracking-tighter opacity-20 pointer-events-none hidden lg:block s-vert-style whitespace-nowrap" style={{ color: b.color }}>
                     {b.style}
                   </div>
 
@@ -839,9 +808,9 @@ export default function OurBeers() {
               <div key={b.name} className="group flex-1 flex flex-col items-center h-full relative cursor-pointer">
                 <div className={`absolute bottom-[20%] w-[30%] h-full bg-gradient-to-t from-current to-transparent is-anim s5-col`} style={{ color: b.color, transitionDelay: `calc(${i * 160}ms * var(--anim-speed))` }} />
                 
-                <div className="relative flex-1 flex items-end justify-center mb-4 md:mb-6 w-full min-h-0 transition-transform md:group-hover:-translate-y-2" style={{ transitionDuration: 'calc(300ms * var(--anim-speed))' }}>
-                  <div className={`absolute inset-0 rounded-full transition-all is-anim s5-glow s5-bottle`} style={{ backgroundColor: b.color, filter: 'blur(35px)', transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, transitionDuration: 'calc(300ms * var(--anim-speed))' }} />
-                  <img src={b.img} alt={b.name} crossOrigin="anonymous" className={`relative h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }} />
+                <div className="relative flex-1 flex items-end justify-center mb-4 md:mb-6 w-full min-h-0 transition-transform md:group-hover:-translate-y-2" style={{ transitionDuration: 'calc(300ms * var(--anim-speed))', background: 'none' }}>
+                  <div className={`absolute inset-0 rounded-full transition-all is-anim s5-glow s5-bottle`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, transitionDuration: 'calc(300ms * var(--anim-speed))' }} />
+                  <img src={b.img} alt={b.name} crossOrigin="anonymous" decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
                 </div>
                 
                 <div className={`text-center is-anim s5-headline`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }}>

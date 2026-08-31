@@ -111,9 +111,9 @@ export default function HopStormHero() {
     canvas.setAttribute("aria-hidden", "true");
     canvas.className = "hero-canvas";
     canvas.style.cssText =
-      "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block;";
+      "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block;background:none;";
     hero.prepend(canvas);
-    const ctx = canvas.getContext("2d", { alpha: true });
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     ctx.imageSmoothingEnabled = true;

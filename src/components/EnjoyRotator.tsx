@@ -10,14 +10,14 @@ const ROT_IDS = [
 ];
 const ROT_N = ROT_IDS.length;
 const rotUrl = (i: number, w: number) =>
-  `${ROT_BASE}/f_auto,q_auto:good,c_scale,w_${w}/rot_${String(i).padStart(3, "0")}_${ROT_IDS[i]}.png`;
+  `${ROT_BASE}/f_webp,q_auto:good,c_scale,w_${w}/rot_${String(i).padStart(3, "0")}_${ROT_IDS[i]}.png`;
 
 const CONFIG = {
   TURNS: 1,
   OFFSET: 0
 };
 
-export default function EnjoyRotator({ className, fallbackSrc, alt }: { className?: string, fallbackSrc: string, alt: string }) {
+export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { className?: string, style?: React.CSSProperties, fallbackSrc: string, alt: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [useFallback, setUseFallback] = useState(false);
 
@@ -26,7 +26,7 @@ export default function EnjoyRotator({ className, fallbackSrc, alt }: { classNam
     
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let frames: HTMLImageElement[] = [];
@@ -43,6 +43,9 @@ export default function EnjoyRotator({ className, fallbackSrc, alt }: { classNam
         img.onload = () => {
           frames[i] = img;
           loadedCount++;
+          if (loadedCount === 1) {
+            resize();
+          }
           res();
         };
         img.onerror = () => res();
@@ -91,10 +94,14 @@ export default function EnjoyRotator({ className, fallbackSrc, alt }: { classNam
       if (img) {
         canvas.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
         const dpr = Math.min(2, window.devicePixelRatio || 1);
-        canvas.width = Math.round(canvas.clientWidth * dpr);
-        canvas.height = Math.round(canvas.clientHeight * dpr);
-        ctx!.imageSmoothingQuality = "high";
-        lastDrawn = -1;
+        const cw = canvas.clientWidth || (canvas.clientHeight ? canvas.clientHeight * (img.naturalWidth / img.naturalHeight) : 300);
+        const ch = canvas.clientHeight || (cw ? cw * (img.naturalHeight / img.naturalWidth) : 600);
+        if (cw > 0 && ch > 0) {
+          canvas.width = Math.round(cw * dpr);
+          canvas.height = Math.round(ch * dpr);
+          ctx!.imageSmoothingQuality = "high";
+          lastDrawn = -1;
+        }
       }
     }
 
@@ -150,22 +157,24 @@ export default function EnjoyRotator({ className, fallbackSrc, alt }: { classNam
       let drawIdx = Math.round(smooth) % ROT_N;
       if (drawIdx < 0) drawIdx += ROT_N;
       
-      if (drawIdx !== lastDrawn) {
+      if (drawIdx !== lastDrawn || canvas!.width === 0 || canvas!.height === 0) {
         const img = nearestLoaded(drawIdx);
         if (img) {
-          if (!canvas!.style.aspectRatio) {
+          if (!canvas!.style.aspectRatio || canvas!.width === 0 || canvas!.height === 0) {
             resize(); 
           }
-          ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
-          const cw = canvas!.width;
-          const ch = canvas!.height;
-          const iw = img.naturalWidth;
-          const ih = img.naturalHeight;
-          const scale = Math.min(cw / iw, ch / ih);
-          const dw = iw * scale;
-          const dh = ih * scale;
-          ctx!.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
-          lastDrawn = drawIdx;
+          if (canvas!.width > 0 && canvas!.height > 0) {
+            ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+            const cw = canvas!.width;
+            const ch = canvas!.height;
+            const iw = img.naturalWidth;
+            const ih = img.naturalHeight;
+            const scale = Math.min(cw / iw, ch / ih);
+            const dw = iw * scale;
+            const dh = ih * scale;
+            ctx!.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+            lastDrawn = drawIdx;
+          }
         }
       }
 
@@ -181,8 +190,8 @@ export default function EnjoyRotator({ className, fallbackSrc, alt }: { classNam
   }, [useFallback]);
 
   if (useFallback) {
-    return <img src={fallbackSrc} alt={alt} className={className} />;
+    return <img src={fallbackSrc} alt={alt} crossOrigin="anonymous" decoding="async" className={className} style={{ ...style, background: 'none' }} />;
   }
 
-  return <canvas ref={canvasRef} className={className} />;
+  return <canvas ref={canvasRef} className={className} style={{ ...style, background: 'none' }} />;
 }
