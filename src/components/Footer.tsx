@@ -4,8 +4,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         {/* Brand */}
         <div className="flex flex-col items-start">
-          <img src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 md:h-20 w-auto mb-6" />
-          <p className="text-white/40 text-sm leading-relaxed max-w-sm">
+          <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 md:h-20 w-auto mb-6" />
+          <p className="text-white/60 text-sm leading-relaxed max-w-sm">
             Hop Storm è un birrificio artigianale indipendente a Roma. Produciamo Fresh Wave (Helles), Red Moon (Red Ale) ed Enjoy (IPA) in bottiglia da 330 ml, per privati e per locali.
           </p>
         </div>
@@ -28,10 +28,9 @@ export default function Footer() {
           
           <div className="text-white/60 mt-2 space-y-1">
             <p className="font-bold">HOPSTORM S.R.L.</p>
-            <p>Via Chiana 38</p>
-            <p>Roma (RM)</p>
-            <p>Telefono: +393491973069</p>
-            <p>Email: hopstorm.brewery@yahoo.com</p>
+            <p><a href="https://www.google.com/maps/search/Via+Chiana+38,+00198+Roma+(RM)" target="_blank" rel="noopener noreferrer" className="hover:text-[#D4A24E] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">Via Chiana 38<br/>00198 Roma (RM)</a></p>
+            <p>Telefono: <a href="tel:+393491973069" className="hover:text-[#D4A24E] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">+39 349 197 3069</a></p>
+            <p>Email: <a href="mailto:hopstorm.brewery@yahoo.com" className="hover:text-[#D4A24E] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">hopstorm.brewery@yahoo.com</a></p>
             <p>C.F. / P.IVA: 18407651001</p>
             <p>PEC: Hopstormsrl@legalmail.it</p>
           </div>
@@ -39,10 +38,10 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto text-center border-t border-white/10 pt-10 flex flex-col gap-6">
-        <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-sm text-white/50 font-medium tracking-wide">
-          <a href="#/privacy" className="hover:text-[#D4A24E] transition-colors">Privacy Policy</a>
-          <a href="#/cookie" className="hover:text-[#D4A24E] transition-colors">Cookie Policy</a>
-          <a href="#/termini" className="hover:text-[#D4A24E] transition-colors">Termini e Condizioni</a>
+        <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-sm text-white/70 font-medium tracking-wide">
+          <a href="/privacy" className="hover:text-[#D4A24E] transition-colors">Privacy Policy</a>
+          <a href="/cookie" className="hover:text-[#D4A24E] transition-colors">Cookie Policy</a>
+          <a href="/termini" className="hover:text-[#D4A24E] transition-colors">Termini e Condizioni</a>
           <button 
             onClick={(e) => { 
               e.preventDefault(); 
@@ -54,7 +53,7 @@ export default function Footer() {
           </button>
         </div>
         
-        <div className="flex flex-col gap-2 text-white/40 text-xs md:text-sm">
+        <div className="flex flex-col gap-2 text-white/60 text-xs md:text-sm">
           <p>
             © {new Date().getFullYear()} HOPSTORM S.R.L. Tutti i diritti riservati. • Birra artigianale, spirito indipendente. Bevi responsabilmente.
           </p>

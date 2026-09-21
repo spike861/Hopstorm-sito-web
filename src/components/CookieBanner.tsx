@@ -114,7 +114,7 @@ export default function CookieBanner() {
           <div className="p-6 md:p-8 relative">
             <button 
               onClick={handleClose}
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
               aria-label="Chiudi"
             >
               <X size={24} />
@@ -125,7 +125,7 @@ export default function CookieBanner() {
             <p className="text-white/70 text-sm md:text-base mb-6 leading-relaxed">
               HOPSTORM S.R.L. utilizza cookie tecnici strettamente necessari per il funzionamento del sito (come la verifica dell'età). Con il tuo consenso, vorremmo utilizzare anche cookie analitici e di profilazione per misurare le performance del sito e mostrarti comunicazioni in linea con le tue preferenze. Cliccando su "Rifiuta tutti" o chiudendo il banner tramite la "X", continuerai la navigazione mantenendo le impostazioni di default (solo cookie tecnici).
               <br className="hidden md:block mt-2" />
-              Per maggiori dettagli, consulta la <a href="#/cookie" className="text-[#D4A24E] hover:underline font-medium">Cookie Policy</a> e la <a href="#/privacy" className="text-[#D4A24E] hover:underline font-medium">Privacy Policy</a>.
+              Per maggiori dettagli, consulta la <a href="/cookie" className="text-[#D4A24E] hover:underline font-medium">Cookie Policy</a> e la <a href="/privacy" className="text-[#D4A24E] hover:underline font-medium">Privacy Policy</a>.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -156,7 +156,7 @@ export default function CookieBanner() {
           <div className="p-6 md:p-8 relative">
             <button 
               onClick={handleClose}
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
               aria-label="Chiudi"
             >
               <X size={24} />
@@ -171,7 +171,7 @@ export default function CookieBanner() {
               <div className="flex items-start justify-between p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="pr-4">
                   <h3 className="text-white font-bold text-sm mb-1">Cookie Tecnici (Strettamente necessari)</h3>
-                  <p className="text-white/50 text-xs">Garantiscono la normale navigazione e fruizione del sito (es. salvataggio preferenze, Age Gate). Non richiedono consenso.</p>
+                  <p className="text-white/70 text-xs">Garantiscono la normale navigazione e fruizione del sito (es. salvataggio preferenze, Age Gate). Non richiedono consenso.</p>
                 </div>
                 <div className="text-[#D4A24E] text-sm font-bold shrink-0 mt-1">Sempre attivi</div>
               </div>
@@ -180,7 +180,7 @@ export default function CookieBanner() {
               <div className="flex items-start justify-between p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="pr-4">
                   <h3 className="text-white font-bold text-sm mb-1">Cookie Analitici</h3>
-                  <p className="text-white/50 text-xs">Ci aiutano a capire come i visitatori interagiscono con il sito raccogliendo informazioni in forma aggregata.</p>
+                  <p className="text-white/70 text-xs">Ci aiutano a capire come i visitatori interagiscono con il sito raccogliendo informazioni in forma aggregata.</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
                   <input 
@@ -197,7 +197,7 @@ export default function CookieBanner() {
               <div className="flex items-start justify-between p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="pr-4">
                   <h3 className="text-white font-bold text-sm mb-1">Cookie di Profilazione e Marketing</h3>
-                  <p className="text-white/50 text-xs">Utilizzati per tracciare i visitatori sui siti web. L'intento è quello di visualizzare annunci pertinenti e coinvolgenti per il singolo utente.</p>
+                  <p className="text-white/70 text-xs">Utilizzati per tracciare i visitatori sui siti web. L'intento è quello di visualizzare annunci pertinenti e coinvolgenti per il singolo utente.</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
                   <input 

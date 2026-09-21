@@ -42,7 +42,7 @@ export default function WhereToFindUs() {
       type: "Bar",
       city: "Roma",
       address: "Via Aurelia, 1253, 00166 La Massimina-Casal Lumbroso RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Al+Vecchio+Bar+13+Massimina+Roma",
       lat: 41.8841262, 
       lng: 12.3762584
@@ -53,7 +53,7 @@ export default function WhereToFindUs() {
       type: "Ristorante",
       city: "Aranova",
       address: "Via Michele Rosi, 1, 00054 Aranova RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Ristorante+da+Zio+Severino+Aranova",
       lat: 41.9280000, 
       lng: 12.2400000
@@ -64,7 +64,7 @@ export default function WhereToFindUs() {
       type: "Burger Bar",
       city: "Aranova",
       address: "Via Michele Rosi, 82, 00054 Aranova RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Berny's+Burger+Aranova",
       lat: 41.9282000, 
       lng: 12.2402000
@@ -75,7 +75,7 @@ export default function WhereToFindUs() {
       type: "Macelleria",
       city: "Aranova",
       address: "Via Siapiccia, 1, 00054 Aranova RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Le+Carni+di+Fabio+Aranova",
       lat: 41.9219668, 
       lng: 12.2393051
@@ -86,7 +86,7 @@ export default function WhereToFindUs() {
       type: "Pizzeria",
       city: "Roma",
       address: "Via Portuense, 962, 00148 Roma RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Pizzeria+i+Massimi+Roma",
       lat: 41.8414290, 
       lng: 12.3940086
@@ -97,7 +97,7 @@ export default function WhereToFindUs() {
       type: "Bar",
       city: "Aranova",
       address: "Via Michele Rosi, 82, 00054 Aranova RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Berny's+Bar+Aranova",
       lat: 41.9281478, 
       lng: 12.2401620
@@ -108,7 +108,7 @@ export default function WhereToFindUs() {
       type: "Ristorante",
       city: "Roma",
       address: "V. dei Due Ponti, 181, 00189 Roma RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=La+Mangiatoia+Roma",
       lat: 41.9661848, 
       lng: 12.4510162
@@ -119,21 +119,10 @@ export default function WhereToFindUs() {
       type: "Stabilimento Balneare",
       city: "Ladispoli",
       address: "Lungomare Regina Elena, 27, 00055 Ladispoli RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Stabilimento+White+Ladispoli",
       lat: 41.9462241, 
       lng: 12.0791973
-    },
-    {
-      id: "cabullo-librari",
-      name: "Cabullo (Largo dei Librari)",
-      type: "Ristorante / Pub",
-      city: "Roma",
-      address: "Largo dei Librari, 89, 00186 Roma RM",
-      products: ["Fresh Wave", "Red Moon"],
-      mapsLink: "https://www.google.com/maps/search/?api=1&query=Cabullo+Largo+dei+Librari+Roma",
-      lat: 41.8946184, 
-      lng: 12.4735710
     },
     {
       id: "cabullo-lungaretta",
@@ -141,7 +130,7 @@ export default function WhereToFindUs() {
       type: "Ristorante / Pub",
       city: "Roma",
       address: "Via della Lungaretta, 149, 00153 Roma RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Cabullo+Via+della+Lungaretta+Roma",
       lat: 41.8894245, 
       lng: 12.4746908
@@ -152,7 +141,7 @@ export default function WhereToFindUs() {
       type: "Stabilimento Balneare",
       city: "Maccarese",
       address: "Via di Praia a Mare, 4, 00057 Maccarese RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Stabilimento+Creuza+de+Mä+Maccarese",
       lat: 41.8779325, 
       lng: 12.1874466
@@ -163,10 +152,43 @@ export default function WhereToFindUs() {
       type: "Stabilimento Balneare",
       city: "Maccarese",
       address: "Via di Praia a Mare, 22 B, 00054 Fiumicino RM",
-      products: ["Fresh Wave", "Red Moon"],
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
       mapsLink: "https://www.google.com/maps/search/?api=1&query=Stabilimento+Cielo+ex+Brasilia+Maccarese",
       lat: 41.8778325, 
       lng: 12.1875466
+    },
+    {
+      id: "roma-beer-company",
+      name: "Roma Beer Company",
+      type: "Birreria / Pub",
+      city: "Roma",
+      address: "Piazzale di Ponte Milvio, 40-42, 00135 Roma RM",
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
+      mapsLink: "https://share.google/l0eC75Dr6j8cMUWx4",
+      lat: 41.9373259,
+      lng: 12.4667183
+    },
+    {
+      id: "duecento-gradi",
+      name: "200 Gradi",
+      type: "Paninoteca / Bar",
+      city: "Roma",
+      address: "Piazza del Risorgimento, 3, 00192 Roma RM",
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
+      mapsLink: "https://share.google/JTkMRMUnjtqkDHN4U",
+      lat: 41.9064522,
+      lng: 12.4565357
+    },
+    {
+      id: "tennis-club-kipling",
+      name: "Tennis Club Kipling",
+      type: "Circolo Sportivo / Bar",
+      city: "Roma",
+      address: "Via dei Cantelmo, 129, 00148 Roma RM",
+      products: ["Fresh Wave", "Red Moon", "Enjoy"],
+      mapsLink: "https://share.google/RTYA2IyK4gPt155xD",
+      lat: 41.8602056,
+      lng: 12.4126684
     }
   ];
 
@@ -287,7 +309,7 @@ export default function WhereToFindUs() {
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-[#D4A24E] transition-colors">{loc.name}</h3>
                 </div>
-                <div className="flex items-center gap-2 text-white/50 text-sm font-mono uppercase tracking-wider mb-4">
+                <div className="flex items-center gap-2 text-white/70 text-sm font-mono uppercase tracking-wider mb-4">
                   <Store size={14} />
                   <span>{loc.type}</span>
                 </div>
@@ -298,7 +320,7 @@ export default function WhereToFindUs() {
               </header>
 
               <div className="mb-8 flex-grow">
-                <div className="flex items-center gap-2 text-white/40 text-xs uppercase tracking-widest mb-3">
+                <div className="flex items-center gap-2 text-white/60 text-xs uppercase tracking-widest mb-3">
                   <Beer size={14} />
                   <span>In mescita:</span>
                 </div>

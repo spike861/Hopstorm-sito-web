@@ -67,3 +67,10 @@ body {
   color: rgba(255,255,255,0.7) !important;
 }
 .leaflet-control-attribution a { color: #D4A24E !important; }
+
+@layer base {
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: 2px solid #D4A24E;
+    outline-offset: 2px;
+  }
+}

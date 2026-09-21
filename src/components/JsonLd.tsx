@@ -90,12 +90,21 @@ export default function JsonLd() {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Dove si trova il birrificio Hop Storm?",
+            "name": "Come si diventa rivenditore o partner Hop Storm?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Hop Storm è un birrificio artigianale indipendente con sede a Roma, in Via Chiana 38 (00198)."
+              "text": "Hop Storm fornisce birra artigianale a bar, ristoranti e locali di Roma, Fiumicino e Ladispoli. Per diventare partner basta compilare il modulo dedicato nella sezione \"Per i locali\", indicando il locale, la zona e le birre di interesse: il birrificio risponde con disponibilità, formati e condizioni."
             }
           },
+          {
+            "@type": "Question",
+            "name": "Che differenza c'è tra Fresh Wave, Red Moon ed Enjoy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hop Storm produce tre birre artigianali. Fresh Wave è una Helles chiara e scorrevole (5.0% vol), dal profilo pulito e delicato. Red Moon è una Red Ale ramata (5.6% vol), maltata e avvolgente. Enjoy è una IPA dorata (7.2% vol), luppolata con Citra e Mosaic, dal finale amaro e persistente. Tutte in bottiglia da 330 ml."
+            }
+          },
+          
           {
             "@type": "Question",
             "name": "Dove posso comprare le birre Hop Storm a Roma?",
@@ -126,14 +135,6 @@ export default function JsonLd() {
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Le birre Hop Storm sono disponibili in bottiglie di vetro da 330 ml per i clienti privati, e sia in bottiglia che in fusti da 20 litri per le attività di ristorazione (alla spina)."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Si possono visitare il birrificio o organizzare degustazioni?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Per informazioni su visite, eventi o degustazioni organizzate da Hop Storm a Roma, ti invitiamo a contattare direttamente il birrificio tramite il modulo contatti, telefono o email."
             }
           }
         ]

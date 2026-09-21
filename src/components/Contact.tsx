@@ -24,7 +24,7 @@ export default function Contact() {
               <MapPin className="text-[#D4A24E] shrink-0 mt-1" size={24} />
               <div>
                 <h4 className="text-white font-bold text-lg mb-1">Sede Legale</h4>
-                <p className="text-white/60">Via Chiana 38<br/>00198 Roma (RM)</p>
+                <p className="text-white/60"><a href="https://www.google.com/maps/search/Via+Chiana+38,+00198+Roma+(RM)" target="_blank" rel="noopener noreferrer" className="hover:text-[#D4A24E] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">Via Chiana 38<br/>00198 Roma (RM)</a></p>
               </div>
             </div>
           </div>
@@ -41,59 +41,88 @@ export default function Contact() {
           
           <h3 className="text-2xl font-bold text-white mb-8">Inviaci un messaggio</h3>
           
-          <form action="https://formsubmit.co/hopstorm.brewery@yahoo.com" method="POST" className="space-y-6">
-            {/* FormSubmit Configuration */}
-            <input type="hidden" name="_subject" value="Nuovo contatto dal sito Hop Storm!" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="nome" className="text-sm font-medium text-white/70">Nome *</label>
-                <input type="text" id="nome" name="Nome" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4A24E] transition-colors" placeholder="Il tuo nome" />
+          <form id="contact-form" className="space-y-6" onSubmit={(e) => {
+              e.preventDefault();
+              const form = e.target;
+              const btn = form.querySelector("button[type=submit]");
+              const msg = form.querySelector(".form-message");
+              btn.disabled = true;
+              btn.innerHTML = "Invio in corso...";
+              msg.innerHTML = "";
+              
+              const formData = new FormData(form);
+              formData.append("_subject", "Nuovo contatto dal sito Hop Storm!");
+              formData.append("_template", "table");
+              formData.append("_captcha", "false");
+              
+              fetch("https://formsubmit.co/ajax/hopstorm.brewery@yahoo.com", {
+                method: "POST",
+                headers: {
+                  'Accept': 'application/json'
+                },
+                body: formData
+              })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success === "true" || data.success === true || data.ok) {
+                  msg.innerHTML = "<div class=\"p-4 bg-green-900/50 border border-green-500/50 rounded-xl text-green-200 mt-4\">Messaggio inviato con successo!</div>";
+                  form.reset();
+                } else {
+                  msg.innerHTML = "<div class=\"p-4 bg-red-900/50 border border-red-500/50 rounded-xl text-red-200 mt-4\">Errore durante l'invio. Riprova più tardi.</div>";
+                }
+              })
+              .catch(() => {
+                msg.innerHTML = "<div class=\"p-4 bg-red-900/50 border border-red-500/50 rounded-xl text-red-200 mt-4\">Errore di rete. Riprova più tardi.</div>";
+              })
+              .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = "Invia Messaggio";
+              });
+            }}>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="nome" className="sr-only">Nome</label>
+                  <input type="text" id="nome" name="Nome" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] transition-colors" placeholder="Il tuo nome" />
+                </div>
+                <div>
+                  <label htmlFor="cognome" className="sr-only">Cognome</label>
+                  <input type="text" id="cognome" name="Cognome" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] transition-colors" placeholder="Il tuo cognome" />
+                </div>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="cognome" className="text-sm font-medium text-white/70">Cognome *</label>
-                <input type="text" id="cognome" name="Cognome" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4A24E] transition-colors" placeholder="Il tuo cognome" />
+              
+              <div>
+                <label htmlFor="telefono" className="sr-only">Telefono</label>
+                <input type="tel" id="telefono" name="Telefono" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] transition-colors" placeholder="+39 ..." />
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="telefono" className="text-sm font-medium text-white/70">Numero di Telefono *</label>
-              <input type="tel" id="telefono" name="Telefono" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4A24E] transition-colors" placeholder="+39 ..." />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="locale" className="text-sm font-medium text-white/70">Nome Locale (Facoltativo)</label>
-              <input type="text" id="locale" name="Nome Locale" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4A24E] transition-colors" placeholder="Se hai un'attività, inserisci il nome" />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-sm font-medium text-white/70">A cosa sei interessato? *</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className="flex items-center gap-3 p-4 border border-white/10 rounded-xl cursor-pointer hover:border-[#D4A24E]/50 transition-colors has-[:checked]:border-[#D4A24E] has-[:checked]:bg-[#D4A24E]/5">
-                  <input type="radio" name="Interesse" value="Fornitura per Locali (B2B)" required className="accent-[#D4A24E] w-4 h-4" />
-                  <span className="text-white/90 font-medium">Fornitura per Locali</span>
+              
+              <div>
+                <label htmlFor="locale" className="sr-only">Nome Locale</label>
+                <input type="text" id="locale" name="Nome Locale" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] transition-colors" placeholder="Se hai un'attività, inserisci il nome" />
+              </div>
+              
+              <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input type="email" id="email" name="Email" required className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] transition-colors" placeholder="email@esempio.it" />
+              </div>
+              
+              <div>
+                <label htmlFor="messaggio" className="sr-only">Messaggio</label>
+                <textarea id="messaggio" name="Messaggio" rows="4" className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] transition-colors resize-none" placeholder="Scrivi qui eventuali dettagli..."></textarea>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <input type="checkbox" id="privacy" required className="mt-1 w-5 h-5 accent-[#D4A24E] bg-black border-white/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" />
+                <label htmlFor="privacy" className="text-sm text-white/60 leading-tight">
+                  Inviando questo modulo accetti la nostra <a href="/privacy" className="underline hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Privacy Policy</a>.
                 </label>
-                <label className="flex items-center gap-3 p-4 border border-white/10 rounded-xl cursor-pointer hover:border-[#D4A24E]/50 transition-colors has-[:checked]:border-[#D4A24E] has-[:checked]:bg-[#D4A24E]/5">
-                  <input type="radio" name="Interesse" value="Fornitura per Privati (B2C)" required className="accent-[#D4A24E] w-4 h-4" />
-                  <span className="text-white/90 font-medium">Fornitura per Privati</span>
-                </label>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <label htmlFor="messaggio" className="text-sm font-medium text-white/70">Messaggio (Facoltativo)</label>
-              <textarea id="messaggio" name="Messaggio" rows={4} className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4A24E] transition-colors resize-none" placeholder="Scrivi qui eventuali dettagli..."></textarea>
-            </div>
+              <div className="form-message w-full"></div>
 
-            <button type="submit" className="w-full bg-gradient-to-r from-[#D4A24E] to-[#C0392B] text-white hover:shadow-[0_0_20px_rgba(212,162,78,0.4)] transition-all px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-lg uppercase tracking-wider">
-              Invia Richiesta <Send size={20} />
-            </button>
-            <p className="text-white/40 text-xs text-center mt-4">
-              Inviando questo modulo accetti la nostra <a href="#/privacy" className="underline hover:text-white">Privacy Policy</a>.
-            </p>
-          </form>
+              <button type="submit" className="w-full bg-[#D4A24E] text-black hover:bg-white transition-colors py-4 rounded-xl font-bold uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">
+                Invia Messaggio
+              </button>
+            </form>
         </motion.div>
       </div>
     </section>

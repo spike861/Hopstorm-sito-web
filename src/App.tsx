@@ -16,22 +16,18 @@ import CookieBanner from './components/CookieBanner';
 import { IntroContext } from './introContext';
 
 export default function App() {
-  const [currentHash, setCurrentHash] = useState(window.location.hash);
+  
   const [step, setStep] = useState(0);
   const stepRef = useRef(0);
   const lastStepAt = useRef(0);
   const reduced = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
   useEffect(() => {
-    const onHashChange = () => setCurrentHash(window.location.hash);
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    
   }, []);
 
   useEffect(() => {
-    if (window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname);
-    }
+    
     if ('scrollRestoration' in history) {
       history.scrollRestoration = "manual";
     }
@@ -149,7 +145,9 @@ export default function App() {
     };
   }, []);
 
-  const isLegalPage = ['#/privacy', '#/cookie', '#/termini'].includes(currentHash);
+  const currentPath = window.location.pathname;
+  const isLegalPage = ['/privacy', '/cookie', '/termini'].includes(currentPath);
+  const isNotFound = !isLegalPage && currentPath !== '/';
 
   return (
     <IntroContext.Provider value={{ step, reduced }}>
@@ -159,8 +157,17 @@ export default function App() {
         <CookieBanner />
         <Navbar />
         <main>
-          {isLegalPage ? (
-            <LegalPages currentHash={currentHash} />
+          {isNotFound ? (
+            <div className="pt-40 pb-24 px-6 min-h-[70vh] flex flex-col items-center justify-center text-center">
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-24 w-auto mb-8 opacity-50" />
+              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">404</h1>
+              <p className="text-white/60 text-xl mb-8">La pagina che cerchi non esiste o è stata spostata.</p>
+              <a href="/" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">
+                Torna alla Home
+              </a>
+            </div>
+          ) : isLegalPage ? (
+            <LegalPages currentHash={currentPath} />
           ) : (
             <>
               <HopStormHero />

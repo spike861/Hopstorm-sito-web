@@ -255,7 +255,7 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
   }, [useFallback]);
 
   if (useFallback) {
-    return <img src={fallbackSrc} alt={alt} decoding="async" className={className} style={{ ...style, background: 'none' }} />;
+    return <img loading="lazy" decoding="async" src={fallbackSrc} alt={alt} className={className} style={{ ...style, background: 'none' }} />;
   }
 
   return <canvas ref={canvasRef} className={className} style={{ ...style, background: 'none' }} />;

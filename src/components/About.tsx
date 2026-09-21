@@ -87,7 +87,7 @@ export default function About() {
             <Quote size={180} />
           </div>
           <div className="relative z-10 max-w-5xl mx-auto text-center">
-            <h3 className="text-sm font-mono text-white/40 tracking-[0.2em] uppercase mb-12">02. Perché Hop Storm</h3>
+            <h3 className="text-sm font-mono text-white/60 tracking-[0.2em] uppercase mb-12">02. Perché Hop Storm</h3>
             <p className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight drop-shadow-2xl">
               "Tempesta di luppolo. Intensa, vivace, capace di sorprendere. Ma le tempeste portano anche pulizia: <span className="text-[#D4A24E]">dopo il temporale l'aria è più fresca, più vera.</span> È quello che vogliamo nel bicchiere."
             </p>

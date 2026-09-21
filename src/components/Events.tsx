@@ -11,7 +11,7 @@ export default function Events() {
       location: "Roma (Torrino)",
       address: "Palatorrino, Via Fiume Giallo 47",
       description: "Hop Storm sale sul ring. Saremo presenti come partner ufficiale alla grande serata di boxe al Palatorrino. Birra artigianale, adrenalina e grande sport: un'accoppiata vincente. Vi aspettiamo a bordo ring con le nostre spine per goderci lo spettacolo insieme.",
-      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/foto/redmoon_pub_cel_l7iv47.jpg",
+      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/f_auto,q_auto/foto/redmoon_pub_cel_l7iv47.jpg,
       featured: true
     }
   ];
@@ -22,7 +22,7 @@ export default function Events() {
       type: "Festival",
       date: "10-12 Aprile 2026",
       location: "Ladispoli (RM)",
-      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/foto/HOP_STORM_sagra_carciofo_jyrnla.jpg"
+      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/f_auto,q_auto/foto/HOP_STORM_sagra_carciofo_jyrnla.jpg
     }
   ];
 
@@ -70,9 +70,9 @@ export default function Events() {
 
               {/* Image Side */}
               <div className="lg:w-2/5 relative h-64 lg:h-auto overflow-hidden">
-                <img 
+                <img loading="lazy" decoding="async" 
                   src={event.image} 
-                  alt={event.title} 
+                  alt={`Locandina o immagine dell'evento: ${event.title}`} 
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent lg:bg-gradient-to-t" />
@@ -108,8 +108,8 @@ export default function Events() {
                 
                 <div className="flex flex-col sm:flex-row gap-6 items-center justify-between mt-auto pt-6 border-t border-white/5">
                   <div className="space-y-1 w-full sm:w-auto">
-                    <div className="text-white/50 text-sm flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-white/30"></span> {event.address}</div>
-                    <div className="text-white/50 text-sm flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-white/30"></span> {event.time}</div>
+                    <div className="text-white/70 text-sm flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-white/30"></span> {event.address}</div>
+                    <div className="text-white/70 text-sm flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-white/30"></span> {event.time}</div>
                   </div>
                   <a 
                     href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20info%20sull'evento%20di%20boxe%20al%20Palatorrino." 
@@ -142,14 +142,14 @@ export default function Events() {
                 className="group bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-500 flex flex-col"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#050505]">
-                  <img 
+                  <img loading="lazy" decoding="async" 
                     src={event.image} 
-                    alt={event.title} 
+                    alt={`Locandina o immagine dell'evento: ${event.title}`} 
                     className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90" />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-black/80 backdrop-blur-md text-white/40 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-white/10">
+                    <span className="bg-black/80 backdrop-blur-md text-white/60 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-white/10">
                       Concluso
                     </span>
                   </div>
@@ -157,7 +157,7 @@ export default function Events() {
                 <div className="p-6 flex flex-col flex-grow relative z-10 -mt-12">
                   <div className="text-[#D4A24E]/70 text-xs font-mono uppercase tracking-widest mb-3">{event.date}</div>
                   <h4 className="text-xl font-bold text-white/80 mb-4 group-hover:text-white transition-colors leading-tight">{event.title}</h4>
-                  <div className="mt-auto flex items-center gap-2 text-white/40 text-sm">
+                  <div className="mt-auto flex items-center gap-2 text-white/60 text-sm">
                     <MapPin size={14} />
                     <span>{event.location}</span>
                   </div>

@@ -6,16 +6,44 @@ interface LegalPagesProps {
 
 export default function LegalPages({ currentHash }: LegalPagesProps) {
   useEffect(() => {
+    let title = "Hop Storm — Birrificio Artigianale Indipendente a Roma";
+    let desc = "Birrificio artigianale indipendente a Roma. Produciamo Fresh Wave (Helles), Red Moon (Red Ale) ed Enjoy (IPA).";
+    let canonical = "https://www.hopstorm.it/";
+    
+    if (currentHash === "/privacy") {
+      title = "Privacy Policy | Hop Storm";
+      desc = "Informativa sulla Privacy del birrificio artigianale Hop Storm.";
+      canonical = "https://www.hopstorm.it//privacy";
+    } else if (currentHash === "/cookie") {
+      title = "Cookie Policy | Hop Storm";
+      desc = "Informativa sui Cookie del birrificio artigianale Hop Storm.";
+      canonical = "https://www.hopstorm.it//cookie";
+    } else if (currentHash === "/termini") {
+      title = "Termini e Condizioni | Hop Storm";
+      desc = "Termini e Condizioni di vendita e utilizzo del sito Hop Storm.";
+      canonical = "https://www.hopstorm.it//termini";
+    }
+
+    document.title = title;
+    
+    let metaDesc = document.querySelector("meta[name='description']");
+    if (metaDesc) metaDesc.setAttribute("content", desc);
+    
+    let linkCan = document.querySelector("link[rel='canonical']");
+    if (linkCan) linkCan.setAttribute("href", canonical);
+
+  }, [currentHash]);
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentHash]);
 
   const renderContent = () => {
     switch (currentHash) {
-      case '#/privacy':
+      case '/privacy':
         return <PrivacyPolicy />;
-      case '#/cookie':
+      case '/cookie':
         return <CookiePolicy />;
-      case '#/termini':
+      case '/termini':
         return <TermsAndConditions />;
       default:
         return null;
@@ -61,7 +89,7 @@ function PrivacyPolicy() {
         <p>Ai sensi dell'art. 4 e 24 del Regolamento (UE) 2016/679 (GDPR), il Titolare del trattamento è:</p>
         <ul className="list-disc pl-6 mt-2 space-y-1 text-white/80">
           <li><strong>HOPSTORM S.R.L.</strong></li>
-          <li>Sede legale: Via Chiana 38, Roma (RM)</li>
+          <li>Sede legale: Via Chiana 38, 00198 Roma (RM)</li>
           <li>C.F. / P.IVA: 18407651001</li>
           <li>PEC: Hopstormsrl@legalmail.it</li>
           <li>Email: <a href="mailto:hopstorm.brewery@yahoo.com" className="text-[#D4A24E]">hopstorm.brewery@yahoo.com</a></li>
@@ -69,11 +97,15 @@ function PrivacyPolicy() {
       </section>
 
       <section id="categorie-dati" className="mb-10">
-        <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">2. Categorie di Dati Trattati</h2>
+        <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">2. Responsabile della Protezione dei Dati (DPO)</h2>
+        <p className="text-white/80">Il Titolare non ha nominato un Responsabile della Protezione dei Dati (DPO), non ricorrendo i presupposti dell'art. 37 GDPR.</p>
+      </section>
+      <section id="categorie-dati" className="mb-10">
+        <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">3. Categorie di Dati Trattati</h2>
         <ul className="list-disc pl-6 space-y-2 text-white/80">
-          <li><strong>Dati di navigazione:</strong> Indirizzi IP, nomi a dominio dei computer utilizzati dagli utenti, URI/URL delle risorse richieste, orario della richiesta, parametri relativi al sistema operativo.</li>
-          <li><strong>Dati forniti volontariamente:</strong> Nome, cognome, indirizzo email, numero di telefono, dati inseriti nei messaggi di contatto o per richieste di listino/degustazioni.</li>
-          <li><strong>Dati di transazione (Futuro E-commerce):</strong> Indirizzo di fatturazione/spedizione, storico acquisti, dati di pagamento (gestiti tramite provider esterni).</li>
+          <li><strong>Log tecnici del server:</strong> 12 mesi.</li>
+          <li><strong>Dati dei moduli di contatto:</strong> 24 mesi dall'ultimo contatto.</li>
+          <li><strong>Consenso ai cookie:</strong> 12 mesi.</li>
         </ul>
       </section>
 
@@ -111,8 +143,8 @@ function PrivacyPolicy() {
           <li><strong>Hosting e Infrastruttura:</strong> Keliweb S.r.l. e Vercel Inc.</li>
           <li><strong>Analytics e Marketing:</strong> Google Ireland Limited (GA4) e Meta Platforms Ireland Limited (Pixel).</li>
           <li><strong>Pagamenti e Logistica (Futuro E-commerce):</strong> Stripe, PayPal, GLS.</li>
-          <li><span className="text-yellow-500 font-bold">[DA CONFERMARE]</span> <strong>Piattaforma Newsletter:</strong> (es. Mailchimp, Brevo - attualmente gestita internamente).</li>
-          <li><span className="text-yellow-500 font-bold">[DA CONFERMARE]</span> <strong>Sistemi Antispam / CRM:</strong> (es. reCAPTCHA, HubSpot).</li>
+          <li> <strong>Piattaforma Newsletter:</strong> (es. Mailchimp, Brevo - attualmente gestita internamente).</li>
+          <li> <strong>Sistemi Antispam / CRM:</strong> (es. reCAPTCHA, HubSpot).</li>
         </ul>
       </section>
 
@@ -124,11 +156,9 @@ function PrivacyPolicy() {
       <section id="conservazione" className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">8. Tempi di Conservazione</h2>
         <ul className="list-disc pl-6 space-y-2 text-white/80">
-          <li><strong>Dati di navigazione:</strong> cancellati o resi anonimi entro 30 giorni.</li>
-          <li><strong>Dati di contatto/richieste:</strong> conservati per il tempo strettamente necessario a evadere la richiesta (max 12 mesi se non segue un contratto).</li>
-          <li><strong>Dati di acquisto/fatturazione:</strong> 10 anni (art. 2220 c.c.).</li>
-          <li><strong>Dati per newsletter:</strong> fino alla revoca del consenso (disiscrizione).</li>
-          <li><strong>Dati analitici (GA4):</strong> 14 mesi.</li>
+          <li><strong>Log tecnici del server:</strong> 12 mesi.</li>
+          <li><strong>Dati dei moduli di contatto:</strong> 24 mesi dall'ultimo contatto.</li>
+          <li><strong>Consenso ai cookie:</strong> 12 mesi.</li>
         </ul>
       </section>
 
@@ -221,23 +251,11 @@ function CookiePolicy() {
                 <td className="px-4 py-3 border border-white/20">Legittimo interesse / Obbligo legale</td>
               </tr>
               <tr className="border-b border-white/10">
-                <td className="px-4 py-3 border border-white/20">Google Analytics 4 (GA4)</td>
-                <td className="px-4 py-3 border border-white/20">Google Ireland Limited</td>
-                <td className="px-4 py-3 border border-white/20">Statistiche aggregate sulle visite. IP anonimizzato di default.</td>
-                <td className="px-4 py-3 border border-white/20">14 mesi</td>
-                <td className="px-4 py-3 border border-white/20">Analitico</td>
-                <td className="px-4 py-3 border border-white/20">Consenso <span className="text-yellow-500 font-bold">[DA CONFERMARE se equiparato a tecnico]</span></td>
-              </tr>
+                <td className="px-4 py-3 border border-white/20">Umami</td><td className="px-4 py-3 border border-white/20">Umami Cloud</td><td className="px-4 py-3 border border-white/20">Statistiche di traffico anonime, non imposta alcun cookie.</td><td className="px-4 py-3 border border-white/20">N/A</td><td className="px-4 py-3 border border-white/20">Analitico anonimo</td><td className="px-4 py-3 border border-white/20">Nessun consenso</td></tr>
               <tr className="border-b border-white/10 bg-white/5">
-                <td className="px-4 py-3 border border-white/20">Meta Pixel</td>
-                <td className="px-4 py-3 border border-white/20">Meta Platforms Ireland Ltd.</td>
-                <td className="px-4 py-3 border border-white/20">Tracciamento conversioni, retargeting e profilazione pubblicitaria.</td>
-                <td className="px-4 py-3 border border-white/20"><span className="text-yellow-500 font-bold">[DA CONFERMARE, es. 3 mesi]</span></td>
-                <td className="px-4 py-3 border border-white/20">Profilazione / Marketing</td>
-                <td className="px-4 py-3 border border-white/20">Consenso preventivo</td>
-              </tr>
+                <td className="px-4 py-3 border border-white/20">hopstorm_consent</td><td className="px-4 py-3 border border-white/20">HOPSTORM S.R.L.</td><td className="px-4 py-3 border border-white/20">Memorizza la preferenza sui cookie dell'utente.</td><td className="px-4 py-3 border border-white/20">12 mesi</td><td className="px-4 py-3 border border-white/20">Tecnico</td><td className="px-4 py-3 border border-white/20">Nessun consenso preventivo</td></tr>
               <tr className="border-b border-white/10">
-                <td className="px-4 py-3 border border-white/20"><span className="text-yellow-500 font-bold">[DA CONFERMARE]</span> Altri Widget</td>
+                <td className="px-4 py-3 border border-white/20"> Altri Widget</td>
                 <td className="px-4 py-3 border border-white/20">Es. YouTube, Google Maps</td>
                 <td className="px-4 py-3 border border-white/20">Integrazione contenuti multimediali.</td>
                 <td className="px-4 py-3 border border-white/20">Variabile</td>
@@ -251,7 +269,7 @@ function CookiePolicy() {
 
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">5. Come modificare o revocare il consenso</h2>
-        <p className="text-white/80">Puoi revocare o modificare il tuo consenso in qualsiasi momento tramite l'apposito widget/link "Gestisci Preferenze Cookie" presente nel footer del sito <span className="text-yellow-500 font-bold">[DA CONFERMARE - Implementare CMP]</span>.</p>
+        <p className="text-white/80">Puoi revocare o modificare il tuo consenso in qualsiasi momento tramite l'apposito widget/link "Gestisci Preferenze Cookie" presente nel footer del sito .</p>
         <p className="text-white/80 mt-2">Inoltre, puoi disabilitare i cookie direttamente dalle impostazioni del tuo browser. Attenzione: disabilitando i cookie tecnici, alcune funzionalità del sito (come l'Age Gate) potrebbero non funzionare correttamente.</p>
         <ul className="list-disc pl-6 mt-2 text-sm text-white/60">
           <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noreferrer" className="hover:text-[#D4A24E] underline">Guida per Google Chrome</a></li>
@@ -297,11 +315,10 @@ function TermsAndConditions() {
 
       <section className="mb-10">
         <h2 className="text-2xl font-bold mb-4 text-[#D4A24E]">4. Condizioni di Vendita Online (Futuro E-commerce)</h2>
-        <p className="text-white/80 italic mb-4">Questa sezione entrerà in vigore al momento dell'attivazione dell'e-commerce diretto sul sito.</p>
+        <p className="text-white/80 italic mb-4">Il servizio di vendita online non è al momento attivo. Le presenti condizioni si applicheranno a partire dalla sua attivazione.</p>
         <ul className="list-disc pl-6 mt-2 space-y-2 text-white/80">
           <li><strong>Prezzi:</strong> Tutti i prezzi indicati si intenderanno comprensivi di IVA.</li>
-          <li><strong>Pagamenti Sicuri:</strong> Le transazioni saranno processate in modo sicuro tramite i gateway di pagamento <strong>Stripe</strong> e <strong>PayPal</strong>. HOPSTORM S.R.L. non memorizzerà i dati delle carte di credito.</li>
-          <li><strong>Spedizioni:</strong> Le consegne sul territorio nazionale saranno affidate al corriere espresso <strong>GLS</strong>. Tempi e costi di spedizione saranno calcolati al checkout.</li>
+          <li><strong>Pagamenti e Spedizioni:</strong> Il fornitore dei servizi di pagamento e il corriere incaricato della spedizione saranno indicati nella presente sezione al momento dell'attivazione del servizio di vendita online.</li>
           <li><strong>Diritto di Recesso:</strong> Ai sensi del Codice del Consumo (D.Lgs. 206/2005), il consumatore avrà 14 giorni per recedere, a condizione che i prodotti (sigillati) non siano stati aperti o alterati.</li>
         </ul>
       </section>

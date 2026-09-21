@@ -400,7 +400,7 @@ export default function HopStormHero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
         style={{ opacity: step < 3 ? 0.5 : 0, transition: "opacity 300ms" }}
       >
-        <span className="text-white/50 text-[11px] tracking-[0.3em] font-medium uppercase">SCORRI</span>
+        <span className="text-white/70 text-[11px] tracking-[0.3em] font-medium uppercase">SCORRI</span>
         <div className="w-[1px] h-[40px] bg-white/50" style={{ animation: "float-scroll 2s infinite ease-in-out" }}></div>
       </div>
 
