@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { ShoppingBag, Package, ArrowRight, MapPin } from 'lucide-react';
+import { beers } from '../data/beers';
 
 export default function ForPrivate() {
   return (
@@ -71,26 +72,16 @@ export default function ForPrivate() {
           >
             <h3 className="text-3xl font-bold text-[#E53935] mb-8">Non sai quale scegliere?</h3>
             
-            <div className="mb-8">
-              <h4 className="text-xl font-bold text-[#D4A24E] mb-3">Fresh Wave</h4>
-              <p className="text-white/70 leading-relaxed">
-                È la birra per chi cerca freschezza e leggerezza: agrumata, secca, dissetante. Perfetta d'estate, con il pesce, con la pizza, o da sola dopo una giornata calda.
-              </p>
-            </div>
-
-            <div className="mb-8">
-              <h4 className="text-xl font-bold text-[#E53935] mb-3">Red Moon</h4>
-              <p className="text-white/70 leading-relaxed">
-                È per chi vuole più profondità: maltata, avvolgente, con note di caramello e frutta secca. Ideale con la carne, con i formaggi stagionati, o a fine pasto con un cioccolato fondente.
-              </p>
-            </div>
-
-            <div className="mb-8">
-              <h4 className="text-xl font-bold text-[#F08A24] mb-3">Enjoy</h4>
-              <p className="text-white/70 leading-relaxed">
-                È per chi ama i luppoli e le emozioni forti: aromi esplosivi di agrumi e frutta tropicale con un finale amaro pulito e deciso. Perfetta con hamburger, carne alla griglia e cibi saporiti o speziati.
-              </p>
-            </div>
+            {beers.map((beer) => (
+              <div key={beer.slug} className="mb-8">
+                <h4 className="text-xl font-bold mb-3" style={{ color: beer.slug === 'red-moon' ? '#E53935' : beer.color }}>
+                  {beer.name}
+                </h4>
+                <p className="text-white/70 leading-relaxed">
+                  {beer.shortDescription}
+                </p>
+              </div>
+            ))}
 
             <p className="text-white/90 italic font-medium">
               Il nostro consiglio? Prova tutte e tre. La maggior parte dei nostri clienti finisce per tenerle tutte in frigo.
@@ -104,11 +95,21 @@ export default function ForPrivate() {
           viewport={{ once: true }}
           className="flex flex-col sm:flex-row gap-6 justify-center"
         >
-          <a href="https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F" target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
-            Ordina Online <ArrowRight size={20} />
+          <a 
+            href="https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="Ordina le birre Hop Storm online tramite WhatsApp"
+            className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+          >
+            Ordina Online <ArrowRight size={20} aria-hidden="true" />
           </a>
-          <a href="#dove-trovarci" className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2">
-            <MapPin size={20} /> Trova un Locale Partner
+          <a 
+            href="#dove-trovarci" 
+            aria-label="Vai alla mappa per trovare un locale partner Hop Storm"
+            className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+          >
+            <MapPin size={20} aria-hidden="true" /> Trova un Locale Partner
           </a>
         </motion.div>
       </div>

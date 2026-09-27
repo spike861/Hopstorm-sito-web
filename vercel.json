@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/cookie", "destination": "/cookie/index.html" },
+    { "source": "/termini", "destination": "/termini/index.html" },
+    { "source": "/((?!.*\\..*).*)", "destination": "/index.html" }
+  ]
+}

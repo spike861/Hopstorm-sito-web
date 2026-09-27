@@ -11,7 +11,7 @@ export default function Events() {
       location: "Roma (Torrino)",
       address: "Palatorrino, Via Fiume Giallo 47",
       description: "Hop Storm sale sul ring. Saremo presenti come partner ufficiale alla grande serata di boxe al Palatorrino. Birra artigianale, adrenalina e grande sport: un'accoppiata vincente. Vi aspettiamo a bordo ring con le nostre spine per goderci lo spettacolo insieme.",
-      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/f_auto,q_auto/foto/redmoon_pub_cel_l7iv47.jpg,
+      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557008/f_auto,q_auto/foto/redmoon_pub_cel_l7iv47.jpg",
       featured: true
     }
   ];
@@ -22,7 +22,7 @@ export default function Events() {
       type: "Festival",
       date: "10-12 Aprile 2026",
       location: "Ladispoli (RM)",
-      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/f_auto,q_auto/foto/HOP_STORM_sagra_carciofo_jyrnla.jpg
+      image: "https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557007/f_auto,q_auto/foto/HOP_STORM_sagra_carciofo_jyrnla.jpg"
     }
   ];
 
@@ -115,9 +115,10 @@ export default function Events() {
                     href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20info%20sull'evento%20di%20boxe%20al%20Palatorrino." 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="w-full sm:w-auto bg-gradient-to-r from-[#D4A24E] to-[#C0392B] text-white hover:shadow-[0_0_20px_rgba(212,162,78,0.4)] transition-all px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-sm uppercase tracking-wider whitespace-nowrap"
+                    aria-label={`Richiedi informazioni e partecipa all'evento ${event.title} su WhatsApp`}
+                    className="w-full sm:w-auto bg-gradient-to-r from-[#D4A24E] to-[#C0392B] text-white hover:shadow-[0_0_20px_rgba(212,162,78,0.4)] transition-all px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-sm uppercase tracking-wider whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
                   >
-                    Partecipa Ora <ArrowRight size={18} />
+                    Partecipa Ora <ArrowRight size={18} aria-hidden="true" />
                   </a>
                 </div>
               </div>
@@ -189,7 +190,11 @@ export default function Events() {
               className="flex-grow bg-black/50 border border-white/10 rounded-xl px-6 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-[#D4A24E] transition-colors"
               required
             />
-            <button type="submit" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-wider whitespace-nowrap">
+            <button 
+              type="submit" 
+              aria-label="Iscriviti alla newsletter Hop Storm"
+              className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-wider whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
+            >
               Iscriviti
             </button>
           </form>

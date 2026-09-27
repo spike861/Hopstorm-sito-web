@@ -1,3 +1,5 @@
+import { beers, formatAbv } from '../data/beers';
+
 export default function Faq() {
   const faqs = [
     {
@@ -6,7 +8,7 @@ export default function Faq() {
     },
     {
       q: "Che differenza c'è tra Fresh Wave, Red Moon ed Enjoy?",
-      a: "Hop Storm produce tre birre artigianali. Fresh Wave è una Helles chiara e scorrevole (5.0% vol), dal profilo pulito e delicato. Red Moon è una Red Ale ramata (5.6% vol), maltata e avvolgente. Enjoy è una IPA dorata (7.2% vol), luppolata con Citra e Mosaic, dal finale amaro e persistente. Tutte in bottiglia da 330 ml."
+      a: `Hop Storm produce tre birre artigianali. Fresh Wave è una Helles chiara e scorrevole (${formatAbv(beers[0].abv)} vol), dal profilo pulito e delicato. Red Moon è una Red Ale ramata (${formatAbv(beers[1].abv)} vol), maltata e avvolgente. Enjoy è una IPA dorata (${formatAbv(beers[2].abv)} vol), luppolata con Citra e Mosaic, dal finale amaro e persistente. Tutte in bottiglia da 330 ml.`
     },
     
     {
@@ -15,7 +17,7 @@ export default function Faq() {
     },
     {
       q: "Quali birre produce Hop Storm?",
-      a: "Hop Storm produce attualmente tre birre artigianali: Fresh Wave (Helles, 5.0%), Red Moon (Red Ale, 5.6%) ed Enjoy (IPA, 7.2%). Tutte disponibili in bottiglia da 330 ml."
+      a: `Hop Storm produce attualmente tre birre artigianali: Fresh Wave (Helles, ${formatAbv(beers[0].abv)}), Red Moon (Red Ale, ${formatAbv(beers[1].abv)}) ed Enjoy (IPA, ${formatAbv(beers[2].abv)}). Tutte disponibili in bottiglia da 330 ml.`
     },
     {
       q: "Fornite birra artigianale a locali e ristoranti?",

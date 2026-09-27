@@ -6,22 +6,22 @@ interface LegalPagesProps {
 
 export default function LegalPages({ currentHash }: LegalPagesProps) {
   useEffect(() => {
-    let title = "Hop Storm — Birrificio Artigianale Indipendente a Roma";
-    let desc = "Birrificio artigianale indipendente a Roma. Produciamo Fresh Wave (Helles), Red Moon (Red Ale) ed Enjoy (IPA).";
+    let title = "Hop Storm | Birrificio Artigianale Indipendente a Roma";
+    let desc = "Birrificio artigianale indipendente a Roma. Fresh Wave, Red Moon ed Enjoy: birre non filtrate né pastorizzate, per locali e privati. Fusti e bottiglie 33cl.";
     let canonical = "https://www.hopstorm.it/";
     
     if (currentHash === "/privacy") {
       title = "Privacy Policy | Hop Storm";
       desc = "Informativa sulla Privacy del birrificio artigianale Hop Storm.";
-      canonical = "https://www.hopstorm.it//privacy";
+      canonical = "https://www.hopstorm.it/privacy";
     } else if (currentHash === "/cookie") {
       title = "Cookie Policy | Hop Storm";
       desc = "Informativa sui Cookie del birrificio artigianale Hop Storm.";
-      canonical = "https://www.hopstorm.it//cookie";
+      canonical = "https://www.hopstorm.it/cookie";
     } else if (currentHash === "/termini") {
       title = "Termini e Condizioni | Hop Storm";
       desc = "Termini e Condizioni di vendita e utilizzo del sito Hop Storm.";
-      canonical = "https://www.hopstorm.it//termini";
+      canonical = "https://www.hopstorm.it/termini";
     }
 
     document.title = title;
@@ -52,8 +52,38 @@ export default function LegalPages({ currentHash }: LegalPagesProps) {
 
   return (
     <div className="pt-32 pb-24 px-6 min-h-screen bg-[#050505]">
+      <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center">
+        <a 
+          href="/" 
+          className="inline-flex items-center gap-2 text-white/70 hover:text-[#D4A24E] transition-colors text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E] rounded-md px-2 py-1"
+        >
+          ← Torna alla Home
+        </a>
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event('openCookieBanner'))}
+          className="text-xs text-[#D4A24E] hover:underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#D4A24E]"
+        >
+          Gestisci preferenze cookie
+        </button>
+      </div>
       <div className="max-w-4xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
         {renderContent()}
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap gap-4 items-center justify-between">
+          <a 
+            href="/" 
+            className="inline-flex items-center gap-2 bg-[#D4A24E] text-black hover:bg-white transition-colors px-6 py-3 rounded-full font-bold text-sm"
+          >
+            ← Torna alla Home
+          </a>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('openCookieBanner'))}
+            className="border border-white/20 text-white hover:bg-white/10 transition-colors px-6 py-3 rounded-full font-medium text-sm"
+          >
+            Gestisci preferenze cookie
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -105,7 +135,7 @@ function PrivacyPolicy() {
         <ul className="list-disc pl-6 space-y-2 text-white/80">
           <li><strong>Log tecnici del server:</strong> 12 mesi.</li>
           <li><strong>Dati dei moduli di contatto:</strong> 24 mesi dall'ultimo contatto.</li>
-          <li><strong>Consenso ai cookie:</strong> 12 mesi.</li>
+          <li><strong>Consenso ai cookie:</strong> 6 mesi.</li>
         </ul>
       </section>
 
@@ -158,7 +188,7 @@ function PrivacyPolicy() {
         <ul className="list-disc pl-6 space-y-2 text-white/80">
           <li><strong>Log tecnici del server:</strong> 12 mesi.</li>
           <li><strong>Dati dei moduli di contatto:</strong> 24 mesi dall'ultimo contatto.</li>
-          <li><strong>Consenso ai cookie:</strong> 12 mesi.</li>
+          <li><strong>Consenso ai cookie:</strong> 6 mesi.</li>
         </ul>
       </section>
 
@@ -253,7 +283,7 @@ function CookiePolicy() {
               <tr className="border-b border-white/10">
                 <td className="px-4 py-3 border border-white/20">Umami</td><td className="px-4 py-3 border border-white/20">Umami Cloud</td><td className="px-4 py-3 border border-white/20">Statistiche di traffico anonime, non imposta alcun cookie.</td><td className="px-4 py-3 border border-white/20">N/A</td><td className="px-4 py-3 border border-white/20">Analitico anonimo</td><td className="px-4 py-3 border border-white/20">Nessun consenso</td></tr>
               <tr className="border-b border-white/10 bg-white/5">
-                <td className="px-4 py-3 border border-white/20">hopstorm_consent</td><td className="px-4 py-3 border border-white/20">HOPSTORM S.R.L.</td><td className="px-4 py-3 border border-white/20">Memorizza la preferenza sui cookie dell'utente.</td><td className="px-4 py-3 border border-white/20">12 mesi</td><td className="px-4 py-3 border border-white/20">Tecnico</td><td className="px-4 py-3 border border-white/20">Nessun consenso preventivo</td></tr>
+                <td className="px-4 py-3 border border-white/20"><code className="text-[#D4A24E]">hopstorm_cookie_consent</code> (localStorage)</td><td className="px-4 py-3 border border-white/20">HOPSTORM S.R.L.</td><td className="px-4 py-3 border border-white/20">Memorizza la preferenza granulare sui cookie espressa dall'utente.</td><td className="px-4 py-3 border border-white/20">6 mesi</td><td className="px-4 py-3 border border-white/20">Tecnico</td><td className="px-4 py-3 border border-white/20">Nessun consenso preventivo</td></tr>
               <tr className="border-b border-white/10">
                 <td className="px-4 py-3 border border-white/20"> Altri Widget</td>
                 <td className="px-4 py-3 border border-white/20">Es. YouTube, Google Maps</td>

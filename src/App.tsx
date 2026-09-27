@@ -17,8 +17,10 @@ import { IntroContext } from './introContext';
 
 export default function App() {
   
-  const [step, setStep] = useState(0);
-  const stepRef = useRef(0);
+  const [step, setStep] = useState<number>(() => 
+    (typeof window !== 'undefined' && window.innerWidth <= 768) ? 3 : 0
+  );
+  const stepRef = useRef<number>((typeof window !== 'undefined' && window.innerWidth <= 768) ? 3 : 0);
   const lastStepAt = useRef(0);
   const reduced = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
@@ -45,6 +47,11 @@ export default function App() {
     const opts = { passive: true } as AddEventListenerOptions;
 
     const arm = () => {
+      if (window.innerWidth <= 768) {
+        stepRef.current = 3;
+        setStep(3);
+        return;
+      }
       mounted = Date.now();
       stepRef.current = 0;
       setStep(0);
@@ -145,7 +152,38 @@ export default function App() {
     };
   }, []);
 
-  const currentPath = window.location.pathname;
+  const [currentPath, setCurrentPath] = useState<string>(() => 
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (!target) return;
+      const href = target.getAttribute('href');
+      if (href && (['/privacy', '/cookie', '/termini', '/'].includes(href))) {
+        e.preventDefault();
+        if (window.location.pathname !== href) {
+          window.history.pushState({}, '', href);
+          setCurrentPath(href);
+        }
+        window.scrollTo(0, 0);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    document.addEventListener('click', handleLinkClick);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      document.removeEventListener('click', handleLinkClick);
+    };
+  }, []);
+
   const isLegalPage = ['/privacy', '/cookie', '/termini'].includes(currentPath);
   const isNotFound = !isLegalPage && currentPath !== '/';
 
@@ -159,7 +197,7 @@ export default function App() {
         <main>
           {isNotFound ? (
             <div className="pt-40 pb-24 px-6 min-h-[70vh] flex flex-col items-center justify-center text-center">
-              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm" className="h-24 w-auto mb-8 opacity-50" />
+              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-24 w-auto mb-8 opacity-50" />
               <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">404</h1>
               <p className="text-white/60 text-xl mb-8">La pagina che cerchi non esiste o è stata spostata.</p>
               <a href="/" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">

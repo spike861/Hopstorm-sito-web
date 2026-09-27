@@ -1,5 +1,7 @@
 import EnjoyRotator from './EnjoyRotator';
 import React, { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { beers, formatAbv } from '../data/beers';
 
 const BlurEdgeText = ({ text, color, delayOffset = 0, charDelay = 90, className = "" }: { text: string, color?: string, delayOffset?: number, charDelay?: number, className?: string }) => {
   let charCount = 0;
@@ -24,62 +26,7 @@ const BlurEdgeText = ({ text, color, delayOffset = 0, charDelay = 90, className 
   );
 };
 
-const BEERS = [
-  { name: "Fresh Wave", style: "Helles",  abv: "5.0%", ibu: "18-22",
-    ml: "330", tag: "Fresca e pulita", color: "#D4A24E",
-    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025652/Progetto_senza_titolo_157_e0kgio.png",
-    details: {
-      stile: "Helles moderna: lager chiara, dorata e scorrevole. Profilo pulito, equilibrio delicato, grande bevibilità.",
-      sensoriale: ["Pane fresco", "Cereale", "Miele leggero", "Erbaceo", "Agrumi", "Amaro gentile"],
-      luppoli: [
-        { name: "MAGNUM", desc: "amaro pulito e lineare, sfumature erbacee e speziate." },
-        { name: "SAPHIR", desc: "aroma elegante, note floreali, agrumate e speziate." }
-      ],
-      tecnico: {
-        aspetto: "Dorato brillante, limpido, schiuma bianca fine e persistente.",
-        aroma: "Note erbacee e floreali leggere, cereale e miele.",
-        gusto: "Attacco morbido e maltato, finale pulito e rinfrescante."
-      },
-      abbinamenti: ["Pizza", "Fritti", "Pesce leggero", "Aperitivi"]
-    }
-  },
-  { name: "Red Moon",   style: "Red Ale", abv: "5.6%", ibu: "20-28",
-    ml: "330", tag: "Maltata e intensa", color: "#C0392B",
-    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025638/Progetto_senza_titolo_160_o8evpd.png",
-    details: {
-      stile: "Birra rossa ad alta fermentazione, un equilibrio perfetto tra malto e luppolo. Morbida e avvolgente, con un profilo maltato elegante e una chiusura equilibrata.",
-      sensoriale: ["Caramello leggero", "Biscotto tostato", "Crosta di pane", "Malto tostato", "Erbaceo delicato", "Amaro equilibrato"],
-      luppoli: [
-        { name: "MAGNUM", desc: "amaro pulito e intenso, utile a bilanciare la componente maltata." },
-        { name: "MALTO TOSTATO", desc: "regala il profilo aromatico della birra, con note di caramello, crosta di pane e lieve tostatura." }
-      ],
-      tecnico: {
-        aspetto: "Rossa ramata intensa, limpida, schiuma beige fine e persistente.",
-        aroma: "Prevalenza di malto tostato, caramello e crosta di pane, con una lieve nota erbacea.",
-        gusto: "Equilibrio perfetto tra malto e luppolo, ingresso morbido e avvolgente, finale pulito ma persistente."
-      },
-      abbinamenti: ["Hamburger", "Carne alla griglia", "Salumi", "Formaggi stagionati", "Pizza saporita"]
-    }
-  },
-  { name: "Enjoy",      style: "IPA",     abv: "7.2%", ibu: "45-60",
-    ml: "330", tag: "Luppolata e agrumata", color: "#F08A24",
-    img: "https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025646/Progetto_senza_titolo_159_phajgt.png",
-    details: {
-      stile: "Birra IPA ad alta fermentazione, colore dorato brillante. Un'esplosione di luppoli Citra e Mosaic che si chiude con un amaro pulito e persistente.",
-      sensoriale: ["Agrumi (pompelmo, lime)", "Frutta tropicale", "Resinoso leggero", "Erbaceo", "Amaro deciso", "Finale persistente"],
-      luppoli: [
-        { name: "CITRA", desc: "note intense di agrumi e frutta tropicale (pompelmo, lime, mango)" },
-        { name: "MOSAIC", desc: "profilo complesso con sentori tropicali, resinosi e leggermente erbacei" }
-      ],
-      tecnico: {
-        aspetto: "Dorato brillante, leggermente velata, schiuma bianca persistente.",
-        aroma: "Intenso e fresco, dominato da agrumi e frutta tropicale.",
-        gusto: "Ingresso morbido, forte componente luppolata, finale amaro pulito e persistente."
-      },
-      abbinamenti: ["Hamburger", "Carne alla griglia", "Piatti speziati", "Street food", "Cucina etnica"]
-    }
-  },
-];
+const BEERS = beers;
 
 const CornerBrackets = () => (
   <>
@@ -111,6 +58,14 @@ const MicroLabels = ({ counter, color = "currentColor", invert = false, isScene1
 export default function OurBeers() {
   const containerRef = useRef<HTMLElement>(null);
   const [activeScene, setActiveScene] = useState(0);
+
+  const scrollToScene = (sceneIndex: number) => {
+    if (!containerRef.current) return;
+    const targetScene = containerRef.current.querySelector(`[data-scene="${sceneIndex}"]`);
+    if (targetScene) {
+      targetScene.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -608,7 +563,7 @@ export default function OurBeers() {
             <div className="flex-1 flex justify-center md:justify-end order-1 md:order-1 mb-4 md:mb-0 md:pr-12 lg:pr-20">
               <div className="relative h-[54vh] md:h-[74vh] max-h-[700px]">
                 <div className="absolute inset-0 rounded-full s0-glow opacity-50 scale-100" style={{ backgroundColor: BEERS[2].color, filter: 'blur(40px)' }} />
-                <EnjoyRotator fallbackSrc={BEERS[2].img} alt={BEERS[2].name} className="relative h-full w-auto object-contain s0-bottle" />
+                <EnjoyRotator fallbackSrc={BEERS[2].image} alt={`Bottiglia da 330 ml di birra artigianale ${BEERS[2].name}, stile ${BEERS[2].style} del birrificio Hop Storm di Roma`} className="relative h-full w-auto object-contain s0-bottle" />
               </div>
             </div>
 
@@ -665,13 +620,20 @@ export default function OurBeers() {
           {/* BOTTLES LOWERED TO THE BOTTOM LIMIT */}
           <div className="flex flex-row justify-center gap-4 md:gap-14 lg:gap-20 w-full max-w-4xl md:max-w-6xl relative flex-1 min-h-0 items-end pb-2 s1-lineup-row z-10">
             {BEERS.map((b, i) => (
-              <div key={b.name} className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end" style={{ background: 'none' }}>
+              <button 
+                key={b.name} 
+                type="button"
+                onClick={() => scrollToScene(i + 2)}
+                aria-label={`Visualizza dettagli della birra ${b.name}, stile ${b.style}`}
+                className="flex-1 flex flex-col items-center h-full max-h-[48vh] md:max-h-[52vh] relative s1-bottle-wrap justify-end focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E] rounded-2xl cursor-pointer transition-transform hover:-translate-y-2 text-left" 
+                style={{ background: 'none' }}
+              >
                 <div className="relative flex-1 flex items-end justify-center mb-2 md:mb-3 w-full min-h-0" style={{ background: 'none' }}>
                   <div className={`absolute inset-0 rounded-full is-anim s1-glow delay-${i}`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', opacity: 0.35 }} />
-                  <img src={b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
+                  <img src={b.image} alt={`Bottiglia da 330 ml di ${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma`} decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
                 </div>
                 <div className={`text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] font-semibold text-center shrink-0`} style={{ color: b.color }}>{b.style}</div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -703,17 +665,17 @@ export default function OurBeers() {
                     <div className="text-lg lg:text-xl xl:text-3xl font-bold tracking-widest uppercase mb-2 lg:mb-4 s-single-style-enter" style={{ color: b.color }}>{b.style}</div>
                   </div>
                   
-                  {b.details && (
+                  {b && (
                     <div className="flex flex-col s-card-gap shrink-0 min-h-0 order-3 lg:order-none w-full relative z-20">
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter">
                         <div className="text-[10px] font-bold uppercase tracking-widest mb-1 lg:mb-2 opacity-80" style={{ color: b.color }}>Stile</div>
-                        <p className="font-medium leading-relaxed opacity-90 s-card-text">{b.details.stile}</p>
+                        <p className="font-medium leading-relaxed opacity-90 s-card-text">{b.styleDescription}</p>
                       </div>
                       
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter s-card-tall-only" style={{ transitionDelay: 'calc(90ms * var(--anim-speed))' }}>
                         <div className="text-[10px] font-bold uppercase tracking-widest mb-1 lg:mb-2 opacity-80" style={{ color: b.color }}>Luppoli</div>
                         <div className="flex flex-col gap-2 lg:gap-3">
-                          {b.details.luppoli.map(l => (
+                          {b.hops.map(l => (
                             <div key={l.name}>
                               <div className="font-bold mb-0.5 s-card-text text-white">{l.name}</div>
                               <div className="opacity-70 leading-relaxed s-card-text-sm">{l.desc}</div>
@@ -739,7 +701,7 @@ export default function OurBeers() {
                     
                     {/* INNER keyframe wrapper */}
                     <div className="s-bottle-inner flex justify-center items-center relative w-full h-full" style={{ background: 'none' }}>
-                      <img src={b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
+                      <img src={b.image || b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className="s-single-bottle relative z-10" style={{ maxHeight: 'calc(100dvh - var(--header-h, 84px) - 140px)', width: 'auto', objectFit: 'contain', pointerEvents: 'auto', background: 'none' }} />
                     </div>
 
                   </div>
@@ -752,28 +714,28 @@ export default function OurBeers() {
 
                 {/* Right Column */}
                 <div className="contents lg:flex lg:flex-col lg:justify-center z-10 w-full lg:w-auto s-card-gap min-h-0">
-                  {b.details && (
+                  {b && (
                     <div className="flex flex-col s-card-gap shrink-0 min-h-0 order-4 lg:order-none w-full relative z-20">
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter shrink-0">
                         <div className="text-[10px] font-bold uppercase tracking-widest mb-2 lg:mb-3 opacity-80" style={{ color: b.color }}>Profilo Tecnico</div>
                         <div className="flex flex-col gap-2 lg:gap-3">
                           <div className="grid grid-cols-[1fr_2.5fr] gap-2 items-start">
                              <span className="text-[9px] lg:text-[10px] font-bold uppercase opacity-60 tracking-wider mt-0.5">Aspetto</span>
-                             <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.details.tecnico.aspetto}</span>
+                             <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.appearance}</span>
                           </div>
                           <div className="grid grid-cols-[1fr_2.5fr] gap-2 items-start">
                              <span className="text-[9px] lg:text-[10px] font-bold uppercase opacity-60 tracking-wider mt-0.5">Aroma</span>
-                             <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.details.tecnico.aroma}</span>
+                             <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.aroma}</span>
                           </div>
                           <div className="grid grid-cols-[1fr_2.5fr] gap-2 items-start">
                              <span className="text-[9px] lg:text-[10px] font-bold uppercase opacity-60 tracking-wider mt-0.5">Gusto</span>
-                             <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.details.tecnico.gusto}</span>
+                             <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.taste}</span>
                           </div>
                           <div className="flex flex-wrap gap-4 lg:gap-6 mt-1 lg:mt-2 pt-3 lg:pt-4 relative">
                              <div className="absolute top-0 left-0 w-full h-px bg-white/10 s-single-hairline-enter" />
-                             <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">ABV</span><span className="font-bold s-card-text text-white">{b.abv}</span></div>
+                             <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">ABV</span><span className="font-bold s-card-text text-white">{formatAbv(b.abv)}</span></div>
                              <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">IBU</span><span className="font-bold s-card-text text-white">{b.ibu}</span></div>
-                             <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">Temp</span><span className="font-bold s-card-text text-white">5-8°C</span></div>
+                             <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">Temp</span><span className="font-bold s-card-text text-white">{b.servingTemp}</span></div>
                           </div>
                         </div>
                       </div>
@@ -781,7 +743,7 @@ export default function OurBeers() {
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter shrink-0" style={{ transitionDelay: 'calc(90ms * var(--anim-speed))' }}>
                         <div className="text-[10px] font-bold uppercase tracking-widest mb-1 lg:mb-2 opacity-80" style={{ color: b.color }}>Profilo Sensoriale</div>
                         <div className="flex flex-wrap gap-1.5 lg:gap-2">
-                          {b.details.sensoriale.map(s => (
+                          {b.sensoryNotes.map(s => (
                             <span key={s} className="px-2 lg:px-3 py-1 lg:py-1.5 bg-white/10 rounded-full font-medium s-card-text-sm border border-white/5">
                               {s}
                             </span>
@@ -792,13 +754,52 @@ export default function OurBeers() {
                       <div className="bg-white/5 text-white s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter s-card-tall-only shrink-0" style={{ transitionDelay: 'calc(180ms * var(--anim-speed))' }}>
                         <div className="text-[10px] font-bold uppercase tracking-widest mb-1 lg:mb-2 opacity-80" style={{ color: b.color }}>Abbinamenti</div>
                         <div className="flex flex-wrap gap-1.5 lg:gap-2">
-                          {b.details.abbinamenti.map(a => (
+                          {b.foodPairings.map(a => (
                             <span key={a} className="px-2 lg:px-3 py-1 bg-white/10 rounded-full font-bold uppercase tracking-wider s-card-text-sm">
                               {a}
                             </span>
                           ))}
                         </div>
                       </div>
+
+                      {/* Navigation between beers in the gallery */}
+                      <nav aria-label="Navigazione galleria birre" className="flex items-center justify-between gap-2 pt-2 z-20">
+                        <button
+                          type="button"
+                          onClick={() => scrollToScene(i === 0 ? 4 : sceneIdx - 1)}
+                          aria-label={`Vai alla birra precedente: ${BEERS[i === 0 ? 2 : i - 1].name}`}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-[#D4A24E] hover:bg-white/5 transition-all text-xs font-mono uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
+                        >
+                          <ChevronLeft size={14} aria-hidden="true" />
+                          <span>{BEERS[i === 0 ? 2 : i - 1].name}</span>
+                        </button>
+                        
+                        <div className="flex gap-2 items-center">
+                          {BEERS.map((beerItem, bIdx) => (
+                            <button
+                              key={beerItem.name}
+                              type="button"
+                              onClick={() => scrollToScene(bIdx + 2)}
+                              aria-label={`Visualizza scheda della birra ${beerItem.name}`}
+                              aria-current={bIdx === i ? 'true' : undefined}
+                              className={`w-3 h-3 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E] ${
+                                bIdx === i ? 'scale-125 ring-2 ring-white/60' : 'opacity-40 hover:opacity-80'
+                              }`}
+                              style={{ backgroundColor: beerItem.color }}
+                            />
+                          ))}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => scrollToScene(i === 2 ? 2 : sceneIdx + 1)}
+                          aria-label={`Vai alla birra successiva: ${BEERS[i === 2 ? 0 : i + 1].name}`}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-[#D4A24E] hover:bg-white/5 transition-all text-xs font-mono uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
+                        >
+                          <span>{BEERS[i === 2 ? 0 : i + 1].name}</span>
+                          <ChevronRight size={14} aria-hidden="true" />
+                        </button>
+                      </nav>
                     </div>
                   )}
                 </div>
@@ -823,19 +824,25 @@ export default function OurBeers() {
           </h2>
           <div className="flex flex-row justify-center items-end gap-2 md:gap-16 h-[50vh] md:h-[60vh] w-full max-w-5xl z-20">
             {BEERS.map((b, i) => (
-              <div key={b.name} className="group flex-1 flex flex-col items-center h-full relative cursor-pointer">
+              <button 
+                key={b.name} 
+                type="button"
+                onClick={() => scrollToScene(i + 2)}
+                aria-label={`Visualizza scheda dettagliata della birra ${b.name}, stile ${b.style}`}
+                className="group flex-1 flex flex-col items-center h-full relative cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E] rounded-2xl text-left"
+              >
                 <div className={`absolute bottom-[20%] w-[30%] h-full bg-gradient-to-t from-current to-transparent is-anim s5-col`} style={{ color: b.color, transitionDelay: `calc(${i * 160}ms * var(--anim-speed))` }} />
                 
                 <div className="relative flex-1 flex items-end justify-center mb-4 md:mb-6 w-full min-h-0 transition-transform md:group-hover:-translate-y-2" style={{ transitionDuration: 'calc(300ms * var(--anim-speed))', background: 'none' }}>
                   <div className={`absolute inset-0 rounded-full transition-all is-anim s5-glow s5-bottle`} style={{ background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`, filter: 'blur(35px)', transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, transitionDuration: 'calc(300ms * var(--anim-speed))' }} />
-                  <img src={b.img} alt={`${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma, bottiglia 330 ml`} decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
+                  <img src={b.image} alt={`Bottiglia da 330 ml di ${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma`} decoding="async" className={`relative h-full w-auto object-contain is-anim s5-bottle`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))`, background: 'none' }} />
                 </div>
                 
                 <div className={`text-center is-anim s5-headline`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }}>
                   <div className="text-sm md:text-xl font-bold tracking-tight">{b.name}</div>
                   <div className="text-[9px] md:text-xs font-mono uppercase tracking-[0.2em] mt-1 md:mt-2 opacity-60" style={{ color: b.color }}>{b.style}</div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>

@@ -43,11 +43,13 @@ export default function Footer() {
           <a href="/cookie" className="hover:text-[#D4A24E] transition-colors">Cookie Policy</a>
           <a href="/termini" className="hover:text-[#D4A24E] transition-colors">Termini e Condizioni</a>
           <button 
+            type="button"
             onClick={(e) => { 
               e.preventDefault(); 
               window.dispatchEvent(new Event('openCookieBanner')); 
             }} 
-            className="hover:text-[#D4A24E] transition-colors"
+            className="hover:text-[#D4A24E] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]"
+            aria-label="Gestisci le preferenze sui cookie"
           >
             Gestisci preferenze cookie
           </button>

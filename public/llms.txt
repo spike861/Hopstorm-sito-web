@@ -4,9 +4,9 @@ Hop Storm è un birrificio artigianale indipendente con sede a Roma. L'azienda p
 
 ## Prodotti
 Il birrificio Hop Storm produce attualmente tre birre artigianali principali, tutte nel formato bottiglia da 330 ml:
-- Fresh Wave: Birra in stile Helles (lager chiara). Gradazione alcolica (ABV): 5.0%. Livello di amaro (IBU): 18-22.
-- Red Moon: Birra in stile Red Ale (alta fermentazione, rossa). Gradazione alcolica (ABV): 5.6%. Livello di amaro (IBU): 20-28.
-- Enjoy: Birra in stile IPA (India Pale Ale). Gradazione alcolica (ABV): 7.2%. Livello di amaro (IBU): 45-60.
+- Fresh Wave: Birra in stile Helles Lager (lager chiara). Gradazione alcolica (ABV): 4,5%. Livello di amaro (IBU): 18-22.
+- Red Moon: Birra in stile Red Ale (alta fermentazione, rossa). Gradazione alcolica (ABV): 5,8%. Livello di amaro (IBU): 20-28.
+- Enjoy: Birra in stile IPA (India Pale Ale). Gradazione alcolica (ABV): 7,2%. Livello di amaro (IBU): 45-60.
 
 ## Servizi per i locali (B2B)
 Hop Storm fornisce birra artigianale a pub, ristoranti e locali. La fornitura è disponibile sia in bottiglie da 33cl che in fusti da 20 litri per la somministrazione alla spina, senza vincoli di minimo d'ordine.

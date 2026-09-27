@@ -1,7 +1,20 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { beers, formatAbv } from '../data/beers';
 
 export default function ForLocals() {
+  const formattedFormats = beers[0].formats
+    .map(f => {
+      if (f.startsWith('fusto ')) return f.replace('fusto ', 'fusti da ');
+      if (f.startsWith('bottiglia ')) return f.replace('bottiglia ', 'bottiglie da ');
+      return f;
+    })
+    .reduce((acc, curr, idx, arr) => {
+      if (idx === 0) return curr;
+      if (idx === arr.length - 1) return `${acc} e ${curr}`;
+      return `${acc}, ${curr}`;
+    }, '');
   return (
     <section id="per-i-locali" className="bg-black pt-24 md:pt-32 pb-16 md:pb-20 px-6 flex flex-col overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto w-full">
@@ -102,7 +115,13 @@ export default function ForLocals() {
           >
             <h3 className="text-3xl font-bold text-white mb-6">Formati disponibili</h3>
             <p className="text-white/70 mb-6 leading-relaxed">
-              <strong className="text-white">Fresh Wave</strong> (Helles Lager, 4,5%), <strong className="text-white">Red Moon</strong> (Rossa, 5,8%) e <strong className="text-white">Enjoy</strong> (IPA) sono disponibili per tutte in fusti da 20 litri, fusti da 24 litri e bottiglie da 33 cl.
+              {beers.map((b, i) => (
+                <React.Fragment key={b.slug}>
+                  <strong className="text-white">{b.name}</strong> ({b.style}, {formatAbv(b.abv)})
+                  {i < beers.length - 2 ? ', ' : i === beers.length - 2 ? ' e ' : ' '}
+                </React.Fragment>
+              ))}
+              sono disponibili in {formattedFormats}.
             </p>
             <p className="text-white/70 leading-relaxed">
               Puoi scegliere i formati più adatti alle tue esigenze, a seconda del tipo di locale, dello spazio disponibile e del volume che gestisci. Possiamo studiare insieme la combinazione più adatta a te.
@@ -153,11 +172,11 @@ export default function ForLocals() {
               formData.append("_template", "table");
               formData.append("_captcha", "false");
               
-              const beers = [];
-              if (form.querySelector("#beer-fresh").checked) beers.push("Fresh Wave");
-              if (form.querySelector("#beer-red").checked) beers.push("Red Moon");
-              if (form.querySelector("#beer-enjoy").checked) beers.push("Enjoy");
-              formData.append("Birre di interesse", beers.join(", "));
+              const selectedBeers: string[] = [];
+              if ((form.querySelector("#beer-fresh") as HTMLInputElement)?.checked) selectedBeers.push("Fresh Wave");
+              if ((form.querySelector("#beer-red") as HTMLInputElement)?.checked) selectedBeers.push("Red Moon");
+              if ((form.querySelector("#beer-enjoy") as HTMLInputElement)?.checked) selectedBeers.push("Enjoy");
+              formData.append("Birre di interesse", selectedBeers.join(", "));
               
               fetch("https://formsubmit.co/ajax/hopstorm.brewery@yahoo.com", {
                 method: "POST",
@@ -209,18 +228,15 @@ export default function ForLocals() {
               <div className="mt-6">
                 <label className="block text-sm font-medium text-white/60 mb-4">Birre di interesse (Multi-selezione)</label>
                 <div className="flex flex-wrap gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer group">
-                    <input type="checkbox" id="beer-fresh" className="w-5 h-5 accent-[#D4A24E] bg-black border-white/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" />
-                    <span className="text-white group-hover:text-[#D4A24E] transition-colors">Fresh Wave (Helles)</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer group">
-                    <input type="checkbox" id="beer-red" className="w-5 h-5 accent-[#D4A24E] bg-black border-white/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" />
-                    <span className="text-white group-hover:text-[#D4A24E] transition-colors">Red Moon (Red Ale)</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer group">
-                    <input type="checkbox" id="beer-enjoy" className="w-5 h-5 accent-[#D4A24E] bg-black border-white/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" />
-                    <span className="text-white group-hover:text-[#D4A24E] transition-colors">Enjoy (IPA)</span>
-                  </label>
+                  {beers.map(b => {
+                    const id = b.slug === 'fresh-wave' ? 'beer-fresh' : b.slug === 'red-moon' ? 'beer-red' : 'beer-enjoy';
+                    return (
+                      <label key={b.slug} className="flex items-center gap-2 cursor-pointer group">
+                        <input type="checkbox" id={id} className="w-5 h-5 accent-[#D4A24E] bg-black border-white/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" />
+                        <span className="text-white group-hover:text-[#D4A24E] transition-colors">{b.name} ({b.style})</span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
               
@@ -230,11 +246,21 @@ export default function ForLocals() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center pt-4">
-                <button type="submit" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold flex-1 w-full sm:w-auto text-center disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">
+                <button 
+                  type="submit" 
+                  aria-label="Invia la richiesta di fornitura per il tuo locale"
+                  className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold flex-1 w-full sm:w-auto text-center disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]"
+                >
                   Invia Richiesta
                 </button>
                 <span className="text-white/60">oppure</span>
-                <a href="https://wa.me/393491973069?text=Ciao%2C%20gestisco%20un%20locale%20e%20vorrei%20ricevere%20il%20vostro%20listino%20Horeca%20per%20fusti%20e%20bottiglie." target="_blank" rel="noopener noreferrer" className="border border-white/20 text-white hover:bg-white/10 transition-colors px-6 py-4 rounded-full font-bold flex items-center justify-center gap-2 w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                <a 
+                  href="https://wa.me/393491973069?text=Ciao%2C%20gestisco%20un%20locale%20e%20vorrei%20ricevere%20il%20vostro%20listino%20Horeca%20per%20fusti%20e%20bottiglie." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label="Contatta Hop Storm su WhatsApp per richiedere il listino Horeca per locali"
+                  className="border border-white/20 text-white hover:bg-white/10 transition-colors px-6 py-4 rounded-full font-bold flex items-center justify-center gap-2 w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
                   Contattaci su WhatsApp
                 </a>
               </div>

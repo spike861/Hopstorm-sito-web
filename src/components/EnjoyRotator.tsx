@@ -258,5 +258,5 @@ export default function EnjoyRotator({ className, style, fallbackSrc, alt }: { c
     return <img loading="lazy" decoding="async" src={fallbackSrc} alt={alt} className={className} style={{ ...style, background: 'none' }} />;
   }
 
-  return <canvas ref={canvasRef} className={className} style={{ ...style, background: 'none' }} />;
+  return <canvas ref={canvasRef} role="img" aria-label={alt} className={className} style={{ ...style, background: 'none' }} />;
 }

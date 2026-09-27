@@ -35,8 +35,14 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Toggle */}
-          <button className="md:hidden text-white" onClick={() => setIsOpen(true)} style={introStyle(step < 3, -16, 0, 0, reduced)}>
-            <Menu size={24} />
+          <button 
+            type="button"
+            className="md:hidden text-white p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" 
+            onClick={() => setIsOpen(true)} 
+            style={introStyle(step < 3, -16, 0, 0, reduced)}
+            aria-label="Apri menu di navigazione"
+          >
+            <Menu size={24} aria-hidden="true" />
           </button>
         </div>
       </header>
@@ -53,8 +59,13 @@ export default function Navbar() {
           >
             <div className="flex justify-between items-center mb-12">
               <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-12 w-auto" />
-              <button className="text-white" onClick={() => setIsOpen(false)}>
-                <X size={24} />
+              <button 
+                type="button"
+                className="text-white p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" 
+                onClick={() => setIsOpen(false)}
+                aria-label="Chiudi menu di navigazione"
+              >
+                <X size={24} aria-hidden="true" />
               </button>
             </div>
             

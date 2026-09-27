@@ -95,7 +95,7 @@ export default function HopStormHero() {
     }
 
     const frameUrl = (i: number, w: number) => {
-      const transform = isMobile ? "f_auto,q_auto:good,e_sharpen:40" : "f_auto,q_100,e_sharpen:60";
+      const transform = "f_auto,q_auto:good";
       return `${CONFIG.cloudBase}/${transform},c_scale,w_${w}/hf_${String(isMobile ? (i * 6) + 1 : i + 1).padStart(4, "0")}_${IDS[i]}.jpg`;
     };
 
@@ -406,14 +406,12 @@ export default function HopStormHero() {
 
       {/* Content Overlays */}
       <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center text-center px-4 z-20">
-        <div className="flex flex-col items-center justify-center mt-16">
+        <div className="flex flex-col items-center justify-center mt-12 md:mt-16 max-w-4xl w-full">
           <h1 
-            className="absolute top-[14%] left-0 right-0 px-6 flex flex-col items-center text-center md:static md:px-0 md:block text-[clamp(2rem,11vw,3.25rem)] md:text-9xl leading-[0.95] md:leading-[1] tracking-[-0.02em] md:tracking-tighter font-bold text-white/90 mb-6 drop-shadow-2xl"
+            className="flex flex-col items-center text-center text-[clamp(2.1rem,9vw,3.25rem)] md:text-9xl leading-[0.95] md:leading-[1] tracking-[-0.02em] md:tracking-tighter font-bold text-white mb-4 md:mb-6 drop-shadow-2xl"
             style={{
-              ...introStyle(step < 1, 28, 0, 8, reduced),
-              WebkitMaskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
-              maskImage: isMobile ? "linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,0.35) 84%, rgba(0,0,0,0) 100%)" : undefined,
-              textShadow: isMobile ? "0 2px 18px rgba(0,0,0,0.55)" : undefined,
+              ...introStyle(isMobile ? false : step < 1, 28, 0, 8, reduced),
+              textShadow: "0 2px 20px rgba(0,0,0,0.8)",
             }}
           >
             <span className="sr-only">Hop Storm — Birrificio Artigianale a Roma. </span>
@@ -421,31 +419,31 @@ export default function HopStormHero() {
             <span className="block md:inline" aria-hidden="true">TUTTI.</span>
           </h1>
           <p 
-            className="text-base md:text-xl lg:text-2xl text-white/95 max-w-3xl mb-8 md:mb-10 leading-relaxed font-normal bg-black/50 backdrop-blur-md border border-white/15 rounded-2xl px-6 py-4 md:px-8 md:py-5 shadow-2xl mx-auto"
-            style={introStyle(step < 2, 20, 0, 0, reduced)}
+            className="text-sm sm:text-base md:text-xl lg:text-2xl text-white/95 max-w-3xl mb-6 md:mb-10 leading-relaxed font-normal bg-black/60 backdrop-blur-md border border-white/15 rounded-2xl px-5 py-3.5 md:px-8 md:py-5 shadow-2xl mx-auto"
+            style={introStyle(isMobile ? false : step < 2, 20, 0, 0, reduced)}
           >
             Hop Storm è un birrificio artigianale indipendente a Roma: produciamo <strong className="font-semibold text-[#FFC857]">Fresh Wave</strong>, <strong className="font-semibold text-[#FF5252]">Red Moon</strong> e <strong className="font-semibold text-[#FFA726]">Enjoy</strong>, birre di carattere servite senza compromessi a privati e locali.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pointer-events-auto">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pointer-events-auto w-full sm:w-auto">
             <a 
               href="#per-i-privati" 
-              className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
-              style={introStyle(step < 3, 16, 0, 0, reduced)}
+              className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-3.5 md:py-4 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-lg w-full sm:w-auto text-center"
+              style={introStyle(isMobile ? false : step < 3, 16, 0, 0, reduced)}
             >
               Ordina Online
             </a>
             <a 
               href="#per-i-locali" 
-              className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md"
-              style={introStyle(step < 3, 16, 80, 0, reduced)}
+              className="bg-black/60 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-3.5 md:py-4 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider backdrop-blur-md w-full sm:w-auto text-center"
+              style={introStyle(isMobile ? false : step < 3, 16, 80, 0, reduced)}
             >
               Diventa Partner
             </a>
             <a 
               href="#dove-trovarci" 
-              className="bg-black/50 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider backdrop-blur-md"
-              style={introStyle(step < 3, 16, 160, 0, reduced)}
+              className="bg-black/60 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-3.5 md:py-4 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider backdrop-blur-md w-full sm:w-auto text-center"
+              style={introStyle(isMobile ? false : step < 3, 16, 160, 0, reduced)}
             >
               Dove Trovarci
             </a>
