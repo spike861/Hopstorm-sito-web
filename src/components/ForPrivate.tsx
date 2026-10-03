@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ShoppingBag, Package, ArrowRight, MapPin } from 'lucide-react';
 import { beers } from '../data/beers';
+import AllergenBadge from './AllergenBadge';
 
 export default function ForPrivate() {
   return (
@@ -77,9 +78,10 @@ export default function ForPrivate() {
                 <h4 className="text-xl font-bold mb-3" style={{ color: beer.slug === 'red-moon' ? '#E53935' : beer.color }}>
                   {beer.name}
                 </h4>
-                <p className="text-white/70 leading-relaxed">
+                <p className="text-white/70 leading-relaxed mb-3">
                   {beer.shortDescription}
                 </p>
+                <AllergenBadge beer={beer} variant="compact" />
               </div>
             ))}
 

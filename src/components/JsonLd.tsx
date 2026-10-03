@@ -128,6 +128,7 @@ export default function JsonLd() {
               { "@type": "PropertyValue", "name": "IBU", "value": beer.ibu },
               { "@type": "PropertyValue", "name": "Stile", "value": beer.style },
               { "@type": "PropertyValue", "name": "Temperatura di servizio", "value": beer.servingTemp },
+              { "@type": "PropertyValue", "name": "Allergeni", "value": "Orzo (glutine)" },
               ...beer.formats.map(f => ({ "@type": "PropertyValue", "name": "Formato", "value": f }))
             ]
           }

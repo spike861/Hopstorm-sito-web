@@ -1,7 +1,8 @@
 import EnjoyRotator from './EnjoyRotator';
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { beers, formatAbv } from '../data/beers';
+import AllergenBadge from './AllergenBadge';
 
 const BlurEdgeText = ({ text, color, delayOffset = 0, charDelay = 90, className = "" }: { text: string, color?: string, delayOffset?: number, charDelay?: number, className?: string }) => {
   let charCount = 0;
@@ -58,6 +59,11 @@ const MicroLabels = ({ counter, color = "currentColor", invert = false, isScene1
 export default function OurBeers() {
   const containerRef = useRef<HTMLElement>(null);
   const [activeScene, setActiveScene] = useState(0);
+  const [openIngredients, setOpenIngredients] = useState<Record<string, boolean>>({});
+
+  const toggleIngredients = (slug: string) => {
+    setOpenIngredients(prev => ({ ...prev, [slug]: !prev[slug] }));
+  };
 
   const scrollToScene = (sceneIndex: number) => {
     if (!containerRef.current) return;
@@ -633,6 +639,9 @@ export default function OurBeers() {
                   <img src={b.image} alt={`Bottiglia da 330 ml di ${b.name}, birra artigianale ${b.style} del birrificio Hop Storm di Roma`} decoding="async" className={`relative h-full max-h-[38vh] md:max-h-[44vh] w-auto object-contain is-anim s1-bottle delay-${i}`} style={{ background: 'none' }} />
                 </div>
                 <div className={`text-[11px] md:text-xs font-mono uppercase tracking-[0.2em] font-semibold text-center shrink-0`} style={{ color: b.color }}>{b.style}</div>
+                <div className="mt-1 shrink-0 w-full text-center">
+                  <AllergenBadge beer={b} variant="compact" className="text-center text-[10px] md:text-xs" />
+                </div>
               </button>
             ))}
           </div>
@@ -731,11 +740,14 @@ export default function OurBeers() {
                              <span className="text-[9px] lg:text-[10px] font-bold uppercase opacity-60 tracking-wider mt-0.5">Gusto</span>
                              <span className="font-medium leading-relaxed opacity-90 s-card-text">{b.taste}</span>
                           </div>
-                          <div className="flex flex-wrap gap-4 lg:gap-6 mt-1 lg:mt-2 pt-3 lg:pt-4 relative">
+                          <div className="flex flex-wrap gap-4 lg:gap-6 mt-1 lg:mt-2 pt-3 lg:pt-4 relative items-start">
                              <div className="absolute top-0 left-0 w-full h-px bg-white/10 s-single-hairline-enter" />
                              <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">ABV</span><span className="font-bold s-card-text text-white">{formatAbv(b.abv)}</span></div>
                              <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">IBU</span><span className="font-bold s-card-text text-white">{b.ibu}</span></div>
                              <div><span className="text-[8px] lg:text-[9px] uppercase opacity-60 block tracking-widest mb-0.5">Temp</span><span className="font-bold s-card-text text-white">{b.servingTemp}</span></div>
+                             <div className="basis-full w-full pt-1.5 border-t border-white/5">
+                               <AllergenBadge beer={b} variant="full" />
+                             </div>
                           </div>
                         </div>
                       </div>
@@ -749,6 +761,33 @@ export default function OurBeers() {
                             </span>
                           ))}
                         </div>
+                        {b.ingredients && (
+                          <div className="mt-2.5 pt-2 border-t border-white/10">
+                            <button
+                              type="button"
+                              onClick={() => toggleIngredients(b.slug)}
+                              aria-expanded={openIngredients[b.slug] ?? false}
+                              aria-controls={`ingredients-${b.slug}`}
+                              className="text-[10px] lg:text-[11px] text-[#D4A24E] hover:text-white transition-colors underline underline-offset-2 inline-flex items-center gap-1 font-mono uppercase tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#D4A24E]"
+                            >
+                              <span>Ingredienti</span>
+                              <ChevronDown 
+                                size={12} 
+                                className={`transition-transform duration-200 ${openIngredients[b.slug] ? 'rotate-180' : ''}`} 
+                                aria-hidden="true" 
+                              />
+                            </button>
+                            {openIngredients[b.slug] && (
+                              <div
+                                id={`ingredients-${b.slug}`}
+                                className="mt-2 text-xs text-white/80 leading-relaxed bg-black/40 p-2.5 rounded-lg border border-white/5 font-sans"
+                              >
+                                <span className="opacity-60 text-[9px] uppercase tracking-wider block mb-0.5">Lista ingredienti:</span>
+                                {b.ingredients}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       <div className="bg-white/5 text-white s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter s-card-tall-only shrink-0" style={{ transitionDelay: 'calc(180ms * var(--anim-speed))' }}>
@@ -840,6 +879,9 @@ export default function OurBeers() {
                 
                 <div className={`text-center is-anim s5-headline`} style={{ transitionDelay: `calc(${800 + i * 160}ms * var(--anim-speed))` }}>
                   <div className="text-sm md:text-xl font-bold tracking-tight">{b.name}</div>
+                  <div className="mt-1">
+                    <AllergenBadge beer={b} variant="compact" className="text-center text-[10px] md:text-xs" />
+                  </div>
                   <div className="text-[9px] md:text-xs font-mono uppercase tracking-[0.2em] mt-1 md:mt-2 opacity-60" style={{ color: b.color }}>{b.style}</div>
                 </div>
               </button>

@@ -123,8 +123,11 @@ export default function ForLocals() {
               ))}
               sono disponibili in {formattedFormats}.
             </p>
-            <p className="text-white/70 leading-relaxed">
+            <p className="text-white/70 leading-relaxed mb-4">
               Puoi scegliere i formati più adatti alle tue esigenze, a seconda del tipo di locale, dello spazio disponibile e del volume che gestisci. Possiamo studiare insieme la combinazione più adatta a te.
+            </p>
+            <p className="text-white/70 leading-relaxed text-sm">
+              Tutte le nostre birre contengono orzo (cereale con glutine). Su richiesta forniamo la scheda allergeni per il tuo menu.
             </p>
           </motion.div>
           

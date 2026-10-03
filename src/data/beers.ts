@@ -18,6 +18,9 @@ export interface Beer {
   formats: string[];
   image: string;
   img?: string;
+  allergens: string[];        // allergeni presenti, da mostrare in evidenza
+  allergenNote?: string;      // nota opzionale (es. tracce)
+  ingredients?: string;       // lista ingredienti opzionale
   // UI and styling attributes
   color: string;
   tag: string;
@@ -46,6 +49,8 @@ export const beers: Beer[] = [
     formats: ['fusto 20 litri', 'fusto 24 litri', 'bottiglia 33 cl'],
     image: 'https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025652/Progetto_senza_titolo_157_e0kgio.png',
     img: 'https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025652/Progetto_senza_titolo_157_e0kgio.png',
+    allergens: ['Orzo'],
+    ingredients: "Acqua, malto d'orzo, luppolo, lievito",
     color: '#D4A24E',
     tag: 'Fresca e pulita',
     styleDescription: 'Helles moderna: lager chiara, dorata e scorrevole. Profilo pulito, equilibrio delicato, grande bevibilità.',
@@ -70,6 +75,8 @@ export const beers: Beer[] = [
     formats: ['fusto 20 litri', 'fusto 24 litri', 'bottiglia 33 cl'],
     image: 'https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025638/Progetto_senza_titolo_160_o8evpd.png',
     img: 'https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025638/Progetto_senza_titolo_160_o8evpd.png',
+    allergens: ['Orzo'],
+    ingredients: "Acqua, malto d'orzo, luppolo, lievito",
     color: '#C0392B',
     tag: 'Maltata e intensa',
     styleDescription: 'Birra rossa ad alta fermentazione, un equilibrio perfetto tra malto e luppolo. Morbida e avvolgente, con un profilo maltato elegante e una chiusura equilibrata.',
@@ -94,6 +101,8 @@ export const beers: Beer[] = [
     formats: ['fusto 20 litri', 'fusto 24 litri', 'bottiglia 33 cl'],
     image: 'https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025646/Progetto_senza_titolo_159_phajgt.png',
     img: 'https://res.cloudinary.com/dcbomk6i8/image/upload/f_webp,q_auto:good/v1788025646/Progetto_senza_titolo_159_phajgt.png',
+    allergens: ['Orzo'],
+    ingredients: "Acqua, malto d'orzo, luppolo (Citra, Mosaic), lievito",
     color: '#F08A24',
     tag: 'Luppolata e agrumata',
     styleDescription: "Birra IPA ad alta fermentazione, colore dorato brillante. Un'esplosione di luppoli Citra e Mosaic che si chiude con un amaro pulito e persistente.",
