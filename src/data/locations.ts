@@ -164,6 +164,17 @@ export const locations: PartnerLocation[] = [
     mapsLink: "https://share.google/RTYA2IyK4gPt155xD",
     lat: 41.8602056,
     lng: 12.4126684
+  },
+  {
+    id: "macelleria-cerulli-85",
+    name: "Macelleria Cerulli 85",
+    type: "Macelleria",
+    city: "Fiumicino",
+    address: "Via Passo Buole, 95/A, 00054 Fiumicino RM",
+    products: ["Fresh Wave", "Red Moon", "Enjoy"],
+    mapsLink: "https://share.google/hVJAunNvaHL7VBWTf",
+    lat: 41.7559694,
+    lng: 12.2457500
   }
 ];
 

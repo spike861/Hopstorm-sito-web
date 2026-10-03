@@ -142,11 +142,12 @@ export default function JsonLd() {
         "numberOfItems": locations.length,
         "itemListElement": locations.map((loc, index) => {
           const isRestaurant = loc.type.toLowerCase().includes('ristorante') || loc.type.toLowerCase().includes('pizzeria');
+          const isStore = loc.type.toLowerCase().includes('macelleria') || loc.type.toLowerCase().includes('negozio');
           return {
             "@type": "ListItem",
             "position": index + 1,
             "item": {
-              "@type": isRestaurant ? "Restaurant" : "BarOrPub",
+              "@type": isRestaurant ? "Restaurant" : isStore ? "Store" : "BarOrPub",
               "@id": `https://www.hopstorm.it/#location-${loc.id}`,
               "name": loc.name,
               "address": {
