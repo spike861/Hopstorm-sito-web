@@ -13,6 +13,7 @@ import JsonLd from './components/JsonLd';
 import AgeGate from './components/AgeGate';
 import LegalPages from './components/LegalPages';
 import CookieBanner from './components/CookieBanner';
+import MobileBottomBar from './components/MobileBottomBar';
 import { IntroContext } from './introContext';
 
 export default function App() {
@@ -165,7 +166,7 @@ export default function App() {
       const target = (e.target as HTMLElement).closest('a');
       if (!target) return;
       const href = target.getAttribute('href');
-      if (href && (['/privacy', '/cookie', '/termini', '/'].includes(href))) {
+      if (href && (['/privacy', '/cookie', '/termini', '/vendita', '/'].includes(href))) {
         e.preventDefault();
         if (window.location.pathname !== href) {
           window.history.pushState({}, '', href);
@@ -184,8 +185,38 @@ export default function App() {
     };
   }, []);
 
-  const isLegalPage = ['/privacy', '/cookie', '/termini'].includes(currentPath);
+  const isLegalPage = ['/privacy', '/cookie', '/termini', '/vendita'].includes(currentPath);
   const isNotFound = !isLegalPage && currentPath !== '/';
+
+  useEffect(() => {
+    let metaRobots = document.querySelector("meta[name='robots']");
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta');
+      metaRobots.setAttribute('name', 'robots');
+      document.head.appendChild(metaRobots);
+    }
+
+    if (isNotFound) {
+      document.title = 'Pagina non trovata | Hop Storm';
+      metaRobots.setAttribute('content', 'noindex');
+    } else if (currentPath === '/') {
+      document.title = 'Hop Storm | Birrificio Artigianale Indipendente a Roma';
+      metaRobots.setAttribute('content', 'index, follow');
+      const metaDesc = document.querySelector("meta[name='description']");
+      if (metaDesc) {
+        metaDesc.setAttribute(
+          'content',
+          'Birrificio artigianale indipendente a Roma. Fresh Wave, Red Moon ed Enjoy: birre non filtrate né pastorizzate, per locali e privati. Fusti e bottiglie 33cl.'
+        );
+      }
+      const linkCan = document.querySelector("link[rel='canonical']");
+      if (linkCan) {
+        linkCan.setAttribute('href', 'https://www.hopstorm.it/');
+      }
+    } else {
+      metaRobots.setAttribute('content', 'index, follow');
+    }
+  }, [currentPath, isNotFound]);
 
   return (
     <IntroContext.Provider value={{ step, reduced }}>
@@ -216,6 +247,7 @@ export default function App() {
               <WhereToFindUs />
               <Contact />
               <Faq />
+              <MobileBottomBar />
             </>
           )}
         </main>

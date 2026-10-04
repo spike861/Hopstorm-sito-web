@@ -12,7 +12,7 @@ function copyFallback() {
         console.warn('[prerender] dist/index.html non trovato.');
         return;
     }
-    const routes = ['privacy', 'cookie', 'termini'];
+    const routes = ['privacy', 'cookie', 'termini', 'vendita'];
     for (const route of routes) {
         const targetDir = path.join('dist', route);
         fs.mkdirSync(targetDir, { recursive: true });
@@ -48,7 +48,8 @@ const server = app.listen(4000, async () => {
             { path: '/', file: 'index.html' },
             { path: '/privacy', file: 'privacy/index.html' },
             { path: '/cookie', file: 'cookie/index.html' },
-            { path: '/termini', file: 'termini/index.html' }
+            { path: '/termini', file: 'termini/index.html' },
+            { path: '/vendita', file: 'vendita/index.html' }
         ];
 
         for (const route of routes) {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, ShieldCheck, Check, Settings, AlertCircle } from 'lucide-react';
+import { initGA4 } from '../utils/analytics';
 
 export interface CookiePreferences {
   necessary: boolean;
@@ -28,6 +29,7 @@ export default function CookieBanner() {
   const applyScriptConsent = (consent: { analytics: boolean; marketing: boolean }) => {
     // Notify window for any external integration or tag manager
     window.dispatchEvent(new CustomEvent('hopstorm_consent_update', { detail: consent }));
+    initGA4(consent);
 
     // Execute or block analytics scripts strictly according to user consent
     if (consent.analytics) {
@@ -253,7 +255,7 @@ export default function CookieBanner() {
                 <div className="pr-2">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-white font-bold text-base">Cookie Tecnici e Necessari</h3>
-                    <span className="text-[10px] uppercase font-mono tracking-widest bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                    <span className="text-xs uppercase font-mono tracking-widest bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
                       Obbligatori
                     </span>
                   </div>
@@ -271,7 +273,7 @@ export default function CookieBanner() {
                 <div className="pr-2">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-white font-bold text-base">Cookie Analitici</h3>
-                    <span className="text-[10px] uppercase font-mono tracking-widest bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
+                    <span className="text-xs uppercase font-mono tracking-widest bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
                       Opzionali
                     </span>
                   </div>
@@ -296,7 +298,7 @@ export default function CookieBanner() {
                 <div className="pr-2">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-white font-bold text-base">Cookie di Marketing e Profilazione</h3>
-                    <span className="text-[10px] uppercase font-mono tracking-widest bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
+                    <span className="text-xs uppercase font-mono tracking-widest bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
                       Opzionali
                     </span>
                   </div>

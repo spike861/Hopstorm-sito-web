@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { beers, formatAbv } from '../data/beers';
+import { trackEvent } from '../utils/analytics';
 
 export default function ForLocals() {
   const formattedFormats = beers[0].formats
@@ -88,7 +89,7 @@ export default function ForLocals() {
               className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-10 relative overflow-hidden group hover:border-white/10 transition-all duration-500"
             >
               {/* Big background number */}
-              <div className="absolute -right-4 -top-8 text-[120px] font-bold text-white/[0.03] group-hover:text-[#C9922A]/10 transition-colors duration-500 pointer-events-none select-none">
+              <div className="absolute right-4 top-3 text-[88px] md:text-[110px] leading-none font-bold text-white/[0.03] group-hover:text-[#C9922A]/10 transition-colors duration-500 pointer-events-none select-none">
                 {feature.num}
               </div>
               
@@ -180,6 +181,7 @@ export default function ForLocals() {
               if ((form.querySelector("#beer-red") as HTMLInputElement)?.checked) selectedBeers.push("Red Moon");
               if ((form.querySelector("#beer-enjoy") as HTMLInputElement)?.checked) selectedBeers.push("Enjoy");
               formData.append("Birre di interesse", selectedBeers.join(", "));
+              trackEvent('generate_lead', { modulo: 'horeca', sezione: 'locali', birre: selectedBeers.join(', ') });
               
               fetch("https://formsubmit.co/ajax/hopstorm.brewery@yahoo.com", {
                 method: "POST",
@@ -261,6 +263,7 @@ export default function ForLocals() {
                   href="https://wa.me/393491973069?text=Ciao%2C%20gestisco%20un%20locale%20e%20vorrei%20ricevere%20il%20vostro%20listino%20Horeca%20per%20fusti%20e%20bottiglie." 
                   target="_blank" 
                   rel="noopener noreferrer" 
+                  onClick={() => trackEvent('click_whatsapp', { sezione: 'locali' })}
                   aria-label="Contatta Hop Storm su WhatsApp per richiedere il listino Horeca per locali"
                   className="border border-white/20 text-white hover:bg-white/10 transition-colors px-6 py-4 rounded-full font-bold flex items-center justify-center gap-2 w-full sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >

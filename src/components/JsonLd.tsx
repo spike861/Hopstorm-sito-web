@@ -103,6 +103,23 @@ export default function JsonLd() {
           }
         ]
       },
+      ...beers.map((beer) => ({
+        "@type": "Product",
+        "@id": `https://www.hopstorm.it/#${beer.slug}`,
+        "name": beer.name,
+        "description": beer.styleDescription || beer.shortDescription,
+        "image": beer.image,
+        "brand": {
+          "@type": "Brand",
+          "name": "Hop Storm"
+        },
+        "category": "Birra artigianale",
+        "additionalProperty": [
+          { "@type": "PropertyValue", "name": "ABV", "value": formatAbv(beer.abv) },
+          { "@type": "PropertyValue", "name": "Stile", "value": beer.style },
+          { "@type": "PropertyValue", "name": "Allergeni", "value": "Orzo (glutine)" }
+        ]
+      })),
       {
         "@type": "ItemList",
         "@id": "https://www.hopstorm.it/#beers",
@@ -113,24 +130,7 @@ export default function JsonLd() {
           "@type": "ListItem",
           "position": index + 1,
           "item": {
-            "@type": "Product",
-            "@id": `https://www.hopstorm.it/#${beer.slug}`,
-            "name": beer.name,
-            "image": beer.image,
-            "description": beer.styleDescription || beer.shortDescription,
-            "brand": {
-              "@type": "Brand",
-              "name": "Hop Storm"
-            },
-            "category": "Birra artigianale",
-            "additionalProperty": [
-              { "@type": "PropertyValue", "name": "ABV", "value": formatAbv(beer.abv) },
-              { "@type": "PropertyValue", "name": "IBU", "value": beer.ibu },
-              { "@type": "PropertyValue", "name": "Stile", "value": beer.style },
-              { "@type": "PropertyValue", "name": "Temperatura di servizio", "value": beer.servingTemp },
-              { "@type": "PropertyValue", "name": "Allergeni", "value": "Orzo (glutine)" },
-              ...beer.formats.map(f => ({ "@type": "PropertyValue", "name": "Formato", "value": f }))
-            ]
+            "@id": `https://www.hopstorm.it/#${beer.slug}`
           }
         }))
       },

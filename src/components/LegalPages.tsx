@@ -22,6 +22,10 @@ export default function LegalPages({ currentHash }: LegalPagesProps) {
       title = "Termini e Condizioni | Hop Storm";
       desc = "Termini e Condizioni di vendita e utilizzo del sito Hop Storm.";
       canonical = "https://www.hopstorm.it/termini";
+    } else if (currentHash === "/vendita") {
+      title = "Condizioni di Vendita | Hop Storm";
+      desc = "Condizioni Generali di Vendita online del birrificio artigianale Hop Storm.";
+      canonical = "https://www.hopstorm.it/vendita";
     }
 
     document.title = title;
@@ -44,7 +48,8 @@ export default function LegalPages({ currentHash }: LegalPagesProps) {
       case '/cookie':
         return <CookiePolicy />;
       case '/termini':
-        return <TermsAndConditions />;
+      case '/vendita':
+        return <TermsAndConditions isVendita={currentHash === '/vendita'} />;
       default:
         return null;
     }
@@ -322,10 +327,12 @@ function CookiePolicy() {
   );
 }
 
-function TermsAndConditions() {
+function TermsAndConditions({ isVendita = false }: { isVendita?: boolean }) {
   return (
     <article className="prose prose-invert prose-gold max-w-none">
-      <h1 className="text-4xl font-bold mb-8 text-white">Termini e Condizioni</h1>
+      <h1 className="text-4xl font-bold mb-8 text-white">
+        {isVendita ? 'Condizioni di Vendita' : 'Termini e Condizioni'}
+      </h1>
       <p className="text-white/60 mb-8">Ultimo aggiornamento: 15 Aprile 2026</p>
 
       <section className="mb-10">

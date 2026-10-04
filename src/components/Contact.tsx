@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { motion } from 'motion/react';
 import { Send, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 export default function Contact() {
   const [selectedInteresse, setSelectedInteresse] = useState<string>('');
@@ -47,6 +48,7 @@ export default function Contact() {
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    trackEvent('generate_lead', { modulo: 'contatti', sezione: 'contatti', interesse: selectedInteresse });
 
     try {
       const formData = new FormData();

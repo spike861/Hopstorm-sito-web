@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useIntro } from '../introContext';
 import { introStyle } from '../introStyle';
+import { trackEvent } from '../utils/analytics';
 
 export default function HopStormHero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -400,7 +401,7 @@ export default function HopStormHero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
         style={{ opacity: step < 3 ? 0.5 : 0, transition: "opacity 300ms" }}
       >
-        <span className="text-white/70 text-[11px] tracking-[0.3em] font-medium uppercase">SCORRI</span>
+        <span className="text-white/70 text-xs tracking-[0.3em] font-medium uppercase">SCORRI</span>
         <div className="w-[1px] h-[40px] bg-white/50" style={{ animation: "float-scroll 2s infinite ease-in-out" }}></div>
       </div>
 
@@ -428,6 +429,7 @@ export default function HopStormHero() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pointer-events-auto w-full sm:w-auto">
             <a 
               href="#per-i-privati" 
+              onClick={() => trackEvent('click_order', { posizione: 'hero' })}
               className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-3.5 md:py-4 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-lg w-full sm:w-auto text-center"
               style={introStyle(isMobile ? false : step < 3, 16, 0, 0, reduced)}
             >

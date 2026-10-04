@@ -6,6 +6,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { locations } from '../data/locations';
+import { trackEvent } from '../utils/analytics';
 
 // Dynamic icon creation based on active state
 const createIcon = (isActive: boolean) => new L.DivIcon({
@@ -254,6 +255,7 @@ export default function WhereToFindUs() {
             href="https://wa.me/393491973069?text=Ciao%2C%20gestisco%20un%20locale%20e%20vorrei%20ricevere%20il%20vostro%20listino%20Horeca%20per%20fusti%20e%20bottiglie." 
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('click_whatsapp', { sezione: 'dove_trovarci' })}
             className="inline-flex bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold items-center justify-center gap-2 text-sm uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]"
             aria-label="Richiedi il listino Horeca Hop Storm su WhatsApp"
           >

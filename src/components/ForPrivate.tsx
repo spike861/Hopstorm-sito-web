@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { ShoppingBag, Package, ArrowRight, MapPin } from 'lucide-react';
 import { beers } from '../data/beers';
 import AllergenBadge from './AllergenBadge';
+import { trackEvent } from '../utils/analytics';
 
 export default function ForPrivate() {
   return (
@@ -101,6 +102,10 @@ export default function ForPrivate() {
             href="https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F" 
             target="_blank" 
             rel="noopener noreferrer" 
+            onClick={() => {
+              trackEvent('click_order', { posizione: 'privati' });
+              trackEvent('click_whatsapp', { sezione: 'privati' });
+            }}
             aria-label="Ordina le birre Hop Storm online tramite WhatsApp"
             className="bg-gradient-to-r from-[#E53935] to-[#B71C1C] text-white hover:opacity-90 transition-opacity px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >

@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { MapPin, Calendar, ArrowRight, Mail } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 export default function Events() {
   const upcomingEvents = [
@@ -115,6 +116,7 @@ export default function Events() {
                     href="https://wa.me/393491973069?text=Ciao%2C%20vorrei%20info%20sull'evento%20di%20boxe%20al%20Palatorrino." 
                     target="_blank" 
                     rel="noopener noreferrer" 
+                    onClick={() => trackEvent('click_whatsapp', { sezione: 'eventi' })}
                     aria-label={`Richiedi informazioni e partecipa all'evento ${event.title} su WhatsApp`}
                     className="w-full sm:w-auto bg-gradient-to-r from-[#D4A24E] to-[#C0392B] text-white hover:shadow-[0_0_20px_rgba(212,162,78,0.4)] transition-all px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-sm uppercase tracking-wider whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
                   >
@@ -150,7 +152,7 @@ export default function Events() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90" />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-black/80 backdrop-blur-md text-white/60 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-white/10">
+                    <span className="bg-black/80 backdrop-blur-md text-white/60 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-white/10">
                       Concluso
                     </span>
                   </div>
