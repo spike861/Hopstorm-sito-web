@@ -77,7 +77,7 @@ export default function ForLocals() {
             {
               num: "04",
               title: "Visibilità reciproca",
-              desc: "Ogni locale partner viene inserito nella nostra mappa \"Dove Trovarci\" sul sito e promosso sui nostri canali social. I nostri clienti diventano i tuoi clienti."
+              desc: "Ogni locale partner viene promosso attivamente sui nostri canali social e nella nostra rete di eventi. I nostri clienti diventano i tuoi clienti."
             }
           ].map((feature, i) => (
             <motion.div 

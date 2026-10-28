@@ -1017,8 +1017,12 @@ export default function OurBeers() {
           </div>
           
           <div className="s6-cta">
-            <a href="#dove-trovarci" className="inline-flex bg-[#D4A24E] text-black hover:bg-[#C2903C] transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider">
-              Dove Trovarci
+            <a 
+              href="#per-i-privati" 
+              onClick={() => trackEvent('click_order', { posizione: 'beers_closing' })}
+              className="inline-flex bg-[#D4A24E] text-black hover:bg-[#C2903C] transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider"
+            >
+              Ordina Online
             </a>
           </div>
         </div>

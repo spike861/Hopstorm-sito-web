@@ -5,7 +5,6 @@ import OurBeers from './components/OurBeers';
 import About from './components/About';
 import ForLocals from './components/ForLocals';
 import ForPrivate from './components/ForPrivate';
-import WhereToFindUs from './components/WhereToFindUs';
 import Contact from './components/Contact';
 import Faq from './components/Faq';
 import Footer from './components/Footer';
@@ -244,7 +243,6 @@ export default function App() {
               <About />
               <ForLocals />
               <ForPrivate />
-              <WhereToFindUs />
               <Contact />
               <Faq />
               <MobileBottomBar />

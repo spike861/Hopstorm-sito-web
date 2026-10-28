@@ -64,11 +64,11 @@ export default function MobileBottomBar() {
           ORDINA
         </a>
         <a
-          href="#dove-trovarci"
+          href="#per-i-locali"
           tabIndex={visible ? 0 : -1}
           className="flex-1 h-10 border border-white/25 bg-white/5 text-white hover:bg-white/15 transition-colors rounded-full font-bold text-xs uppercase tracking-wider flex items-center justify-center text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          TROVA UN LOCALE
+          PER I LOCALI
         </a>
       </div>
     </div>

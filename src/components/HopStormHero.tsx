@@ -442,13 +442,6 @@ export default function HopStormHero() {
             >
               Diventa Partner
             </a>
-            <a 
-              href="#dove-trovarci" 
-              className="bg-black/60 border border-white/20 text-white hover:bg-white/10 transition-colors px-8 py-3.5 md:py-4 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider backdrop-blur-md w-full sm:w-auto text-center"
-              style={introStyle(isMobile ? false : step < 3, 16, 160, 0, reduced)}
-            >
-              Dove Trovarci
-            </a>
           </div>
         </div>
       </div>

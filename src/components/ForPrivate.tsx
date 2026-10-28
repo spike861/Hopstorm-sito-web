@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ShoppingBag, Package, ArrowRight, MapPin } from 'lucide-react';
+import { ShoppingBag, Package, ArrowRight, Mail } from 'lucide-react';
 import { beers } from '../data/beers';
 import AllergenBadge from './AllergenBadge';
 import { trackEvent } from '../utils/analytics';
@@ -112,11 +112,11 @@ export default function ForPrivate() {
             Ordina Online <ArrowRight size={20} aria-hidden="true" />
           </a>
           <a 
-            href="#dove-trovarci" 
-            aria-label="Vai alla mappa per trovare un locale partner Hop Storm"
+            href="#contatti" 
+            aria-label="Contatta Hop Storm per qualsiasi informazione o domanda"
             className="border border-white/20 text-white hover:bg-white/5 transition-colors px-8 py-4 rounded-full font-bold flex items-center justify-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >
-            <MapPin size={20} aria-hidden="true" /> Trova un Locale Partner
+            <Mail size={20} aria-hidden="true" /> Hai domande? Scrivici
           </a>
         </motion.div>
       </div>

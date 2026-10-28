@@ -28,7 +28,7 @@ export default function Navbar() {
           
           {/* Desktop */}
           <div className="hidden md:flex gap-8" style={introStyle(step < 3, -16, 0, 0, reduced)}>
-            {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'DOVE TROVARCI'].map((item) => (
+            {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'CONTATTI'].map((item) => (
               <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`} className="text-white/60 hover:text-white transition-colors text-sm uppercase tracking-wider font-medium">
                 {item}
               </a>
@@ -72,7 +72,7 @@ export default function Navbar() {
             </div>
             
             <nav aria-label="Menu mobile" className="flex flex-col gap-6 text-2xl">
-              {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'DOVE TROVARCI'].map((item) => (
+              {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'CONTATTI'].map((item) => (
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase().replace(/ /g, '-')}`} 

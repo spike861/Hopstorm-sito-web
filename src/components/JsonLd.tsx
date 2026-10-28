@@ -1,5 +1,4 @@
 import { beers, formatAbv } from '../data/beers';
-import { locations } from '../data/locations';
 import { getUpcomingEvents } from '../data/events';
 
 export default function JsonLd() {
@@ -86,18 +85,12 @@ export default function JsonLd() {
           {
             "@type": "ListItem",
             "position": 6,
-            "name": "Dove Trovarci",
-            "item": "https://www.hopstorm.it/#dove-trovarci"
-          },
-          {
-            "@type": "ListItem",
-            "position": 7,
             "name": "Contatti",
             "item": "https://www.hopstorm.it/#contatti"
           },
           {
             "@type": "ListItem",
-            "position": 8,
+            "position": 7,
             "name": "FAQ",
             "item": "https://www.hopstorm.it/#faq"
           }
@@ -133,39 +126,6 @@ export default function JsonLd() {
             "@id": `https://www.hopstorm.it/#${beer.slug}`
           }
         }))
-      },
-      {
-        "@type": "ItemList",
-        "@id": "https://www.hopstorm.it/#dove-trovarci",
-        "name": "Locali Partner Hop Storm - Dove Trovarci",
-        "description": "Bar, pub, pizzerie e ristoranti partner a Roma e provincia dove trovare e gustare le birre artigianali Hop Storm.",
-        "numberOfItems": locations.length,
-        "itemListElement": locations.map((loc, index) => {
-          const isRestaurant = loc.type.toLowerCase().includes('ristorante') || loc.type.toLowerCase().includes('pizzeria');
-          const isStore = loc.type.toLowerCase().includes('macelleria') || loc.type.toLowerCase().includes('negozio');
-          return {
-            "@type": "ListItem",
-            "position": index + 1,
-            "item": {
-              "@type": isRestaurant ? "Restaurant" : isStore ? "Store" : "BarOrPub",
-              "@id": `https://www.hopstorm.it/#location-${loc.id}`,
-              "name": loc.name,
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": loc.address,
-                "addressLocality": loc.city,
-                "addressRegion": "RM",
-                "addressCountry": "IT"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": loc.lat,
-                "longitude": loc.lng
-              },
-              "hasMap": loc.mapsLink
-            }
-          };
-        })
       },
       ...upcomingEvents.map(event => ({
         "@type": "Event",
