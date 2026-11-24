@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { beers, formatAbv } from '../data/beers';
 import { trackEvent } from '../utils/analytics';
 
 export default function ForLocals() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'network_error'>('idle');
   const formattedFormats = beers[0].formats
     .map(f => {
       if (f.startsWith('fusto ')) return f.replace('fusto ', 'fusti da ');
@@ -162,50 +164,45 @@ export default function ForLocals() {
             <h3 className="text-3xl font-bold text-white mb-6">Inviaci i tuoi dati</h3>
             <p className="text-white/60 mb-8">Compila il modulo sottostante per essere ricontattato e ricevere il nostro listino dedicato al settore Horeca. Nessun impegno, nessun minimo d'ordine.</p>
             
-            <form id="b2b-form" className="space-y-6" onSubmit={(e) => {
+            <form id="b2b-form" className="space-y-6" onSubmit={async (e) => {
               e.preventDefault();
-              const form = e.target;
-              const btn = form.querySelector("button[type=submit]");
-              const msg = form.querySelector(".form-message");
-              btn.disabled = true;
-              btn.innerHTML = "Invio in corso...";
-              msg.innerHTML = "";
-              
+              if (isSubmitting) return;
+              const form = e.currentTarget;
+              setIsSubmitting(true);
+              setSubmitStatus('idle');
+
               const formData = new FormData(form);
               formData.append("_subject", "Nuova richiesta Horeca da Hop Storm!");
               formData.append("_template", "table");
               formData.append("_captcha", "false");
-              
+
               const selectedBeers: string[] = [];
               if ((form.querySelector("#beer-fresh") as HTMLInputElement)?.checked) selectedBeers.push("Fresh Wave");
               if ((form.querySelector("#beer-red") as HTMLInputElement)?.checked) selectedBeers.push("Red Moon");
               if ((form.querySelector("#beer-enjoy") as HTMLInputElement)?.checked) selectedBeers.push("Enjoy");
               formData.append("Birre di interesse", selectedBeers.join(", "));
               trackEvent('generate_lead', { modulo: 'horeca', sezione: 'locali', birre: selectedBeers.join(', ') });
-              
-              fetch("https://formsubmit.co/ajax/hopstorm.brewery@yahoo.com", {
-                method: "POST",
-                headers: {
-                  'Accept': 'application/json'
-                },
-                body: formData
-              })
-              .then(res => res.json())
-              .then(data => {
+
+              try {
+                const res = await fetch("https://formsubmit.co/ajax/hopstorm.brewery@yahoo.com", {
+                  method: "POST",
+                  headers: {
+                    'Accept': 'application/json'
+                  },
+                  body: formData
+                });
+                const data = await res.json();
                 if (data.success === "true" || data.success === true || data.ok) {
-                  msg.innerHTML = "<div class='p-4 bg-green-900/50 border border-green-500/50 rounded-xl text-green-200 mt-4'>Richiesta inviata con successo! Ti contatteremo al più presto.</div>";
+                  setSubmitStatus('success');
                   form.reset();
                 } else {
-                  msg.innerHTML = "<div class='p-4 bg-red-900/50 border border-red-500/50 rounded-xl text-red-200 mt-4'>Errore durante l'invio. Riprova o contattaci su WhatsApp.</div>";
+                  setSubmitStatus('error');
                 }
-              })
-              .catch(() => {
-                msg.innerHTML = "<div class='p-4 bg-red-900/50 border border-red-500/50 rounded-xl text-red-200 mt-4'>Errore di rete. Riprova più tardi.</div>";
-              })
-              .finally(() => {
-                btn.disabled = false;
-                btn.innerHTML = "Invia Richiesta";
-              });
+              } catch {
+                setSubmitStatus('network_error');
+              } finally {
+                setIsSubmitting(false);
+              }
             }}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -253,10 +250,11 @@ export default function ForLocals() {
               <div className="flex flex-col sm:flex-row gap-4 items-center pt-4">
                 <button 
                   type="submit" 
+                  disabled={isSubmitting}
                   aria-label="Invia la richiesta di fornitura per il tuo locale"
                   className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold flex-1 w-full sm:w-auto text-center disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]"
                 >
-                  Invia Richiesta
+                  {isSubmitting ? "Invio in corso..." : "Invia Richiesta"}
                 </button>
                 <span className="text-white/60">oppure</span>
                 <a 
@@ -271,7 +269,23 @@ export default function ForLocals() {
                 </a>
               </div>
               
-              <div className="form-message w-full"></div>
+              <div className="form-message w-full" role="status">
+                {submitStatus === 'success' && (
+                  <div className="p-4 bg-green-900/50 border border-green-500/50 rounded-xl text-green-200 mt-4">
+                    Richiesta inviata con successo! Ti contatteremo al più presto.
+                  </div>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="p-4 bg-red-900/50 border border-red-500/50 rounded-xl text-red-200 mt-4">
+                    Errore durante l&apos;invio. Riprova o contattaci su WhatsApp.
+                  </div>
+                )}
+                {submitStatus === 'network_error' && (
+                  <div className="p-4 bg-red-900/50 border border-red-500/50 rounded-xl text-red-200 mt-4">
+                    Errore di rete. Riprova più tardi.
+                  </div>
+                )}
+              </div>
             </form>
           </div>
 

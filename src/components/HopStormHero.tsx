@@ -428,7 +428,7 @@ export default function HopStormHero() {
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pointer-events-auto w-full sm:w-auto">
             <a 
-              href="#per-i-privati" 
+              href="/shop" 
               onClick={() => trackEvent('click_order', { posizione: 'hero' })}
               className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-3.5 md:py-4 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-lg w-full sm:w-auto text-center"
               style={introStyle(isMobile ? false : step < 3, 16, 0, 0, reduced)}

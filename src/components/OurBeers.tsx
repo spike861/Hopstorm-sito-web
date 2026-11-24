@@ -1,6 +1,6 @@
 import EnjoyRotator from './EnjoyRotator';
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { beers, formatAbv } from '../data/beers';
 import AllergenBadge from './AllergenBadge';
 import { trackEvent } from '../utils/analytics';
@@ -60,21 +60,6 @@ const MicroLabels = ({ counter, color = "currentColor", invert = false, isScene1
 export default function OurBeers() {
   const containerRef = useRef<HTMLElement>(null);
   const [activeScene, setActiveScene] = useState(0);
-  const [openHops, setOpenHops] = useState<Record<string, boolean>>({});
-  const [openPairings, setOpenPairings] = useState<Record<string, boolean>>({});
-  const [openIngredients, setOpenIngredients] = useState<Record<string, boolean>>({});
-
-  const toggleHops = (slug: string) => {
-    setOpenHops(prev => ({ ...prev, [slug]: !prev[slug] }));
-  };
-
-  const togglePairings = (slug: string) => {
-    setOpenPairings(prev => ({ ...prev, [slug]: !prev[slug] }));
-  };
-
-  const toggleIngredients = (slug: string) => {
-    setOpenIngredients(prev => ({ ...prev, [slug]: !prev[slug] }));
-  };
 
   const scrollToScene = (sceneIndex: number) => {
     if (!containerRef.current) return;
@@ -187,11 +172,11 @@ export default function OurBeers() {
       --translate-mult: 1;
     }
     
-    .s-card-pad { padding: clamp(14px, 1.8vh, 22px); }
-    .s-card-gap { gap: clamp(10px, 1.6vh, 18px); }
+    .s-card-pad { padding: clamp(12px, 1.4vh, 18px); }
+    .s-card-gap { gap: clamp(8px, 1.2vh, 14px); }
     .s-vert-style { font-size: clamp(24px, 5vh, 56px); }
-    .s-card-text { font-size: clamp(14px, 1.6vh, 16px); }
-    .s-card-text-sm { font-size: clamp(12px, 1.35vh, 14px); }
+    .s-card-text { font-size: clamp(13px, 1.45vh, 15px); }
+    .s-card-text-sm { font-size: clamp(11px, 1.2vh, 13px); }
     
     @media (max-width: 767px) {
       :root {
@@ -680,43 +665,54 @@ export default function OurBeers() {
       {BEERS.map((b, i) => {
         const sceneIdx = i + 2;
         return (
-          <section key={b.name} className="beer-scene scene-wrap relative min-h-[200vh] h-auto lg:h-[200vh] w-full snap-start z-10" data-scene={sceneIdx.toString()}>
-            <div className="scene-stage sticky top-0 min-h-[100dvh] lg:h-[100dvh] h-auto w-full overflow-hidden text-white" style={{ perspective: "1400px" }}>
+          <section key={b.name} className="beer-scene scene-wrap relative min-h-[200vh] h-auto lg:min-h-[200vh] w-full snap-start z-10" data-scene={sceneIdx.toString()}>
+            <div className="scene-stage sticky top-0 min-h-[100dvh] h-auto w-full overflow-hidden text-white" style={{ perspective: "1400px" }}>
             
             {/* AMBIENT GLOW MOBILE ONLY - Colore diffuso sotto le scritte */}
             <div className="absolute inset-0 z-0 pointer-events-none block lg:hidden" style={{ background: `radial-gradient(130% 70% at 50% 38%, color-mix(in srgb, ${b.color} 26%, transparent) 0%, color-mix(in srgb, ${b.color} 11%, transparent) 40%, transparent 74%)` }} />
 
             <MicroLabels counter={`0${i+1}/03`} />
             
-            <div className="relative w-full max-w-7xl mx-auto h-full px-4 lg:px-6"
-                 style={{ paddingTop: 'calc(var(--header-h, 72px) + 20px)', paddingBottom: '32px', zIndex: 0 }}>
+            <div className="relative w-full max-w-7xl mx-auto min-h-[100dvh] flex flex-col justify-center px-4 lg:px-6"
+                 style={{ paddingTop: 'clamp(96px, 11vh, 118px)', paddingBottom: '28px', zIndex: 0 }}>
               
-              <div className="flex flex-col lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-8 xl:gap-16 lg:items-stretch lg:justify-center min-h-[100dvh] lg:h-full w-full gap-[clamp(10px,1.6vh,18px)] lg:gap-0 pb-12 lg:pb-0 relative z-0">
+              <div className="flex flex-col lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-8 xl:gap-14 lg:items-center lg:justify-center w-full gap-[clamp(10px,1.6vh,16px)] pb-8 lg:pb-0 relative z-0">
                 
                 {/* Left Column */}
                 <div className="contents lg:flex lg:flex-col lg:justify-center s-card-gap z-10 min-h-0 w-full lg:w-auto">
                   <div className="s-single-name shrink-0 order-1 lg:order-none relative z-20">
-                    <h3 className="text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tighter leading-[0.9] mb-1 lg:mb-2">
+                    <h3 className="text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tighter leading-[0.9] mb-1 lg:mb-1.5">
                       {b.name}
                     </h3>
-                    <div className="text-lg lg:text-xl xl:text-3xl font-bold tracking-widest uppercase mb-2 lg:mb-4 s-single-style-enter" style={{ color: b.color }}>{b.style}</div>
+                    <div className="text-lg lg:text-xl xl:text-2xl font-bold tracking-widest uppercase mb-1 lg:mb-2 s-single-style-enter" style={{ color: b.color }}>{b.style}</div>
                   </div>
                   
                   {b && (
                     <div className="flex flex-col s-card-gap shrink-0 min-h-0 order-3 lg:order-none w-full relative z-20">
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter">
-                        <div className="text-xs font-bold uppercase tracking-widest mb-1.5 lg:mb-2 opacity-85" style={{ color: b.color }}>Stile</div>
+                        <div className="text-xs font-bold uppercase tracking-widest mb-1.5 opacity-85" style={{ color: b.color }}>Stile</div>
                         <p className="font-medium leading-relaxed opacity-90 s-card-text">{b.styleDescription}</p>
                       </div>
                       
-                      <div className="hidden lg:block bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter" style={{ transitionDelay: 'calc(90ms * var(--anim-speed))' }}>
-                        <div className="text-xs font-bold uppercase tracking-widest mb-1.5 lg:mb-2 opacity-85" style={{ color: b.color }}>Luppoli</div>
-                        <div className="flex flex-col gap-2 lg:gap-3">
+                      <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter" style={{ transitionDelay: 'calc(90ms * var(--anim-speed))' }}>
+                        <div className="text-xs font-bold uppercase tracking-widest mb-1.5 opacity-85" style={{ color: b.color }}>Luppoli</div>
+                        <div className="flex flex-col gap-2">
                           {b.hops.map(l => (
                             <div key={l.name}>
                               <div className="font-bold mb-0.5 s-card-text text-white">{l.name}</div>
                               <div className="opacity-80 leading-relaxed s-card-text">{l.desc}</div>
                             </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="bg-white/5 text-white s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter shrink-0" style={{ transitionDelay: 'calc(140ms * var(--anim-speed))' }}>
+                        <div className="text-xs font-bold uppercase tracking-widest mb-1.5 opacity-85" style={{ color: b.color }}>Abbinamenti</div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {b.foodPairings.map(a => (
+                            <span key={a} className="px-2.5 py-1 bg-white/10 rounded-full font-bold uppercase tracking-wider s-card-text-sm">
+                              {a}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -754,8 +750,8 @@ export default function OurBeers() {
                   {b && (
                     <div className="flex flex-col s-card-gap shrink-0 min-h-0 order-4 lg:order-none w-full relative z-20">
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter shrink-0">
-                        <div className="text-xs font-bold uppercase tracking-widest mb-2.5 lg:mb-3 opacity-85" style={{ color: b.color }}>Profilo Tecnico</div>
-                        <div className="flex flex-col gap-2.5 lg:gap-3">
+                        <div className="text-xs font-bold uppercase tracking-widest mb-2 opacity-85" style={{ color: b.color }}>Profilo Tecnico</div>
+                        <div className="flex flex-col gap-2">
                           <div className="grid grid-cols-[1fr_2.5fr] gap-2 items-start">
                              <span className="text-xs font-bold uppercase opacity-75 tracking-wider mt-0.5">Aspetto</span>
                              <span className="font-medium leading-relaxed opacity-95 s-card-text">{b.appearance}</span>
@@ -768,11 +764,11 @@ export default function OurBeers() {
                              <span className="text-xs font-bold uppercase opacity-75 tracking-wider mt-0.5">Gusto</span>
                              <span className="font-medium leading-relaxed opacity-95 s-card-text">{b.taste}</span>
                           </div>
-                          <div className="flex flex-wrap gap-5 lg:gap-6 mt-1 lg:mt-2 pt-3 lg:pt-4 relative items-start">
+                          <div className="flex flex-wrap gap-5 lg:gap-6 mt-1 pt-2.5 relative items-start">
                              <div className="absolute top-0 left-0 w-full h-px bg-white/10 s-single-hairline-enter" />
-                             <div><span className="text-xs font-bold uppercase opacity-75 block tracking-widest mb-1">ABV</span><span className="font-bold s-card-text text-white">{formatAbv(b.abv)}</span></div>
-                             <div><span className="text-xs font-bold uppercase opacity-75 block tracking-widest mb-1">IBU</span><span className="font-bold s-card-text text-white">{b.ibu}</span></div>
-                             <div><span className="text-xs font-bold uppercase opacity-75 block tracking-widest mb-1">Temp</span><span className="font-bold s-card-text text-white">{b.servingTemp}</span></div>
+                             <div><span className="text-xs font-bold uppercase opacity-75 block tracking-widest mb-0.5">ABV</span><span className="font-bold s-card-text text-white">{formatAbv(b.abv)}</span></div>
+                             <div><span className="text-xs font-bold uppercase opacity-75 block tracking-widest mb-0.5">IBU</span><span className="font-bold s-card-text text-white">{b.ibu}</span></div>
+                             <div><span className="text-xs font-bold uppercase opacity-75 block tracking-widest mb-0.5">Temp</span><span className="font-bold s-card-text text-white">{b.servingTemp}</span></div>
                              <div className="basis-full w-full pt-2 border-t border-white/10">
                                <AllergenBadge beer={b} variant="full" />
                              </div>
@@ -781,118 +777,23 @@ export default function OurBeers() {
                       </div>
 
                       <div className="bg-white/5 s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter shrink-0" style={{ transitionDelay: 'calc(90ms * var(--anim-speed))' }}>
-                        <div className="text-xs font-bold uppercase tracking-widest mb-2 opacity-85" style={{ color: b.color }}>Profilo Sensoriale</div>
-                        <div className="flex flex-wrap gap-1.5 lg:gap-2">
+                        <div className="text-xs font-bold uppercase tracking-widest mb-1.5 opacity-85" style={{ color: b.color }}>Profilo Sensoriale</div>
+                        <div className="flex flex-wrap gap-1.5">
                           {b.sensoryNotes.map(s => (
-                            <span key={s} className="px-3 py-1.5 bg-white/10 rounded-full font-medium s-card-text-sm border border-white/5">
+                            <span key={s} className="px-2.5 py-1 bg-white/10 rounded-full font-medium s-card-text-sm border border-white/5">
                               {s}
                             </span>
                           ))}
                         </div>
 
-                        {/* Accordions: Luppoli & Abbinamenti su mobile + Ingredienti ovunque */}
-                        <div className="mt-3 pt-2 border-t border-white/10 flex flex-col divide-y divide-white/10">
-                          {/* Accordion Luppoli (Mobile) */}
-                          <div className="lg:hidden">
-                            <button
-                              type="button"
-                              onClick={() => toggleHops(b.slug)}
-                              aria-expanded={openHops[b.slug] ?? false}
-                              aria-controls={`hops-${b.slug}`}
-                              className="min-h-[44px] w-full flex items-center justify-between py-2 text-xs text-[#D4A24E] hover:text-white transition-colors font-mono uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
-                            >
-                              <span className="underline underline-offset-4">Luppoli</span>
-                              <ChevronDown 
-                                size={16} 
-                                className={`transition-transform duration-200 ${openHops[b.slug] ? 'rotate-180' : ''}`} 
-                                aria-hidden="true" 
-                              />
-                            </button>
-                            {openHops[b.slug] && (
-                              <div
-                                id={`hops-${b.slug}`}
-                                className="mb-3 text-sm text-white/90 leading-relaxed bg-black/40 p-3 rounded-lg border border-white/5 flex flex-col gap-2.5"
-                              >
-                                {b.hops.map(l => (
-                                  <div key={l.name}>
-                                    <div className="font-bold text-sm text-white mb-0.5">{l.name}</div>
-                                    <div className="text-sm text-white/80 leading-relaxed">{l.desc}</div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
+                        {b.ingredients && (
+                          <div className="mt-2.5 pt-2.5 border-t border-white/10">
+                            <span className="text-xs font-bold uppercase tracking-widest opacity-75 block mb-1" style={{ color: b.color }}>Ingredienti</span>
+                            <p className="text-white/90 leading-relaxed s-card-text font-sans">
+                              {b.ingredients}
+                            </p>
                           </div>
-
-                          {/* Accordion Abbinamenti (Mobile) */}
-                          <div className="lg:hidden">
-                            <button
-                              type="button"
-                              onClick={() => togglePairings(b.slug)}
-                              aria-expanded={openPairings[b.slug] ?? false}
-                              aria-controls={`pairings-${b.slug}`}
-                              className="min-h-[44px] w-full flex items-center justify-between py-2 text-xs text-[#D4A24E] hover:text-white transition-colors font-mono uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
-                            >
-                              <span className="underline underline-offset-4">Abbinamenti</span>
-                              <ChevronDown 
-                                size={16} 
-                                className={`transition-transform duration-200 ${openPairings[b.slug] ? 'rotate-180' : ''}`} 
-                                aria-hidden="true" 
-                              />
-                            </button>
-                            {openPairings[b.slug] && (
-                              <div
-                                id={`pairings-${b.slug}`}
-                                className="mb-3 bg-black/40 p-3 rounded-lg border border-white/5 flex flex-wrap gap-2"
-                              >
-                                {b.foodPairings.map(a => (
-                                  <span key={a} className="px-3 py-1.5 bg-white/10 rounded-full font-bold uppercase tracking-wider text-xs text-white">
-                                    {a}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Accordion Ingredienti */}
-                          {b.ingredients && (
-                            <div>
-                              <button
-                                type="button"
-                                onClick={() => toggleIngredients(b.slug)}
-                                aria-expanded={openIngredients[b.slug] ?? false}
-                                aria-controls={`ingredients-${b.slug}`}
-                                className="min-h-[44px] w-full flex items-center justify-between py-2 text-xs text-[#D4A24E] hover:text-white transition-colors font-mono uppercase tracking-wider focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#D4A24E]"
-                              >
-                                <span className="underline underline-offset-4">Ingredienti</span>
-                                <ChevronDown 
-                                  size={16} 
-                                  className={`transition-transform duration-200 ${openIngredients[b.slug] ? 'rotate-180' : ''}`} 
-                                  aria-hidden="true" 
-                                />
-                              </button>
-                              {openIngredients[b.slug] && (
-                                <div
-                                  id={`ingredients-${b.slug}`}
-                                  className="mb-2 text-sm text-white/90 leading-relaxed bg-black/40 p-3 rounded-lg border border-white/5 font-sans"
-                                >
-                                  <span className="opacity-75 text-xs uppercase tracking-wider block mb-1 font-bold">Lista ingredienti:</span>
-                                  {b.ingredients}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="hidden lg:block bg-white/5 text-white s-card-pad rounded-2xl border border-white/10 backdrop-blur-md s-single-spec-enter shrink-0" style={{ transitionDelay: 'calc(180ms * var(--anim-speed))' }}>
-                        <div className="text-xs font-bold uppercase tracking-widest mb-2 opacity-85" style={{ color: b.color }}>Abbinamenti</div>
-                        <div className="flex flex-wrap gap-1.5 lg:gap-2">
-                          {b.foodPairings.map(a => (
-                            <span key={a} className="px-3 py-1.5 bg-white/10 rounded-full font-bold uppercase tracking-wider s-card-text-sm">
-                              {a}
-                            </span>
-                          ))}
-                        </div>
+                        )}
                       </div>
 
                       {/* Navigation between beers in the gallery */}
@@ -1018,7 +919,7 @@ export default function OurBeers() {
           
           <div className="s6-cta">
             <a 
-              href="#per-i-privati" 
+              href="/shop" 
               onClick={() => trackEvent('click_order', { posizione: 'beers_closing' })}
               className="inline-flex bg-[#D4A24E] text-black hover:bg-[#C2903C] transition-colors px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider"
             >

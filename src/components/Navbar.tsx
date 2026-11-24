@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useIntro } from '../introContext';
 import { introStyle } from '../introStyle';
 import { trackEvent } from '../utils/analytics';
+import { useShop } from '../context/ShopContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { step, reduced } = useIntro();
+  const { totalCount, openCart } = useShop();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -22,29 +24,64 @@ export default function Navbar() {
         className={`fixed top-0 z-40 w-full transition-all duration-300 ${step < 3 ? 'bg-transparent py-6' : (scrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-black/40 backdrop-blur-sm py-6')}`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="flex items-center">
+          <a href="/" className="flex items-center">
             <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-16 md:h-20 w-auto" />
           </a>
           
           {/* Desktop */}
-          <div className="hidden md:flex gap-8" style={introStyle(step < 3, -16, 0, 0, reduced)}>
+          <div className="hidden md:flex items-center gap-5 lg:gap-8" style={introStyle(step < 3, -16, 0, 0, reduced)}>
             {['LE NOSTRE BIRRE', 'CHI SIAMO', 'PER I LOCALI', 'PER I PRIVATI', 'CONTATTI'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`} className="text-white/60 hover:text-white transition-colors text-sm uppercase tracking-wider font-medium">
+              <a key={item} href={`#${item.toLowerCase().replace(/ /g, '-')}`} className="text-white/60 hover:text-white transition-colors text-xs lg:text-sm uppercase tracking-wider font-medium whitespace-nowrap">
                 {item}
               </a>
             ))}
+            <a
+              href="/shop"
+              onClick={() => trackEvent('click_order', { posizione: 'navbar_desktop' })}
+              className="text-[#D4A24E] hover:text-white transition-colors text-xs lg:text-sm uppercase tracking-wider font-semibold whitespace-nowrap"
+            >
+              SHOP
+            </a>
+            <button
+              type="button"
+              onClick={openCart}
+              aria-label={`Apri carrello (${totalCount} articoli)`}
+              className="relative text-white/80 hover:text-[#D4A24E] transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+            >
+              <ShoppingBag size={20} aria-hidden="true" />
+              {totalCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D4A24E] text-black text-[11px] font-bold tabular-nums flex items-center justify-center leading-none">
+                  {totalCount > 99 ? '99+' : totalCount}
+                </span>
+              )}
+            </button>
           </div>
 
-          {/* Mobile Toggle */}
-          <button 
-            type="button"
-            className="md:hidden text-white p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" 
-            onClick={() => setIsOpen(true)} 
-            style={introStyle(step < 3, -16, 0, 0, reduced)}
-            aria-label="Apri menu di navigazione"
-          >
-            <Menu size={24} aria-hidden="true" />
-          </button>
+          {/* Mobile Actions */}
+          <div className="md:hidden flex items-center gap-1" style={introStyle(step < 3, -16, 0, 0, reduced)}>
+            <button
+              type="button"
+              onClick={openCart}
+              aria-label={`Apri carrello (${totalCount} articoli)`}
+              className="relative text-white p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]"
+            >
+              <ShoppingBag size={22} aria-hidden="true" />
+              {totalCount > 0 && (
+                <span className="absolute top-1 right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#D4A24E] text-black text-[11px] font-bold tabular-nums flex items-center justify-center leading-none">
+                  {totalCount > 99 ? '99+' : totalCount}
+                </span>
+              )}
+            </button>
+
+            <button 
+              type="button"
+              className="text-white p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]" 
+              onClick={() => setIsOpen(true)} 
+              aria-label="Apri menu di navigazione"
+            >
+              <Menu size={24} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -82,12 +119,21 @@ export default function Navbar() {
                   {item}
                 </a>
               ))}
+              <a
+                href="/shop"
+                className="text-[#D4A24E] hover:text-white transition-colors uppercase tracking-wider font-semibold py-1"
+                onClick={() => {
+                  trackEvent('click_order', { posizione: 'navbar_mobile' });
+                  setIsOpen(false);
+                }}
+              >
+                SHOP
+              </a>
             </nav>
 
             <div className="mt-8 pt-8 border-t border-white/10 flex flex-col gap-3.5 shrink-0">
-              {/* Verso #per-i-privati, e poi verso #shop quando ci sarà lo shop */}
               <a
-                href="#per-i-privati"
+                href="/shop"
                 onClick={() => {
                   trackEvent('click_order', { posizione: 'menu_mobile' });
                   setIsOpen(false);

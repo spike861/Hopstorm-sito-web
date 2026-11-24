@@ -1,5 +1,6 @@
 import { beers, formatAbv } from '../data/beers';
 import { getUpcomingEvents } from '../data/events';
+import { safeJsonLdStringify } from '../services/shopApi';
 
 export default function JsonLd() {
   const upcomingEvents = getUpcomingEvents();
@@ -206,7 +207,7 @@ export default function JsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(schema) }}
     />
   );
 }

@@ -364,13 +364,16 @@ export default function Contact() {
                   className="mt-1 w-5 h-5 accent-[#D4A24E] bg-black border-white/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E] cursor-pointer" 
                 />
                 <label htmlFor="privacy" className="text-sm text-white/70 leading-relaxed cursor-pointer">
-                  Inviando questo modulo accetti la nostra{' '}
+                  Ho letto la{' '}
                   <a 
                     href="/privacy" 
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="underline hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                   >
                     Privacy Policy
-                  </a>.
+                  </a>{' '}
+                  e acconsento al trattamento dei dati per gestire la mia richiesta.
                 </label>
               </div>
               {privacyHasError && (

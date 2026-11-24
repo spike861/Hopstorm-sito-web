@@ -1,3 +1,5 @@
+import { Instagram, ArrowUpRight } from 'lucide-react';
+
 export default function Footer() {
   return (
     <footer className="bg-black border-t border-white/5 py-16 px-6">
@@ -18,6 +20,7 @@ export default function Footer() {
           <a href="#per-i-locali" className="text-white/60 hover:text-white transition-colors w-fit">Per i Locali</a>
           <a href="#per-i-privati" className="text-white/60 hover:text-white transition-colors w-fit">Per i Privati</a>
           <a href="#faq" className="text-white/60 hover:text-white transition-colors w-fit">FAQ</a>
+          <a href="/shop" className="text-[#D4A24E] hover:text-white transition-colors w-fit font-medium">Shop</a>
         </div>
 
         {/* Contacts */}
@@ -41,6 +44,7 @@ export default function Footer() {
         <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-sm text-white/70 font-medium tracking-wide">
           <a href="/privacy" className="hover:text-[#D4A24E] transition-colors">Privacy Policy</a>
           <a href="/cookie" className="hover:text-[#D4A24E] transition-colors">Cookie Policy</a>
+          <a href="/vendita" className="hover:text-[#D4A24E] transition-colors">Condizioni di Vendita</a>
           <a href="/termini" className="hover:text-[#D4A24E] transition-colors">Termini e Condizioni</a>
           <button 
             type="button"
@@ -55,12 +59,24 @@ export default function Footer() {
           </button>
         </div>
         
-        <div className="flex flex-col gap-2 text-white/60 text-xs md:text-sm">
+        <div className="flex flex-col items-center gap-4 text-white/60 text-xs md:text-sm">
+          <a
+            href="https://www.instagram.com/gadamo_official/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg border border-white/15 bg-white/[0.02] hover:border-[#D4A24E]/60 hover:bg-white/[0.05] transition-colors text-xs md:text-sm text-white/75"
+          >
+            <Instagram size={15} className="text-[#D4A24E] shrink-0" aria-hidden="true" />
+            <span>
+              Sito pensato e realizzato da{' '}
+              <strong className="font-semibold text-white group-hover:text-[#D4A24E] transition-colors">
+                Graziano Adamo
+              </strong>
+            </span>
+            <ArrowUpRight size={14} className="text-[#D4A24E] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+          </a>
           <p>
             © {new Date().getFullYear()} HOPSTORM S.R.L. Tutti i diritti riservati. • Birra artigianale, spirito indipendente. Bevi responsabilmente.
-          </p>
-          <p>
-            Sito pensato e realizzato da <a href="https://www.instagram.com/gadamo_official/" target="_blank" rel="noreferrer" className="text-white/60 hover:text-[#D4A24E] transition-colors">Graziano Adamo</a>
           </p>
         </div>
       </div>

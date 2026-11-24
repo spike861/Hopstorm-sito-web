@@ -14,13 +14,26 @@ import LegalPages from './components/LegalPages';
 import CookieBanner from './components/CookieBanner';
 import MobileBottomBar from './components/MobileBottomBar';
 import { IntroContext } from './introContext';
+import { ShopProvider } from './context/ShopContext';
+import CartDrawer from './components/shop/CartDrawer';
+import ShopPage from './components/shop/ShopPage';
+import ProductDetailPage from './components/shop/ProductDetailPage';
+import CartPage from './components/shop/CartPage';
+import OrderConfirmedPage from './components/shop/OrderConfirmedPage';
+import ShopAgeGate from './components/shop/ShopAgeGate';
+import GestioneShopPage from './components/shop/GestioneShopPage';
+import CheckoutPage from './components/shop/CheckoutPage';
 
 export default function App() {
-  
-  const [step, setStep] = useState<number>(() => 
-    (typeof window !== 'undefined' && window.innerWidth <= 768) ? 3 : 0
+  const isHomeDesktopInitial =
+    typeof window !== 'undefined' &&
+    window.location.pathname === '/' &&
+    window.innerWidth > 768;
+
+  const [step, setStep] = useState<number>(() =>
+    isHomeDesktopInitial ? 0 : 3
   );
-  const stepRef = useRef<number>((typeof window !== 'undefined' && window.innerWidth <= 768) ? 3 : 0);
+  const stepRef = useRef<number>(isHomeDesktopInitial ? 0 : 3);
   const lastStepAt = useRef(0);
   const reduced = typeof window !== 'undefined' ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
@@ -47,7 +60,7 @@ export default function App() {
     const opts = { passive: true } as AddEventListenerOptions;
 
     const arm = () => {
-      if (window.innerWidth <= 768) {
+      if (window.location.pathname !== '/' || window.innerWidth <= 768) {
         stepRef.current = 3;
         setStep(3);
         return;
@@ -120,6 +133,7 @@ export default function App() {
     };
 
     const monitorRearm = () => {
+      if (window.location.pathname !== '/') return;
       if (stepRef.current < 3) return;
       if (Date.now() - revealTime < 900) return;
 
@@ -127,7 +141,7 @@ export default function App() {
       if (maxScroll > 200 && window.scrollY <= 4) {
         if (!rearmTimer) {
           rearmTimer = setTimeout(() => {
-            if (window.scrollY <= 4) {
+            if (window.location.pathname === '/' && window.scrollY <= 4) {
               maxScroll = 0;
               arm();
             }
@@ -158,18 +172,58 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
+      const nextPath = window.location.pathname;
+      setCurrentPath(nextPath);
+      if (nextPath !== '/') {
+        stepRef.current = 3;
+        setStep(3);
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.style.overscrollBehavior = '';
+      }
     };
 
     const handleLinkClick = (e: MouseEvent) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
       const target = (e.target as HTMLElement).closest('a');
-      if (!target) return;
+      if (!target || target.target === '_blank') return;
       const href = target.getAttribute('href');
-      if (href && (['/privacy', '/cookie', '/termini', '/vendita', '/'].includes(href))) {
+      if (!href) return;
+
+      // Support hash links when currently outside '/' (e.g. clicking #contatti from /shop)
+      if (href.startsWith('/#') || (href.startsWith('#') && href.length > 1 && window.location.pathname !== '/')) {
+        const hashId = href.startsWith('/#') ? href.slice(2) : href.slice(1);
+        e.preventDefault();
+        window.history.pushState({}, '', '/');
+        setCurrentPath('/');
+        stepRef.current = 3;
+        setStep(3);
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.style.overscrollBehavior = '';
+        setTimeout(() => {
+          const el = document.getElementById(hashId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+        return;
+      }
+
+      const isKnownInternalRoute =
+        ['/privacy', '/cookie', '/termini', '/vendita', '/', '/shop', '/shop/', '/carrello', '/checkout', '/ordine-confermato'].includes(href) ||
+        href.startsWith('/shop/');
+
+      if (isKnownInternalRoute) {
         e.preventDefault();
         if (window.location.pathname !== href) {
           window.history.pushState({}, '', href);
           setCurrentPath(href);
+        }
+        if (href !== '/') {
+          stepRef.current = 3;
+          setStep(3);
+          document.documentElement.style.overflow = '';
+          document.body.style.overflow = '';
+          document.body.style.overscrollBehavior = '';
         }
         window.scrollTo(0, 0);
       }
@@ -184,8 +238,16 @@ export default function App() {
     };
   }, []);
 
-  const isLegalPage = ['/privacy', '/cookie', '/termini', '/vendita'].includes(currentPath);
-  const isNotFound = !isLegalPage && currentPath !== '/';
+  const normalizedPath = currentPath.length > 1 ? currentPath.replace(/\/+$/, '') : currentPath;
+  const isLegalPage = ['/privacy', '/cookie', '/termini', '/vendita'].includes(normalizedPath);
+  const isShopIndex = normalizedPath === '/shop';
+  const isCartPage = normalizedPath === '/carrello';
+  const isCheckoutPage = normalizedPath === '/checkout';
+  const shopProductId = normalizedPath.startsWith('/shop/') ? normalizedPath.slice('/shop/'.length) : null;
+  const isOrderConfirmed = normalizedPath === '/ordine-confermato';
+  const isGestioneShop = normalizedPath === '/gestione-shop';
+  const isShopArea = isShopIndex || isCartPage || isCheckoutPage || Boolean(shopProductId);
+  const isNotFound = !isLegalPage && !isShopIndex && !isCartPage && !isCheckoutPage && !shopProductId && !isOrderConfirmed && !isGestioneShop && normalizedPath !== '/';
 
   useEffect(() => {
     let metaRobots = document.querySelector("meta[name='robots']");
@@ -198,7 +260,9 @@ export default function App() {
     if (isNotFound) {
       document.title = 'Pagina non trovata | Hop Storm';
       metaRobots.setAttribute('content', 'noindex');
-    } else if (currentPath === '/') {
+    } else if (isGestioneShop) {
+      metaRobots.setAttribute('content', 'noindex, nofollow');
+    } else if (normalizedPath === '/') {
       document.title = 'Hop Storm | Birrificio Artigianale Indipendente a Roma';
       metaRobots.setAttribute('content', 'index, follow');
       const metaDesc = document.querySelector("meta[name='description']");
@@ -212,45 +276,60 @@ export default function App() {
       if (linkCan) {
         linkCan.setAttribute('href', 'https://www.hopstorm.it/');
       }
-    } else {
+    } else if (!isOrderConfirmed && !isCartPage && !isCheckoutPage) {
       metaRobots.setAttribute('content', 'index, follow');
     }
-  }, [currentPath, isNotFound]);
+  }, [normalizedPath, isNotFound, isOrderConfirmed, isCartPage, isCheckoutPage, isGestioneShop]);
 
   return (
     <IntroContext.Provider value={{ step, reduced }}>
-      <div className="bg-black min-h-screen text-white font-sans selection:bg-[#D4A24E] selection:text-black">
-        <JsonLd />
-        <AgeGate />
-        <CookieBanner />
-        <Navbar />
-        <main>
-          {isNotFound ? (
-            <div className="pt-40 pb-24 px-6 min-h-[70vh] flex flex-col items-center justify-center text-center">
-              <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-24 w-auto mb-8 opacity-50" />
-              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">404</h1>
-              <p className="text-white/60 text-xl mb-8">La pagina che cerchi non esiste o è stata spostata.</p>
-              <a href="/" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">
-                Torna alla Home
-              </a>
-            </div>
-          ) : isLegalPage ? (
-            <LegalPages currentHash={currentPath} />
-          ) : (
-            <>
-              <HopStormHero />
-              <OurBeers />
-              <About />
-              <ForLocals />
-              <ForPrivate />
-              <Contact />
-              <Faq />
-              <MobileBottomBar />
-            </>
-          )}
-        </main>
-        <Footer />
-      </div>
+      <ShopProvider>
+        <div className="bg-black min-h-screen text-white font-sans selection:bg-[#D4A24E] selection:text-black">
+          <JsonLd />
+          {isGestioneShop ? null : isShopArea ? <ShopAgeGate /> : <AgeGate />}
+          <CookieBanner />
+          <CartDrawer />
+          <Navbar />
+          <main>
+            {isNotFound ? (
+              <div className="pt-40 pb-24 px-6 min-h-[70vh] flex flex-col items-center justify-center text-center">
+                <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dcbomk6i8/image/upload/v1775557006/foto/hopstorm_logo_bianco_trasparente_l3ftm9.png" alt="Hop Storm — birrificio artigianale a Roma" className="h-24 w-auto mb-8 opacity-50" />
+                <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">404</h1>
+                <p className="text-white/60 text-xl mb-8">La pagina che cerchi non esiste o è stata spostata.</p>
+                <a href="/" className="bg-[#D4A24E] text-black hover:bg-white transition-colors px-8 py-4 rounded-full font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4A24E]">
+                  Torna alla Home
+                </a>
+              </div>
+            ) : isLegalPage ? (
+              <LegalPages currentHash={normalizedPath} />
+            ) : isGestioneShop ? (
+              <GestioneShopPage />
+            ) : isOrderConfirmed ? (
+              <OrderConfirmedPage />
+            ) : isCheckoutPage ? (
+              <CheckoutPage />
+            ) : isCartPage ? (
+              <CartPage />
+            ) : shopProductId ? (
+              <ProductDetailPage productId={shopProductId} />
+            ) : isShopIndex ? (
+              <ShopPage />
+            ) : (
+              <>
+                <HopStormHero />
+                <OurBeers />
+                <About />
+                <ForLocals />
+                <ForPrivate />
+                <Contact />
+                <Faq />
+                <MobileBottomBar />
+              </>
+            )}
+          </main>
+          <Footer />
+        </div>
+      </ShopProvider>
     </IntroContext.Provider>
   );
 }

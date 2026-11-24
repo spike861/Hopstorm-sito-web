@@ -33,8 +33,9 @@ export function initGA4(consent: { analytics: boolean; marketing: boolean }): vo
   }
 
   if (consent.analytics || consent.marketing) {
-    const measurementId = (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_GA_MEASUREMENT_ID;
-    if (measurementId && !document.getElementById('ga4-script')) {
+    const rawId = (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_GA_MEASUREMENT_ID;
+    const measurementId = typeof rawId === 'string' ? rawId.trim() : '';
+    if (/^(G|GT|AW|DC)-[A-Z0-9]{4,20}$/i.test(measurementId) && !document.getElementById('ga4-script')) {
       const script = document.createElement('script');
       script.id = 'ga4-script';
       script.async = true;
