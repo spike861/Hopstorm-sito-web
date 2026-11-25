@@ -144,19 +144,6 @@ export default function Navbar() {
               </a>
 
               <a
-                href="https://wa.me/393491973069?text=Ciao%20Hop%20Storm!%20Vorrei%20ordinare%20delle%20birre%20a%20casa.%20Potete%20mandarmi%20i%20prezzi%20dei%20Box%20da%206%20e%20da%2012%20e%20le%20info%20sulla%20spedizione%3F"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  trackEvent('click_whatsapp', { sezione: 'menu_mobile' });
-                  setIsOpen(false);
-                }}
-                className="w-full min-h-[48px] border border-white/25 text-white hover:bg-white/10 transition-colors px-6 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider text-center flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                WHATSAPP
-              </a>
-
-              <a
                 href="https://instagram.com/hopstorm.brewery"
                 target="_blank"
                 rel="noopener noreferrer"

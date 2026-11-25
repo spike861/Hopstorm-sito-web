@@ -53,7 +53,7 @@ export const beers: Beer[] = [
     ingredients: "Acqua, malto d'orzo, luppolo, lievito",
     color: '#D4A24E',
     tag: 'Fresca e pulita',
-    styleDescription: 'Helles moderna: lager chiara, dorata e scorrevole. Profilo pulito, equilibrio delicato, grande bevibilità.',
+    styleDescription: 'Helles moderna a bassa fermentazione: lager chiara, dorata e scorrevole. Profilo pulito, equilibrio delicato, grande bevibilità.',
     hops: [
       { name: 'MAGNUM', desc: 'amaro pulito e lineare, sfumature erbacee e speziate.' },
       { name: 'SAPHIR', desc: 'aroma elegante, note floreali, agrumate e speziate.' }
@@ -79,7 +79,7 @@ export const beers: Beer[] = [
     ingredients: "Acqua, malto d'orzo, luppolo, lievito",
     color: '#C0392B',
     tag: 'Maltata e intensa',
-    styleDescription: 'Birra rossa ad alta fermentazione, un equilibrio perfetto tra malto e luppolo. Morbida e avvolgente, con un profilo maltato elegante e una chiusura equilibrata.',
+    styleDescription: 'Birra rossa a bassa fermentazione, un equilibrio perfetto tra malto e luppolo. Morbida e avvolgente, con un profilo maltato elegante e una chiusura equilibrata.',
     hops: [
       { name: 'MAGNUM', desc: 'amaro pulito e intenso, utile a bilanciare la componente maltata.' },
       { name: 'MALTO TOSTATO', desc: 'regala il profilo aromatico della birra, con note di caramello, crosta di pane e lieve tostatura.' }

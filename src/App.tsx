@@ -23,6 +23,7 @@ import OrderConfirmedPage from './components/shop/OrderConfirmedPage';
 import ShopAgeGate from './components/shop/ShopAgeGate';
 import GestioneShopPage from './components/shop/GestioneShopPage';
 import CheckoutPage from './components/shop/CheckoutPage';
+import { trackPageView } from './utils/analytics';
 
 export default function App() {
   const isHomeDesktopInitial =
@@ -280,6 +281,15 @@ export default function App() {
       metaRobots.setAttribute('content', 'index, follow');
     }
   }, [normalizedPath, isNotFound, isOrderConfirmed, isCartPage, isCheckoutPage, isGestioneShop]);
+
+  const isFirstPageViewRef = useRef(true);
+  useEffect(() => {
+    if (isFirstPageViewRef.current) {
+      isFirstPageViewRef.current = false;
+      return;
+    }
+    trackPageView(normalizedPath, document.title);
+  }, [normalizedPath]);
 
   return (
     <IntroContext.Provider value={{ step, reduced }}>

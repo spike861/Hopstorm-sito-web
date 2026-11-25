@@ -164,7 +164,7 @@ export default function JsonLd() {
             "name": "Che differenza c'è tra Fresh Wave, Red Moon ed Enjoy?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": `Hop Storm produce tre birre artigianali: Fresh Wave è una Helles chiara e scorrevole (${formatAbv(beers[0].abv)}), dal profilo pulito e delicato; Red Moon è una Red Ale ramata (${formatAbv(beers[1].abv)}), maltata e avvolgente; Enjoy è una IPA dorata (${formatAbv(beers[2].abv)}), luppolata con Citra e Mosaic, dal finale amaro e persistente. Tutte disponibili in bottiglia da 33 cl e fusti da 20 e 24 litri.`
+              "text": `Hop Storm produce tre birre artigianali: Fresh Wave è una Helles a bassa fermentazione, chiara e scorrevole (${formatAbv(beers[0].abv)}), dal profilo pulito e delicato; Red Moon è una Red Ale a bassa fermentazione, ramata (${formatAbv(beers[1].abv)}), maltata e avvolgente; Enjoy è una IPA ad alta fermentazione, dorata (${formatAbv(beers[2].abv)}), luppolata con Citra e Mosaic, dal finale amaro e persistente. Tutte disponibili in bottiglia da 33 cl e fusti da 20 e 24 litri.`
             }
           },
           {

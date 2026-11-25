@@ -311,17 +311,9 @@ function CookiePolicy() {
                 <td className="px-4 py-3 border border-white/20">Esecuzione contratto / Sicurezza pagamenti</td>
               </tr>
               <tr className="border-b border-white/10 bg-white/5">
-                <td className="px-4 py-3 border border-white/20">Umami Analytics</td>
-                <td className="px-4 py-3 border border-white/20">Umami Cloud</td>
-                <td className="px-4 py-3 border border-white/20">Statistiche aggregate anonime senza cookie né tracciamento cross-site.</td>
-                <td className="px-4 py-3 border border-white/20">Nessun cookie</td>
-                <td className="px-4 py-3 border border-white/20">Analitico anonimo</td>
-                <td className="px-4 py-3 border border-white/20">Esente da consenso (cookieless)</td>
-              </tr>
-              <tr className="border-b border-white/10">
-                <td className="px-4 py-3 border border-white/20">Google Analytics 4 / Tag Marketing</td>
+                <td className="px-4 py-3 border border-white/20">Google Tag Manager / Google Analytics 4 (<code className="text-[#D4A24E]">_ga</code>, <code className="text-[#D4A24E]">_ga_*</code>)</td>
                 <td className="px-4 py-3 border border-white/20">Google Ireland Limited</td>
-                <td className="px-4 py-3 border border-white/20">Analisi navigazione e misurazione conversioni (attivati solo se autorizzati).</td>
+                <td className="px-4 py-3 border border-white/20">Statistiche di visita aggregate e misurazione conversioni (caricato esclusivamente dopo consenso esplicito).</td>
                 <td className="px-4 py-3 border border-white/20">Fino a 14 mesi</td>
                 <td className="px-4 py-3 border border-white/20">Analitico / Marketing</td>
                 <td className="px-4 py-3 border border-white/20">Consenso esplicito preventivo</td>
